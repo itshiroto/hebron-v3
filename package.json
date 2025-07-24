@@ -22,5 +22,10 @@
         "vite": "^6.2.4",
         "vue": "^3.4.0",
         "vue-tsc": "^2.0.24"
+    },
+    "dependencies": {
+        "gsap": "^3.13.0",
+        "vue3-carousel": "^0.16.0",
+        "vue3-marquee": "^4.2.2"
     }
 }
