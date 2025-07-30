@@ -62,101 +62,104 @@
     </nav>
 </template>
 
-<script>
+<script setup>
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
 gsap.registerPlugin(ScrollToPlugin);
 
-export default {
-    name: "ResponsiveNavbar",
-    props: {
-        brand: {
-            type: Object,
-            default: () => ({
-                title: "GPdi Hebron",
-                subtitle: "Gading Serpong",
-            }),
-        },
-        navigation: {
-            type: Array,
-            default: () => [
-                { name: "ABOUT US", href: "#about" },
-                { name: "DIVISIONS", href: "#divisions" },
-                { name: "MINISTRIES", href: "#ministries" },
-                { name: "DEVOTIONS", href: "#devotions" },
-                { name: "AGENDA", href: "#agenda" },
-                { name: "CONTACT US", href: "#contact" },
-            ],
-        },
-        scrollOffset: {
-            type: Number,
-            default: 80,
-        },
+const props = defineProps({
+    brand: {
+        type: Object,
+        default: () => ({
+            title: "GPdi Hebron",
+            subtitle: "Gading Serpong",
+        }),
     },
-    data() {
-        return {
-            isOpen: false,
-            isScrolled: false,
-        };
+    navigation: {
+        type: Array,
+        default: () => [
+            { name: "ABOUT US", href: "#about" },
+            { name: "DIVISIONS", href: "#divisions" },
+            { name: "MINISTRIES", href: "#ministries" },
+            { name: "DEVOTIONS", href: "#devotions" },
+            { name: "AGENDA", href: "#agenda" },
+            { name: "CONTACT US", href: "#contact" },
+        ],
     },
-    computed: {
-        menuItems() {
-            return this.navigation;
-        },
+    scrollOffset: {
+        type: Number,
+        default: 80,
     },
-    mounted() {
-        this.initScrollListener();
-        gsap.from(this.$refs.logoRef, {
-            duration: 1,
-            x: -50,
-            opacity: 0,
-            ease: "power3.out",
-        });
-    },
-    beforeUnmount() {
-        this.removeScrollListener();
-    },
-    methods: {
-        initScrollListener() {
-            this.handleScroll = () => {
-                this.isScrolled = window.scrollY > 50;
-            };
-            window.addEventListener("scroll", this.handleScroll);
-        },
-        removeScrollListener() {
-            window.removeEventListener("scroll", this.handleScroll);
-        },
-        toggleMenu() {
-            this.isOpen = !this.isOpen;
-        },
-        closeMenu() {
-            this.isOpen = false;
-        },
-        handleMenuClick(item, event) {
-            event.preventDefault();
-            this.scrollToSection(item.href);
-        },
-        handleMobileMenuClick(item, event) {
-            event.preventDefault();
-            this.closeMenu();
-            setTimeout(() => this.scrollToSection(item.href), 300);
-        },
-        scrollToSection(href) {
-            const target = document.querySelector(href);
-            if (target) {
-                gsap.to(window, {
-                    duration: 1,
-                    scrollTo: { y: target, offsetY: this.scrollOffset },
-                    ease: "power2.inOut",
-                });
-            }
-        },
-        goToHome() {
-            window.location.href = "/";
-        },
-    },
+});
+
+const navRef = ref(null);
+const logoRef = ref(null);
+const isOpen = ref(false);
+const isScrolled = ref(false);
+
+const menuItems = computed(() => props.navigation);
+
+const handleScroll = () => {
+    isScrolled.value = window.scrollY > 50;
 };
+
+const initScrollListener = () => {
+    window.addEventListener("scroll", handleScroll);
+};
+
+const removeScrollListener = () => {
+    window.removeEventListener("scroll", handleScroll);
+};
+
+const toggleMenu = () => {
+    isOpen.value = !isOpen.value;
+};
+
+const closeMenu = () => {
+    isOpen.value = false;
+};
+
+const scrollToSection = (href) => {
+    const target = document.querySelector(href);
+    if (target) {
+        gsap.to(window, {
+            duration: 1,
+            scrollTo: { y: target, offsetY: props.scrollOffset },
+            ease: "power2.inOut",
+        });
+    }
+};
+
+const handleMenuClick = (item, event) => {
+    event.preventDefault();
+    scrollToSection(item.href);
+};
+
+const handleMobileMenuClick = (item, event) => {
+    event.preventDefault();
+    closeMenu();
+    setTimeout(() => scrollToSection(item.href), 300);
+};
+
+const goToHome = () => {
+    window.location.href = "/";
+};
+
+onMounted(() => {
+    initScrollListener();
+    gsap.from(logoRef.value, {
+        duration: 1,
+        x: -50,
+        opacity: 0,
+        ease: "power3.out",
+    });
+});
+
+onBeforeUnmount(() => {
+    removeScrollListener();
+});
 </script>
 
 <style scoped>
