@@ -1,0 +1,203 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import DefaultLayout from '@/Layouts/DefaultLayout.vue';
+
+// TODO: bikin dynamic, ini mockup doang
+type Values = {
+    title: string,
+    desc: string,
+    icon?: string
+}
+
+type Stories = {
+    title: string,
+    desc: string,
+    date: string,
+    image?: string
+}
+
+type Pastoral = {
+    name: string,
+    position: string,
+    image?: string
+}
+
+const homeValues = ref<Values[]>([
+    {
+        title: "Holiness",
+        desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo."
+    },
+    {
+        title: "Obedience",
+        desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo."
+    },
+    {
+        title: "Ministry",
+        desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo."
+    },
+    {
+        title: "Evangelism",
+        desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo."
+    },
+])
+
+const stories = ref<Stories[]>([
+    {
+        title: "Awal Mula GPdI Hebron",
+        desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo.",
+        date: "2020",
+        image: "https://placehold.co/400"
+    },
+    {
+        title: "Test GPdI Hebron",
+        desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo.",
+        date: "2020",
+        image: "https://placehold.co/400"
+    },
+    {
+        title: "AAA GPdI Hebron",
+        desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo.",
+        date: "2020",
+    },
+    {
+        title: "BBB GPdI Hebron",
+        desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo.",
+        date: "2020",
+        image: "https://placehold.co/400"
+    },
+    {
+        title: "CCC Mula GPdI Hebron",
+        desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo.",
+        date: "2020",
+        image: "https://placehold.co/400"
+    },
+])
+
+const pastoral = ref<Pastoral[]>([
+    {
+        name: "Rivo Juicer Wowor",
+        position: "Senior Associate Pastor",
+        image: "https://placehold.co/512",
+    },
+    {
+        name: "Rivo Juicer Wowor",
+        position: "Senior Associate Pastor",
+        image: "https://placehold.co/512",
+    },
+    {
+        name: "Rivo Juicer Wowor",
+        position: "Senior Associate Pastor",
+    },
+    {
+        name: "Rivo Juicer Wowor",
+        position: "Senior Associate Pastor",
+        image: "https://placehold.co/512",
+    },
+])
+</script>
+
+<template>
+    <DefaultLayout>
+        <!-- TODO: ganti backgroundnya jadi pake gambar disini -->
+        <section id="hero" class="bg-red-800 h-screen text-white pt-20">
+            <div class="h-full max-w-screen-xl mx-auto py-16 px-8 flex flex-col justify-between">
+                <h1 class="text-5xl">Who Are We?</h1>
+                <p class="leading-relaxed text-lg max-w-3xl">
+                    Kami adalah Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Pellentesque sit amet varius
+                    purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo. Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at
+                    volutpat ut, porta et leo.
+                </p>
+            </div>
+        </section>
+
+        <section id="visimisi" class="max-w-screen-xl mx-auto my-32 px-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="w-full h-[24em] lg:h-full bg-gray-800">
+                <img class="h-full w-full object-cover" src="https://placehold.co/800x600" />
+            </div>
+            <div class="flex flex-col gap-12">
+                <div>
+                    <h3 class="uppercase font-sans font-bold text-gray-600 mb-4">Visi Kami</h3>
+                    <p class="text-xl leading-relaxed">
+                        Kami adalah Lorem ipsum dolor sit amet,
+                        consectetur adipiscing elit. Pellentesque sit amet varius
+                        purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo. Lorem ipsum dolor sit amet,
+                        consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at
+                        volutpat ut, porta et leo.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="uppercase font-sans font-bold text-gray-600 mb-4">Misi Kami</h3>
+                    <p class="text-xl leading-relaxed">
+                        Kami adalah Lorem ipsum dolor sit amet,
+                        consectetur adipiscing elit. Pellentesque sit amet varius
+                        purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo. Lorem ipsum dolor sit amet,
+                        consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at
+                        volutpat ut, porta et leo.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="values" class="max-w-screen-xl mx-auto my-32 px-8">
+            <h1 class="text-4xl mb-16 text-center">Our Values</h1>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center">
+                <div v-for="val in homeValues" class="flex flex-col items-center border border-gray-200 rounded-lg p-8">
+                    <div class="rounded-full aspect-square h-36 mb-8 bg-gray-800"></div>
+                    <h4 class="text-2xl mb-2">{{ val.title }}</h4>
+                    <p class="text-center">{{ val.desc }}</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="history" class="my-32 bg-gray-100">
+            <div class="max-w-screen-xl mx-auto py-16 px-8">
+                <h1 class="text-4xl mb-16 text-center">The Story behind Our Journey</h1>
+                <div id="stories-list"
+                    class="relative pl-10 md:pl-0 py-16 flex flex-col items-center justify-center gap-32">
+                    <div id="stories-progressBar"
+                        class="absolute top-0 left-1.5 md:left-auto h-full w-1 md:w-0.5 bg-gray-800 rounded-full" />
+                    <div v-for="(story, index) in stories" :key="index"
+                        class="story relative grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-48"
+                        :class="{ 'md:grid-flow-col-dense': index % 2 !== 0 }">
+                        <div class="flex flex-col"
+                            :class="{ 'md:order-2 items-start': index % 2 !== 0, 'md:items-end md:text-right': index % 2 === 0 }">
+                            <h3 class="uppercase font-sans text-2xl font-bold tracking-tight mb-4">
+                                {{ story.title }}
+                            </h3>
+                            <div v-if="story.image" class="w-full max-w-lg aspect-video bg-gray-900">
+                                <img :src="story.image" alt="" class="w-full h-full object-cover" />
+                            </div>
+                        </div>
+
+                        <div
+                            class="story-dot absolute -left-10 md:left-1/2 md:-translate-x-1/2 top-0 rounded-full bg-red-600 aspect-square w-4 mt-2">
+                        </div>
+
+                        <div class="flex flex-col"
+                            :class="{ 'md:order-1': index % 2 !== 0, 'md:items-end md:text-right': index % 2 !== 0 }">
+                            <p class="font-sans text-sm font-bold text-gray-600 uppercase mt-2 mb-4">{{ story.date }}
+                            </p>
+                            <p class="text-lg leading-relaxed">{{ story.desc }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pastoral" class="max-w-screen-xl mx-auto my-32 px-8">
+            <h1 class="text-4xl mb-16 text-center">Pastoral Team</h1>
+            <div class="flex flex-wrap gap-8 justify-center items-center">
+                <div v-for="pastor in pastoral" class="max-w-sm w-full flex flex-col gap-4">
+                    <div class="aspect-square h-full w-full bg-gray-800 mb-4 rounded-lg overflow-clip">
+                        <img v-if="pastor.image" class="w-full h-full object-cover" :src="pastor.image" alt="" />
+                    </div>
+                    <h4 class="uppercase text-sm text-gray-600 font-bold font-sans leading-none">{{ pastor.position }}
+                    </h4>
+                    <h2 class="text-3xl leading-none">{{ pastor.name }}</h2>
+                </div>
+            </div>
+        </section>
+    </DefaultLayout>
+</template>

@@ -10,8 +10,8 @@
                     <img src="/storage/images/hebron-small.png" alt="GPdi Hebron Logo"
                         class="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-contain shadow-lg group-hover:shadow-blue-500/50 transition" />
                     <div class="text-white">
-                        <h1 class="font-bold text-lg lg:text-xl group-hover:text-blue-300 transition">
-                            GPdi Hebron
+                        <h1 class="font-bold text-lg group-hover:text-blue-300 transition tracking-tight">
+                            Hebron Family Church
                         </h1>
                         <p class="text-xs lg:text-sm text-gray-200 group-hover:text-blue-200 transition">
                             Gading Serpong
@@ -80,7 +80,7 @@ const props = defineProps({
     navigation: {
         type: Array,
         default: () => [
-            { name: "ABOUT US", href: "#about" },
+            { name: "ABOUT US", href: "/about" },
             { name: "DIVISIONS", href: "#divisions" },
             { name: "MINISTRIES", href: "#ministries" },
             { name: "DEVOTIONS", href: "#devotions" },
