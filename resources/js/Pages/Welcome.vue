@@ -115,7 +115,7 @@ const imagePaths = [
                     </p>
                 </div>
                 <div>
-                    <p class="text-xl text-[#525252] font-bold">MisiKami</p>
+                    <p class="text-xl text-[#525252] font-bold">Misi Kami</p>
                     <p class="text-2xl mt-3">
                         Kami adalah Lorem ipsum dolor sit amet, consectetur
                         adipiscing elit. Pellentesque sit amet varius purus.
