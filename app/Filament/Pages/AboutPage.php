@@ -11,8 +11,10 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
-use Filament\Pages\Page;
 use Filament\Notifications\Notification;
+use Filament\Pages\Page;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage; // Import Storage facade
 
 class AboutPage extends Page implements HasForms
 {
@@ -83,7 +85,7 @@ class AboutPage extends Page implements HasForms
                         ->label('Background Image')
                         ->image()
                         ->directory('about-page-hero')
-                        ->required(),
+                        ->required()
                 ]),
 
             Section::make('Vision and Mission Section')
@@ -105,7 +107,7 @@ class AboutPage extends Page implements HasForms
                         ->label('Image')
                         ->image()
                         ->directory('about-page-vision-mission')
-                        ->required(),
+                        ->required()
                 ]),
 
             Section::make('Values Section')
@@ -149,7 +151,7 @@ class AboutPage extends Page implements HasForms
                                 ->label('Image')
                                 ->image()
                                 ->directory('about-page-history')
-                                ->required(),
+                                ->required()
                         ])
                         ->defaultItems(1)
                         ->columns(2)
@@ -164,6 +166,26 @@ class AboutPage extends Page implements HasForms
         $this->aboutPage = Pages::firstOrCreate(['name' => 'About']);
 
         $data = $this->form->getState();
+        Log::info($data);
+
+        // Handle image paths for heroData
+        if (isset($data['heroData']['image']) && is_array($data['heroData']['image'])) {
+            $data['heroData']['image'] = $data['heroData']['image'][0] ?? null;
+        }
+
+        // Handle image paths for visionMissionData
+        if (isset($data['visionMissionData']['image']) && is_array($data['visionMissionData']['image'])) {
+            $data['visionMissionData']['image'] = $data['visionMissionData']['image'][0] ?? null;
+        }
+
+        // Handle image paths for historyData (within repeater)
+        if (isset($data['historyData']) && is_array($data['historyData'])) {
+            foreach ($data['historyData'] as $key => $item) {
+                if (isset($item['image']) && is_array($item['image'])) {
+                    $data['historyData'][$key]['image'] = $item['image'][0] ?? null;
+                }
+            }
+        }
 
         $this->aboutPage->sections()->updateOrCreate(
             ['name' => 'hero', 'page_id' => $this->aboutPage->id],
