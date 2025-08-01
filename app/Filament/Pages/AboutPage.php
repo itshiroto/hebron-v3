@@ -11,6 +11,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Illuminate\Support\Str;
 
@@ -21,7 +22,7 @@ class AboutPage extends Page implements HasForms
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'filament.pages.about-page';
 
-    protected static ?string $title = 'About Page Content';
+    protected static ?string $title = 'About Page';
 
     public ?array $heroData = [];
     public ?array $visionMissionData = [];
@@ -66,9 +67,9 @@ class AboutPage extends Page implements HasForms
         ]);
     }
 
-    protected function getFormSchema(): array
+    public function form(Form $form): Form
     {
-        return [
+        return $form->schema([
             Section::make('Hero Section')
                 ->description('Configure the main hero section of the About page.')
                 ->schema([
@@ -155,7 +156,7 @@ class AboutPage extends Page implements HasForms
                         ->collapsible()
                         ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
                 ]),
-        ];
+        ]);
     }
 
     public function submit(): void
