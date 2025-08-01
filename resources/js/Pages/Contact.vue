@@ -1,22 +1,40 @@
 <script setup lang="ts">
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
+import { defineProps } from 'vue';
+
+const props = defineProps<{
+    hero: {
+        title: string;
+        subtitle: string;
+    };
+    contactList: Array<{
+        title: string;
+        desc: string;
+        link?: string;
+    }>;
+}>();
 </script>
 
-<<template>
+<template>
     <DefaultLayout>
         <div class="bg-blue-800 min-h-screen px-8 pt-20">
             <div class="text-white text-center my-16">
-                <h1 class="text-5xl mb-4">Got Question? We’ve got answers.</h1>
-                <h3 class="text-2xl font-sans tracking-tight">Contact us for support or inquiries.</h3>
+                <h1 class="text-5xl mb-4">{{ hero.title }}</h1>
+                <h3 class="text-2xl font-sans tracking-tight">{{ hero.subtitle }}</h3>
             </div>
             <div class="max-w-screen-xl mx-auto p-6 bg-white rounded-lg w-full shadow-xl grid grid-cols-3 gap-8">
                 <div class="">
                     <h4 class="font-bold text-2xl">Our Contact</h4>
                     <hr class="mt-4 mb-8 border-gray-600 ">
-                    <div v-for="n in 3"
+                    <div v-for="(item, index) in contactList" :key="index"
                         class="border-b last:border-none mb-4 pb-4 grid grid-cols-3 font-sans items-center">
-                        <p class="text-sm font-bold text-gray-600 uppercase leading-none">Phone</p>
-                        <p class="col-span-2 leading-none text-right">081296867118</p>
+                        <p class="text-sm font-bold text-gray-600 uppercase leading-none">{{ item.title }}</p>
+                        <div class="col-span-2 leading-none text-right">
+                            <div v-html="item.desc"></div>
+                            <a v-if="item.link" :href="item.link" target="_blank" class="text-blue-600 hover:underline text-sm">
+                                {{ item.link }}
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <iframe class="col-span-2 w-full h-full min-h-[480px]"
