@@ -29,8 +29,10 @@
         <section id="values" class="max-w-screen-xl mx-auto my-32 px-8">
             <h1 class="text-4xl mb-16 text-center">Our Values</h1>
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center">
-                <div v-for="val in values" :key="val.title" class="flex flex-col items-center border border-gray-200 rounded-lg p-8">
-                    <div class="rounded-full aspect-square h-36 mb-8 bg-gray-800 flex items-center justify-center text-white text-5xl">
+                <div v-for="val in values" :key="val.title"
+                    class="flex flex-col items-center border border-gray-200 rounded-lg p-8">
+                    <div
+                        class="rounded-full aspect-square h-36 mb-8 bg-gray-800 flex items-center justify-center text-white text-5xl">
                         <i :class="val.icon"></i>
                     </div>
                     <h4 class="text-2xl mb-2">{{ val.title }}</h4>
@@ -104,80 +106,9 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
-import type { AboutPageProps, ValueItem, HistoryItem } from '@/types/about-page';
+import type { AboutPageProps } from '@/types/about-page';
 
-const props = defineProps<AboutPageProps>();
-
-// The following refs are no longer needed as data comes from props
-// type Values = {
-//     title: string,
-//     desc: string,
-//     icon?: string
-// }
-
-// type Stories = {
-//     title: string,
-//     desc: string,
-//     date: string,
-//     image?: string
-// }
-
-type Pastoral = {
-    name: string,
-    position: string,
-    image?: string
-}
-
-// const homeValues = ref<Values[]>([
-//     {
-//         title: "Holiness",
-//         desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo."
-//     },
-//     {
-//         title: "Obedience",
-//         desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo."
-//     },
-//     {
-//         title: "Ministry",
-//         desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo."
-//     },
-//     {
-//         title: "Evangelism",
-//         desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo."
-//     },
-// ])
-
-// const stories = ref<Stories[]>([
-//     {
-//         title: "Awal Mula GPdI Hebron",
-//         desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo.",
-//         date: "2020",
-//         image: "https://placehold.co/400"
-//     },
-//     {
-//         title: "Test GPdI Hebron",
-//         desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo.",
-//         date: "2020",
-//         image: "https://placehold.co/400"
-//     },
-//     {
-//         title: "AAA GPdI Hebron",
-//         desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo.",
-//         date: "2020",
-//     },
-//     {
-//         title: "BBB GPdI Hebron",
-//         desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo.",
-//         date: "2020",
-//         image: "https://placehold.co/400"
-//     },
-//     {
-//         title: "CCC Mula GPdI Hebron",
-//         desc: "Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque sit amet varius purus. Praesent dui nulla, eleifend at volutpat ut, porta et leo.",
-//         date: "2020",
-//         image: "https://placehold.co/400"
-//     },
-// ])
+defineProps<AboutPageProps>();
 
 const pastoral = ref<Pastoral[]>([
     {

@@ -13,8 +13,6 @@ use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage; // Import Storage facade
 
 class AboutPage extends Page implements HasForms
 {
@@ -24,6 +22,7 @@ class AboutPage extends Page implements HasForms
     protected static string $view = 'filament.pages.about-page';
 
     protected static ?string $title = 'About Page';
+    protected static ?string $navigationGroup = 'Pages';
 
     public ?array $heroData = [];
     public ?array $visionMissionData = [];
@@ -151,7 +150,6 @@ class AboutPage extends Page implements HasForms
                                 ->label('Image')
                                 ->image()
                                 ->directory('about-page-history')
-                                ->required()
                         ])
                         ->defaultItems(1)
                         ->columns(2)
@@ -166,7 +164,6 @@ class AboutPage extends Page implements HasForms
         $this->aboutPage = Pages::firstOrCreate(['name' => 'About']);
 
         $data = $this->form->getState();
-        Log::info($data);
 
         // Handle image paths for heroData
         if (isset($data['heroData']['image']) && is_array($data['heroData']['image'])) {
