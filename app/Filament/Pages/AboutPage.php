@@ -3,7 +3,6 @@
 namespace App\Filament\Pages;
 
 use App\Models\Pages;
-use App\Models\Sections;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
@@ -11,9 +10,9 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form; // Make sure this is imported
+use Filament\Forms\Form;
 use Filament\Pages\Page;
-use Illuminate\Support\Str;
+use Filament\Notifications\Notification;
 
 class AboutPage extends Page implements HasForms
 {
@@ -29,8 +28,6 @@ class AboutPage extends Page implements HasForms
     public ?array $valuesData = [];
     public ?array $historyData = [];
 
-    // Remove the type declaration here to allow late initialization,
-    // or ensure it's always initialized. Re-initializing in submit() is safer.
     protected $aboutPage;
 
     public function mount(): void
@@ -164,7 +161,6 @@ class AboutPage extends Page implements HasForms
 
     public function submit(): void
     {
-        // Re-initialize $this->aboutPage to ensure it's available on submission
         $this->aboutPage = Pages::firstOrCreate(['name' => 'About']);
 
         $data = $this->form->getState();
@@ -189,6 +185,9 @@ class AboutPage extends Page implements HasForms
             ['content' => $data['historyData']]
         );
 
-        $this->notify('success', 'About page content updated successfully!');
+        Notification::make()
+            ->title('About page content updated successfully!')
+            ->success()
+            ->send();
     }
 }
