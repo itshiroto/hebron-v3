@@ -82,8 +82,8 @@ const props = defineProps({
             { name: "DIVISIONS", href: "#divisions" },
             { name: "MINISTRIES", href: "#ministries" },
             { name: "DEVOTIONS", href: "/devotion" },
-            { name: "AGENDA", href: "#agenda" },
-            { name: "CONTACT US", href: "#contact" },
+            // { name: "AGENDA", href: "#agenda" },
+            { name: "CONTACT US", href: "/contact" },
         ],
     },
     scrollOffset: {

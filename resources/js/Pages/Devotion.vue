@@ -3,6 +3,7 @@ import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { computed } from 'vue';
 import { format } from 'date-fns';
 import { getReadingTime } from '@/utils/readingTime';
+import { Head } from '@inertiajs/vue3';
 
 // TODO: type declaration
 const props = defineProps(['data'])
@@ -18,6 +19,8 @@ const readTime = getReadingTime(props.data.content)
 </script>
 
 <template>
+
+    <Head :title="props.data.title" />
     <DefaultLayout>
         <section class="bg-black text-white pt-20 h-[60vh] mb-12 relative">
             <div class="absolute inset-0 opacity-30" :style="{

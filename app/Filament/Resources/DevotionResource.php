@@ -69,7 +69,7 @@ class DevotionResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('category')->sortable(),
+                TextColumn::make('category')->sortable()->badge(),
             ])
             ->filters([
                 //
