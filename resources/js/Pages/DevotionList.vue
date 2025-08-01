@@ -14,10 +14,10 @@ const props = defineProps(['data'])
             </div>
         </section>
         <section id="list" class="grid grid-cols-2 max-w-screen-xl mx-auto px-8 gap-16">
-            <div v-for="posts in props.data" class="min-h-64 flex flex-col justify-between">
+            <a v-for="posts in props.data" :key="posts.id" :href="`/devotion/${posts.slug}`"
+                class="min-h-64 flex flex-col justify-between group">
                 <div class="flex flex-col gap-2">
-                    <a :href="`/devotion/${posts.slug}`" class="font-medium text-3xl leading-normal hover:underline">{{
-                        posts.title }}</a>
+                    <h2 class="font-medium text-3xl leading-normal group-hover:underline">{{ posts.title }}</h2>
                     <p class="font-sans tracking-tight leading-relaxed text-gray-800 text-justify">{{ posts.snippet }}
                     </p>
                 </div>
@@ -25,7 +25,7 @@ const props = defineProps(['data'])
                     <h3 class="">{{ format(new Date(posts.updated_at), 'dd MMMM yyyy') }}</h3>
                     <p class="">{{ getReadingTime(posts.content) }} minutes reading</p>
                 </div>
-            </div>
+            </a>
         </section>
     </DefaultLayout>
 </template>
