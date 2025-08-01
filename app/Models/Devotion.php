@@ -9,5 +9,5 @@ class Devotion extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'slug', 'category', 'content', 'published_at'];
+    protected $fillable = ['title', 'slug', 'category', 'image', 'content', 'published_at'];
 }

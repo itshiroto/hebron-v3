@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('slug');
             $table->string('category');
+            $table->string('image')->nullable();
             $table->text('content');
             $table->date('published_at')->useCurrent()->nullable();
             $table->timestamps();

@@ -3,25 +3,21 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\DevotionResource\Pages;
-use App\Filament\Resources\DevotionResource\RelationManagers;
 use App\Models\Devotion;
-use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Get;
 use Filament\Forms\Set;
+use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Str;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DevotionResource extends Resource
 {
@@ -33,7 +29,7 @@ class DevotionResource extends Resource
     {
         return $form
             ->schema([
-                Grid::make(2)->schema([
+                Section::make()->columns(2)->schema([
                     TextInput::make('title')->required()->maxLength(255)
                         ->live(onBlur: true)
                         ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state) {
@@ -43,6 +39,7 @@ class DevotionResource extends Resource
 
                             $set('slug', Str::slug($state));
                         }),
+                    TextInput::make('slug')->required()->maxLength(255),
                     Select::make('category')
                         ->options([
                             'devotion' => "Renungan",
@@ -50,14 +47,19 @@ class DevotionResource extends Resource
                             'announcement' => "Pengumuman",
                         ])
                         ->required(),
-                    TextInput::make('slug')->required()->maxLength(255),
-
                     // DatePicker::make('published_at')->format('d/m/Y')->label("Published date")
-
                 ]),
+
                 Section::make()->columns(1)->schema([
                     RichEditor::make('content')
-                ])
+                        ->fileAttachmentsDirectory('devotion-attachments'),
+                    FileUpload::make('image')
+                        ->label('Background Image')
+                        ->image()
+                        ->imageEditor()
+                        ->directory('devotion-image')
+                        ->disk('public')
+                ]),
 
             ]);
     }
@@ -66,7 +68,8 @@ class DevotionResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('title')->searchable()->sortable(),
+                TextColumn::make('category')->sortable(),
             ])
             ->filters([
                 //
