@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Devotion;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Str; // Import the Str facade
+use Illuminate\Support\Str;
 
 class DevotionController extends Controller
 {
     public function all() {
         $data = Devotion::all()->map(function ($devotion) {
-            // Strip HTML tags and create a snippet
             $plainContent = strip_tags($devotion->content);
-            $devotion->snippet = Str::limit($plainContent, 150); // Limit to 150 characters
+            $devotion->snippet = Str::limit($plainContent, 300); // Limit to 150 characters
 
             return $devotion;
         });
