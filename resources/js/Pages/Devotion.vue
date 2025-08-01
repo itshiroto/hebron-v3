@@ -19,7 +19,7 @@ const readTime = getReadingTime(props.data.content)
 
 <template>
     <DefaultLayout>
-        <section class="bg-black text-white pt-20 h-[50vh] mb-12 relative">
+        <section class="bg-black text-white pt-20 h-[60vh] mb-12 relative">
             <div class="absolute inset-0 opacity-30" :style="{
                 backgroundImage: `url(/storage/${props.data.image})`,
                 backgroundSize: 'cover',

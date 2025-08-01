@@ -18,6 +18,7 @@ Route::get('/', function () {
 
 Route::get('/about', [AboutController::class, 'show'])->name('about-us');
 Route::prefix('devotion')->group(function () {
+    Route::get('/', [ DevotionController::class, 'all' ]);
     Route::get('/{slug}', [ DevotionController::class, 'single' ]);
 });
 

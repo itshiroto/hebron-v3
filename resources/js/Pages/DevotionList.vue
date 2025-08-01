@@ -13,15 +13,19 @@ const props = defineProps(['data'])
                 <h1 class="text-5xl">Devotions</h1>
             </div>
         </section>
-        <section id="list" class="grid grid-cols-2 max-w-screen-xl mx-auto px-8 gap-16">
+        <section id="list" class="grid grid-cols-1 max-w-screen-xl mx-auto px-8 gap-4">
             <a v-for="posts in props.data" :key="posts.id" :href="`/devotion/${posts.slug}`"
-                class="min-h-64 flex flex-col justify-between group">
-                <div class="flex flex-col gap-2">
-                    <h2 class="font-medium text-3xl leading-normal group-hover:underline">{{ posts.title }}</h2>
-                    <p class="font-sans tracking-tight leading-relaxed text-gray-800 text-justify">{{ posts.snippet }}
-                    </p>
+                class="transition-all group pb-8 last:border-none border-b">
+                <div class="flex justify-between items-start gap-16 mb-8">
+                    <div class="flex flex-col gap-2">
+                        <h2 class="font-medium text-3xl leading-normal group-hover:underline">{{ posts.title }}</h2>
+                        <p class="font-sans tracking-tight leading-relaxed text-gray-800 text-justify">
+                            {{ posts.snippet }}
+                        </p>
+                    </div>
+                    <img v-if="posts.image" class="h-48 aspect-video" :src="`/storage/${posts.image}`" />
                 </div>
-                <div class="flex justify-between font-sans text-sm tracking-tight text-gray-600">
+                <div class="flex justify-between uppercase font-sans text-xs tracking-tight text-gray-600">
                     <h3 class="">{{ format(new Date(posts.updated_at), 'dd MMMM yyyy') }}</h3>
                     <p class="">{{ getReadingTime(posts.content) }} minutes reading</p>
                 </div>
