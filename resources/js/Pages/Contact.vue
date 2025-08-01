@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
-import { defineProps } from 'vue';
 
 const props = defineProps<{
     hero: {
@@ -31,7 +30,8 @@ const props = defineProps<{
                         <p class="text-sm font-bold text-gray-600 uppercase leading-none">{{ item.title }}</p>
                         <div class="col-span-2 leading-none text-right">
                             <div v-html="item.desc"></div>
-                            <a v-if="item.link" :href="item.link" target="_blank" class="text-blue-600 hover:underline text-sm">
+                            <a v-if="item.link" :href="item.link" target="_blank"
+                                class="text-blue-600 hover:underline text-sm">
                                 {{ item.link }}
                             </a>
                         </div>
