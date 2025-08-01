@@ -11,7 +11,7 @@ class DevotionController extends Controller
     public function all() {
         $data = Devotion::all()->map(function ($devotion) {
             $plainContent = strip_tags($devotion->content);
-            $devotion->snippet = Str::limit($plainContent, 300); // Limit to 150 characters
+            $devotion->snippet = Str::words($plainContent, 50); // Limit to 50 words
 
             return $devotion;
         });
