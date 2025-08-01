@@ -8,7 +8,11 @@ use Inertia\Inertia;
 
 class DevotionController extends Controller
 {
-    public function single(Request $request, string $slug)
+    public function all() {
+        $data = Devotion::all();
+        return Inertia::render('DevotionList', ['data' => $data]);
+    }
+    public function single(string $slug)
     {
         $data = Devotion::where('slug', $slug)->first();
 
@@ -16,8 +20,6 @@ class DevotionController extends Controller
             abort(404);
         }
 
-        // TODO: bikin jadi published_at
-        $data["updated_at"] = $data["updated_at"]->format('d/m/Y');
         return Inertia::render('Devotion', ['data' => $data]);
     }
 }
