@@ -29,11 +29,10 @@ const props = defineProps<{
                         class="border-b last:border-none mb-4 pb-4 grid grid-cols-3 font-sans items-center">
                         <p class="text-sm font-bold text-gray-600 uppercase leading-none">{{ item.title }}</p>
                         <div class="col-span-2 leading-none text-right">
-                            <div v-html="item.desc"></div>
                             <a v-if="item.link" :href="item.link" target="_blank"
-                                class="text-blue-600 hover:underline text-sm">
-                                {{ item.link }}
+                                class="text-blue-600 hover:underline text-sm" v-html="item.desc">
                             </a>
+                            <div v-else v-html="item.desc"></div>
                         </div>
                     </div>
                 </div>
