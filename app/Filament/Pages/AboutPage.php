@@ -11,7 +11,7 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
+use Filament\Forms\Form; // Make sure this is imported
 use Filament\Pages\Page;
 use Illuminate\Support\Str;
 
@@ -29,7 +29,9 @@ class AboutPage extends Page implements HasForms
     public ?array $valuesData = [];
     public ?array $historyData = [];
 
-    protected Pages $aboutPage;
+    // Remove the type declaration here to allow late initialization,
+    // or ensure it's always initialized. Re-initializing in submit() is safer.
+    protected $aboutPage;
 
     public function mount(): void
     {
@@ -59,6 +61,7 @@ class AboutPage extends Page implements HasForms
         );
         $this->historyData = $historySection->content;
 
+        // Ensure the form is filled with data from the properties
         $this->form->fill([
             'heroData' => $this->heroData,
             'visionMissionData' => $this->visionMissionData,
@@ -161,6 +164,9 @@ class AboutPage extends Page implements HasForms
 
     public function submit(): void
     {
+        // Re-initialize $this->aboutPage to ensure it's available on submission
+        $this->aboutPage = Pages::firstOrCreate(['name' => 'About']);
+
         $data = $this->form->getState();
 
         $this->aboutPage->sections()->updateOrCreate(
