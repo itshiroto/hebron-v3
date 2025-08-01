@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DevotionController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -21,5 +22,6 @@ Route::prefix('devotion')->group(function () {
     Route::get('/', [ DevotionController::class, 'all' ]);
     Route::get('/{slug}', [ DevotionController::class, 'single' ]);
 });
+Route::get('/contact', [ContactController::class, 'show'])->name('about-us');
 
 require __DIR__.'/auth.php';

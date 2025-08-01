@@ -3,6 +3,7 @@
 namespace App\Filament\Pages;
 
 use App\Models\Pages;
+use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
@@ -63,6 +64,12 @@ class ContactPage extends Page implements HasForms
                     TextInput::make('heroData.subtitle')
                         ->label('Subtitle')
                         ->required(),
+                    FileUpload::make('heroData.image')
+                        ->label('Background Image')
+                        ->image()
+                        ->imageEditor()
+                        ->directory('contact-page-hero')
+                        ->required()
                 ]),
 
             Section::make('Contact List')
@@ -94,6 +101,11 @@ class ContactPage extends Page implements HasForms
         $this->contactPage = Pages::firstOrCreate(['name' => 'Contact']);
 
         $data = $this->form->getState();
+
+        // Handle image paths for heroData
+        if (isset($data['heroData']['image']) && is_array($data['heroData']['image'])) {
+            $data['heroData']['image'] = $data['heroData']['image'][0] ?? null;
+        }
 
         $this->contactPage->sections()->updateOrCreate(
             ['name' => 'hero', 'page_id' => $this->contactPage->id],

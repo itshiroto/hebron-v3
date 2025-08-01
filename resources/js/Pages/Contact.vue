@@ -5,6 +5,7 @@ const props = defineProps<{
     hero: {
         title: string;
         subtitle: string;
+        image?: string; // Added image property
     };
     contactList: Array<{
         title: string;
@@ -16,7 +17,8 @@ const props = defineProps<{
 
 <template>
     <DefaultLayout>
-        <div class="bg-blue-800 min-h-screen px-8 pt-20">
+        <div class="min-h-screen px-8 pt-20 bg-cover bg-center"
+            :style="hero.image ? { backgroundImage: `url(${hero.image})` } : { backgroundColor: '#2b6cb0' }">
             <div class="text-white text-center my-16">
                 <h1 class="text-5xl mb-4">{{ hero.title }}</h1>
                 <h3 class="text-2xl font-sans tracking-tight">{{ hero.subtitle }}</h3>
