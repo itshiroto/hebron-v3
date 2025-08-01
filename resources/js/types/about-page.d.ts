@@ -44,6 +44,12 @@ export interface HistoryItem {
     image?: string; // Path to the image
 }
 
+export interface PastorItem {
+    name: string;
+    position: string;
+    image?: string;
+}
+
 /**
  * Represents the full set of props passed to the AboutUs Vue component.
  */
@@ -52,4 +58,5 @@ export interface AboutPageProps {
     visionMission: VisionMissionSectionData;
     values: ValueItem[];
     history: HistoryItem[];
+    pastors: PastorItem[];
 }

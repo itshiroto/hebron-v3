@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pages;
+use App\Models\Pastor;
 use Inertia\Inertia;
 
 class AboutController extends Controller
@@ -10,6 +11,7 @@ class AboutController extends Controller
     public function show()
     {
         $aboutPage = Pages::where('name', 'About')->with('sections')->first();
+        $pastorsData = Pastor::all();
 
         $heroData = [];
         $visionMissionData = [];
@@ -40,6 +42,7 @@ class AboutController extends Controller
             'visionMission' => $visionMissionData,
             'values' => $valuesData,
             'history' => $historyData,
+            'pastors' => $pastorsData
         ]);
     }
 }

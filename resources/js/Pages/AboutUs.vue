@@ -84,9 +84,10 @@
         <section id="pastoral" class="max-w-screen-xl mx-auto my-32 px-8">
             <h1 class="text-4xl mb-16 text-center">Pastoral Team</h1>
             <div class="flex flex-wrap gap-8 justify-center items-center">
-                <div v-for="pastor in pastoral" class="max-w-sm w-full flex flex-col gap-4">
+                <div v-for="pastor in pastors" class="max-w-sm w-full flex flex-col gap-4">
                     <div class="aspect-square h-full w-full bg-gray-800 mb-4 rounded-lg overflow-clip">
-                        <img v-if="pastor.image" class="w-full h-full object-cover" :src="pastor.image" alt="" />
+                        <img v-if="pastor.image" class="w-full h-full object-cover" :src="`/storage/${pastor.image}`"
+                            alt="" />
                     </div>
                     <h4 class="uppercase text-sm text-gray-600 font-bold font-sans leading-none">{{ pastor.position }}
                     </h4>
@@ -109,28 +110,6 @@ gsap.registerPlugin(ScrollTrigger);
 import type { AboutPageProps } from '@/types/about-page';
 
 defineProps<AboutPageProps>();
-
-const pastoral = ref<Pastoral[]>([
-    {
-        name: "Rivo Juicer Wowor",
-        position: "Senior Associate Pastor",
-        image: "https://placehold.co/512",
-    },
-    {
-        name: "Rivo Juicer Wowor",
-        position: "Senior Associate Pastor",
-        image: "https://placehold.co/512",
-    },
-    {
-        name: "Rivo Juicer Wowor",
-        position: "Senior Associate Pastor",
-    },
-    {
-        name: "Rivo Juicer Wowor",
-        position: "Senior Associate Pastor",
-        image: "https://placehold.co/512",
-    },
-])
 
 let ctx: gsap.Context;
 

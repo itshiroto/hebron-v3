@@ -21,7 +21,7 @@ class AboutPage extends Page implements HasForms
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected static string $view = 'filament.pages.about-page';
 
-    protected static ?string $title = 'About Page';
+    protected static ?string $title = 'About Us';
     protected static ?string $navigationGroup = 'Pages';
 
     public ?array $heroData = [];
@@ -83,6 +83,7 @@ class AboutPage extends Page implements HasForms
                     FileUpload::make('heroData.image')
                         ->label('Background Image')
                         ->image()
+                        ->imageEditor()
                         ->directory('about-page-hero')
                         ->required()
                 ]),
@@ -105,6 +106,7 @@ class AboutPage extends Page implements HasForms
                     FileUpload::make('visionMissionData.image')
                         ->label('Image')
                         ->image()
+                        ->imageEditor()
                         ->directory('about-page-vision-mission')
                         ->required()
                 ]),
@@ -149,6 +151,7 @@ class AboutPage extends Page implements HasForms
                             FileUpload::make('image')
                                 ->label('Image')
                                 ->image()
+                                ->imageEditor()
                                 ->directory('about-page-history')
                         ])
                         ->defaultItems(1)
