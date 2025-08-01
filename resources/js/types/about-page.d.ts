@@ -43,3 +43,13 @@ export interface HistoryItem {
     date: string; // e.g., "2023"
     image?: string; // Path to the image
 }
+
+/**
+ * Represents the full set of props passed to the AboutUs Vue component.
+ */
+export interface AboutPageProps {
+    hero: HeroSectionData;
+    visionMission: VisionMissionSectionData;
+    values: ValueItem[];
+    history: HistoryItem[];
+}
