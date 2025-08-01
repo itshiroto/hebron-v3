@@ -72,10 +72,10 @@ class ContactPage extends Page implements HasForms
                         ->label('Contact Items')
                         ->schema([
                             TextInput::make('title')
-                                ->label('Title')
+                                ->label('Name')
                                 ->required(),
-                            RichEditor::make('desc')
-                                ->label('Description')
+                            TextInput::make('desc')
+                                ->label('Value')
                                 ->required(),
                             TextInput::make('link')
                                 ->label('Link (Optional)')
