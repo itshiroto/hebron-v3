@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,8 +15,6 @@ Route::get('/', function () {
 });
 
 
-Route::get('/about', function () {
-    return Inertia::render('AboutUs');
-});
+Route::get('/about', [AboutController::class, 'show'])->name('about-us');
 
 require __DIR__.'/auth.php';
