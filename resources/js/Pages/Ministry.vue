@@ -12,28 +12,10 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { computed } from 'vue';
+import { MinistryPageSections } from '@/types/ministry-page'; // Import the new type
 
 const props = defineProps<{
-    sections: {
-        hero?: { title: string; image: string };
-        intro?: { title: string; desc: string };
-        serve?: {
-            title: string;
-            ministryList: Array<{
-                title: string;
-                desc: string;
-                image: string;
-                link: string;
-            }>;
-        };
-        faq?: {
-            title: string;
-            questionsList: Array<{
-                question: string;
-                answer: string;
-            }>;
-        };
-    };
+    sections: MinistryPageSections; // Use the imported type
 }>();
 
 const heroSection = computed(() => props.sections.hero || {});
@@ -58,7 +40,7 @@ const faqSection = computed(() => props.sections.faq || {});
         <!-- Intro Section -->
         <section class="max-w-screen-xl mx-auto mb-12">
             <h2 class="text-3xl mb-8">{{ introSection.title || 'Lorem Ipsum Dolor Sit Amet' }}</h2>
-            <div class="font-sans tracking-tight leading-relaxed" v-html="introSection.desc || `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate perferendis laborum, quidem corporis, soluta adipisci, vitae est distinctio incidunt tempora et alias labore non voluptatum voluptatibus. Impedit fugit esse, officia quas voluptate temporibus consequatur beatae accusantium facilis architecto dignissimos nesciunt velit enim voluptatem veritatis pariatur amet repellendus laborum iure reprehenderit facere ab id recusandae! Alias quasi temporibus iusto voluptates inventore, at dolorem magni. Debitis cum enim dolorem, rerum iste cumque impedit laboriosam at laborum! Culpa, minima ad sit expedita molestias natus quis dolore velit nam veniam atque praesentium odio voluptatem, error eius libero tenetur saepe harum consequatur, voluptatum consequuntur ex. Facilis at aperiam optio nisi enim obcaecati rem, minus perferendis officiis, neque consequatur facere aliquam dolor! Consectetur quia sed doloribus perferendis reprehenderit, quis dolore, labore vel natus libero aperiam voluptates ullam temporibus rerum assumenda vero praesentium molestiae, expedita a. Accusamus aut, corporis incidunt beatae voluptas inventore quo repudiandae quam atque?`">
+            <div class="font-sans tracking-tight leading-relaxed" v-html="introSection.desc || `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate perferendis laborum, quidem corporis, soluta adipisci, vitae est distinctio incidunt tempora et alias labore non voluptatum voluptatibus. Impedit fugit esse, officia quas voluptate temporibus consequatur beatae accusantium facilis architecto dignissimos nesciunt velit enim voluptatem veritatis pariatur amet repellendus laborum iure reprehenderit facere ab id recusandae! Alias quasi temporibus iusto voluptates inventore, at dolorem magni. Debitis cum enim dolorem, rerum iste cumque impedit laboriosam at laborum! Culpa, minima ad sit expedita molestias natus quis dolore velit nam veniam atque praesentium odio voluptatem, error eius libero tenetur saepe harum consequatur, voluptatum consequuntur ex. Facilis at aperiam optio nisi enim obcaecati rem, minus perferendis officiis, neque consequatur facere aliquam dolor! Consectetur quia sed doloribus perferendis reprehenderit, quis dolore, labore vel natus libero aperiam voluptates ullam temporibus rerum assumenda vero praesentius molestiae, expedita a. Accusamus aut, corporis incidunt beatae voluptas inventore quo repudiandae quam atque?`">
             </div>
         </section>
 
