@@ -3,13 +3,19 @@ import { Head, Link } from "@inertiajs/vue3";
 import Navbar from "@/Components/Navbar.vue";
 import Footer from "@/Components/Footer.vue";
 import ServiceCard from "@/Components/ServiceCard.vue";
+import { Vue3Marquee } from "vue3-marquee";
+import { Carousel, Slide } from "vue3-carousel";
 
-defineProps<{
-    canLogin?: boolean;
-    canRegister?: boolean;
-    laravelVersion: string;
-    phpVersion: string;
-}>();
+import type { HomePageProps } from "@/types/home-page";
+defineProps<HomePageProps>();
+
+// defineProps<{
+//     canLogin?: boolean;
+//     canRegister?: boolean;
+//     laravelVersion: string;
+//     phpVersion: string;
+//     HomePageProps: HomePageProps;
+// }>();
 
 function handleImageError() {
     document.getElementById("screenshot-container")?.classList.add("!hidden");
@@ -17,9 +23,6 @@ function handleImageError() {
     document.getElementById("docs-card-content")?.classList.add("!flex-row");
     document.getElementById("background")?.classList.add("!hidden");
 }
-
-import { Vue3Marquee } from "vue3-marquee";
-
 // Jika ingin loop tanpa jeda, gandakan array image
 const images = [
     "/storage/images/image7.png",
@@ -27,8 +30,6 @@ const images = [
     "/storage/images/image9.png",
 ];
 const loopImages = [...images, ...images];
-
-import { Carousel, Slide } from "vue3-carousel";
 
 const imagePaths = [
     "/storage/images/image7.png",
@@ -43,7 +44,7 @@ const imagePaths = [
         <div>
             <div class="relative">
                 <img
-                    src="/storage/images/HeroSection.png"
+                    src="`/storage/${hero.image}`"
                     alt="Hero Section"
                     class="w-full h-auto"
                 />
@@ -70,9 +71,8 @@ const imagePaths = [
                             style="
                                 font-family: 'Georgia', 'Times New Roman', serif;
                             "
-                        >
-                            There's a place for you to call Home.
-                        </p>
+                            v-html="hero.title"
+                        ></p>
 
                         <!-- Buttons -->
                         <div class="hero-buttons flex flex-row gap-4">
@@ -80,14 +80,14 @@ const imagePaths = [
                                 :href="route('login')"
                                 class="group inline-flex items-center px-6 py-3 bg-white text-black font-semibold text-sm tracking-wider uppercase rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
                             >
-                                <span>IKUT BERIBADAH</span>
+                                <span v-html="hero.text1"></span>
                             </Link>
 
                             <Link
                                 :href="route('register')"
                                 class="group inline-flex items-center px-6 py-3 bg-transparent border-2 border-white text-white font-semibold text-sm tracking-wider uppercase rounded-full hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105"
                             >
-                                <span>PERMINTAAN DOA</span>
+                                <span v-html="hero.text2"></span>
                             </Link>
                         </div>
                     </div>
@@ -98,30 +98,19 @@ const imagePaths = [
 
     <section id="section-2">
         <div class="px-6 md:px-12 lg:px-40 py-24">
-            <p class="text-xl md:text-4xl font-bold mb-6">
-                Kami adalah Lorem ipsum dolor sit amet, consectetur adipiscing
-                elit. Pellentesque sit amet varius purus. Praesent dui nulla,
-                eleifend at volutpat ut, porta et leo. 
-            </p>
+            <p
+                class="text-xl md:text-4xl font-bold mb-6"
+                v-html="visionMission.title"
+            ></p>
 
             <div class="flex flex-row gap-6 mt-20">
                 <div>
                     <p class="text-xl text-[#525252] font-bold">Visi Kami</p>
-                    <p class="text-2xl mt-3">
-                        Kami adalah Lorem ipsum dolor sit amet, consectetur
-                        adipiscing elit. Pellentesque sit amet varius purus.
-                        Praesent dui nulla, eleifend at volutpat ut, porta et
-                        leo. 
-                    </p>
+                    <p class="text-2xl mt-3" v-html="visionMission.visi"></p>
                 </div>
                 <div>
                     <p class="text-xl text-[#525252] font-bold">Misi Kami</p>
-                    <p class="text-2xl mt-3">
-                        Kami adalah Lorem ipsum dolor sit amet, consectetur
-                        adipiscing elit. Pellentesque sit amet varius purus.
-                        Praesent dui nulla, eleifend at volutpat ut, porta et
-                        leo. 
-                    </p>
+                    <p class="text-2xl mt-3" v-html="visionMission.misi"></p>
                 </div>
             </div>
 
@@ -154,12 +143,22 @@ const imagePaths = [
                 pause-on-hover
                 :gradient="false"
             >
-                <div class="flex gap-4 px-2 items-center">
+                <!-- <div class="flex gap-4 px-2 items-center">
                     <img
                         v-for="(img, index) in loopImages"
                         :key="index"
                         :src="img"
                         class="w-64 md:w-80 h-40 md:h-56 rounded-lg object-cover"
+                    />
+                </div> -->
+
+                <div class="flex gap-4 px-2 items-center">
+                    <img
+                        v-for="(img, index) in visionMission.carousel"
+                        :key="index"
+                        :src="img"
+                        class="w-64 md:w-80 h-40 md:h-56 rounded-lg object-cover"
+                        alt="carousel image"
                     />
                 </div>
             </Vue3Marquee>
@@ -174,7 +173,7 @@ const imagePaths = [
             </p>
 
             <div class="grid grid-cols-3 grid-rows-3 gap-4 mt-24">
-                <div class="col-span-3">
+                <!-- <div class="col-span-3">
                     <ServiceCard
                         title="Ibadah Raya Umum"
                         image="/storage/images/image8.png"
@@ -199,7 +198,21 @@ const imagePaths = [
                         title="Descendants of Truth"
                         image="/storage/images/image8.png"
                     />
+                </div> -->
+
+                <div
+                    class="row-start-2"
+                    v-for="(ministry, idx) in ministries"
+                    :key="idx"
+                >
+                    <ServiceCard
+                        :title="ministry.title"
+                        :hour="ministry.hour"
+                        :image="ministry.image"
+                        :desc="ministry.desc"
+                    />
                 </div>
+
                 <div class="col-span-3 row-start-3">
                     <button
                         class="bg-black text-white w-full font-semibold px-6 py-3 rounded-md hover:bg-gray-800 transition"
