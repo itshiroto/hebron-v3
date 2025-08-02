@@ -22,8 +22,7 @@
                 <!-- Desktop Menu -->
                 <div class="hidden md:flex items-center space-x-6">
                     <a v-for="(item, index) in menuItems" :key="item.name" :href="item.href"
-                        class="text-white hover:text-blue-300 text-sm font-medium relative group transition py-2 px-1"
-                        @click="handleMenuClick(item, $event)">
+                        class="text-white hover:text-blue-300 text-sm font-medium relative group transition py-2 px-1">
                         {{ item.name }}
                         <span
                             class="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
@@ -52,7 +51,6 @@
                 @click.self="closeMenu">
                 <div class="w-full flex flex-col space-y-4">
                     <a v-for="(item, index) in menuItems" :key="item.name" :href="item.href"
-                        @click="handleMobileMenuClick(item, $event)"
                         class="text-white text-lg font-medium hover:text-blue-300 transition py-2 border-b border-white/10">
                         {{ item.name }}
                     </a>
@@ -83,9 +81,9 @@ const props = defineProps({
             { name: "ABOUT US", href: "/about" },
             { name: "DIVISIONS", href: "#divisions" },
             { name: "MINISTRIES", href: "#ministries" },
-            { name: "DEVOTIONS", href: "#devotions" },
-            { name: "AGENDA", href: "#agenda" },
-            { name: "CONTACT US", href: "#contact" },
+            { name: "DEVOTIONS", href: "/devotion" },
+            // { name: "AGENDA", href: "#agenda" },
+            { name: "CONTACT US", href: "/contact" },
         ],
     },
     scrollOffset: {
@@ -121,27 +119,6 @@ const closeMenu = () => {
     isOpen.value = false;
 };
 
-const scrollToSection = (href) => {
-    const target = document.querySelector(href);
-    if (target) {
-        gsap.to(window, {
-            duration: 1,
-            scrollTo: { y: target, offsetY: props.scrollOffset },
-            ease: "power2.inOut",
-        });
-    }
-};
-
-const handleMenuClick = (item, event) => {
-    event.preventDefault();
-    scrollToSection(item.href);
-};
-
-const handleMobileMenuClick = (item, event) => {
-    event.preventDefault();
-    closeMenu();
-    setTimeout(() => scrollToSection(item.href), 300);
-};
 
 const goToHome = () => {
     window.location.href = "/";
