@@ -2,8 +2,8 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DivitionResource\Pages;
-use App\Models\Divition;
+use App\Filament\Resources\DivisionResource\Pages;
+use App\Models\Division;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -13,9 +13,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
 
-class DivitionResource extends Resource
+class DivisionResource extends Resource
 {
-    protected static ?string $model = Divition::class;
+    protected static ?string $model = Division::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -29,7 +29,7 @@ class DivitionResource extends Resource
                     ->label('Image')
                     ->image()
                     ->imageEditor()
-                    ->directory('divitions-image')
+                    ->directory('divisions-image')
                     ->required(),
                 TextInput::make('time')->required()->maxLength(255),
                 TextInput::make('link')->required()->maxLength(255),
@@ -69,9 +69,9 @@ class DivitionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDivitions::route('/'),
-            'create' => Pages\CreateDivition::route('/create'),
-            'edit' => Pages\EditDivition::route('/{record}/edit'),
+            'index' => Pages\ListDivisions::route('/'),
+            'create' => Pages\CreateDivision::route('/create'),
+            'edit' => Pages\EditDivision::route('/{record}/edit'),
         ];
     }
 }

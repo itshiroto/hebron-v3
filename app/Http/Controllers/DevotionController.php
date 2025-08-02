@@ -8,7 +8,8 @@ use Illuminate\Support\Str;
 
 class DevotionController extends Controller
 {
-    public function all() {
+    public function all()
+    {
         $data = Devotion::all()->map(function ($devotion) {
             $plainContent = strip_tags($devotion->content);
             $devotion->snippet = Str::words($plainContent, 50); // Limit to 50 words
