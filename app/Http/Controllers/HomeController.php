@@ -11,7 +11,7 @@ class HomeController extends Controller
     public function show()
     {
         $homePage = Pages::where('name', 'Home')->with('sections')->first();
-        dd($homePage);
+
         $heroData = [];
         $visionMissionData = [];
         $ministriesData = [];
@@ -31,8 +31,8 @@ class HomeController extends Controller
                 }
             }
         }
-
-        return Inertia::render('AboutUs', [
+        // dd($heroData);
+        return Inertia::render('Welcome', [
             'hero' => $heroData,
             'visionMission' => $visionMissionData,
             'ministries' => $ministriesData,

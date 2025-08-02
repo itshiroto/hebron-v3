@@ -32,7 +32,7 @@ class HomePage extends Page
 
     public function mount(): void
     {
-        $this->homePage = Pages::firstOrCreate(['name' => 'About']);
+        $this->homePage = Pages::firstOrCreate(['name' => 'Home']);
 
         $heroSection = $this->homePage->sections()->firstOrCreate(
             ['name' => 'hero', 'page_id' => $this->homePage->id],
@@ -85,6 +85,9 @@ class HomePage extends Page
             Section::make('Vision and Mission Section')
                 ->description('Define the vision and mission statements.')
                 ->schema([
+                    TextInput::make('visionMissionData.title')
+                        ->label('Title')
+                        ->required(),
                     RichEditor::make('visionMissionData.visi')
                         ->label('Vision Description')
                         ->required(),
@@ -92,8 +95,9 @@ class HomePage extends Page
                         ->label('Mission Description')
                         ->required(),
                     FileUpload::make('visionMissionData.image')
-                        ->label('Image')
+                        ->label('Carousel Image')
                         ->image()
+                        ->multiple()
                         ->imageEditor()
                         ->directory('home-page-vision-mission')
                         ->required()
