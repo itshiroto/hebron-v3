@@ -12,16 +12,16 @@ import {
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { computed } from 'vue';
-import { MinistryPageSections } from '@/types/ministry-page'; // Import the new type
+import { MinistryPageSections, HeroSectionData, IntroSectionData, ServeSectionData, FAQSectionData } from '@/types/ministry-page'; // Import all necessary types
 
 const props = defineProps<{
     sections: MinistryPageSections; // Use the imported type
 }>();
 
-const heroSection = computed(() => props.sections.hero || {});
-const introSection = computed(() => props.sections.intro || {});
-const serveSection = computed(() => props.sections.serve || {});
-const faqSection = computed(() => props.sections.faq || {});
+const heroSection = computed<HeroSectionData>(() => props.sections.hero || { title: '', image: '' });
+const introSection = computed<IntroSectionData>(() => props.sections.intro || { title: '', desc: '' });
+const serveSection = computed<ServeSectionData>(() => props.sections.serve || { title: '', ministryList: [] });
+const faqSection = computed<FAQSectionData>(() => props.sections.faq || { title: '', questionsList: [] });
 
 </script>
 
@@ -40,7 +40,7 @@ const faqSection = computed(() => props.sections.faq || {});
         <!-- Intro Section -->
         <section class="max-w-screen-xl mx-auto mb-12">
             <h2 class="text-3xl mb-8">{{ introSection.title || 'Lorem Ipsum Dolor Sit Amet' }}</h2>
-            <div class="font-sans tracking-tight leading-relaxed" v-html="introSection.desc || `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate perferendis laborum, quidem corporis, soluta adipisci, vitae est distinctio incidunt tempora et alias labore non voluptatum voluptatibus. Impedit fugit esse, officia quas voluptate temporibus consequatur beatae accusantium facilis architecto dignissimos nesciunt velit enim voluptatem veritatis pariatur amet repellendus laborum iure reprehenderit facere ab id recusandae! Alias quasi temporibus iusto voluptates inventore, at dolorem magni. Debitis cum enim dolorem, rerum iste cumque impedit laboriosam at laborum! Culpa, minima ad sit expedita molestias natus quis dolore velit nam veniam atque praesentium odio voluptatem, error eius libero tenetur saepe harum consequatur, voluptatum consequuntur ex. Facilis at aperiam optio nisi enim obcaecati rem, minus perferendis officiis, neque consequatur facere aliquam dolor! Consectetur quia sed doloribus perferendis reprehenderit, quis dolore, labore vel natus libero aperiam voluptates ullam temporibus rerum assumenda vero praesentius molestiae, expedita a. Accusamus aut, corporis incidunt beatae voluptas inventore quo repudiandae quam atque?`">
+            <div class="font-sans tracking-tight leading-relaxed" v-html="introSection.desc || `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate perferendis laborum, quidem corporis, soluta adipisci, vitae est distinctio incidunt tempora et alias labore non voluptatum voluptatibus. Impedit fugit esse, officia quas voluptate temporibus voluptatibus. Impedit fugit esse, officia quas voluptate temporibus consequatur beatae accusantium facilis architecto dignissimos nesciunt velit enim voluptatem veritatis pariatur amet repellendus laborum iure reprehenderit facere ab id recusandae! Alias quasi temporibus iusto voluptates inventore, at dolorem magni. Debitis cum enim dolorem, rerum iste cumque impedit laboriosam at laborum! Culpa, minima ad sit expedita molestias natus quis dolore velit nam veniam atque praesentium odio voluptatem, error eius libero tenetur saepe harum consequatur, voluptatum consequuntur ex. Facilis at aperiam optio nisi enim obcaecati rem, minus perferendis officiis, neque consequatur facere aliquam dolor! Consectetur quia sed doloribus perferendis reprehenderit, quis dolore, labore vel natus libero aperiam voluptates ullam temporibus rerum assumenda vero praesentius molestiae, expedita a. Accusamus aut, corporis incidunt beatae voluptas inventore quo repudiandae quam atque?`">
             </div>
         </section>
 
