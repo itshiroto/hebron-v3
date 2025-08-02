@@ -7,8 +7,8 @@
             <div class="flex justify-between items-center h-16 lg:h-20">
                 <!-- Logo -->
                 <div ref="logoRef" class="flex items-center space-x-3 cursor-pointer group" @click="goToHome">
-                    <img src="/storage/images/hebron-small.png" alt="GPdi Hebron Logo"
-                        class="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-contain shadow-lg group-hover:shadow-blue-500/50 transition" />
+                    <img src="/storage/hebron.png" alt="GPdi Hebron Logo"
+                        class="w-10 h-10 lg:w-12 lg:h-12 rounded-full object-contain shadow-lg transition" />
                     <div class="text-white">
                         <h1 class="font-bold text-lg group-hover:text-blue-300 transition tracking-tight">
                             Hebron Family Church
