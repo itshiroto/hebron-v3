@@ -39,7 +39,7 @@ const readTime = getReadingTime(props.data.content)
                     }} • {{ formattedDate }}</h4>
             </div>
         </section>
-        <article id="content" class="max-w-screen-lg mx-auto px-8 prose-lg font-sans tracking-tight mb-12"
+        <article id="content" class="min-h-screen max-w-screen-lg mx-auto px-8 prose-lg font-sans tracking-tight mb-12"
             v-html="props.data.content" />
     </DefaultLayout>
 </template>
