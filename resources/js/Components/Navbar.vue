@@ -80,7 +80,7 @@ const props = defineProps({
         default: () => [
             { name: "ABOUT US", href: "/about" },
             { name: "DIVISIONS", href: "#divisions" },
-            { name: "MINISTRIES", href: "#ministries" },
+            { name: "MINISTRIES", href: "/ministry" },
             { name: "DEVOTIONS", href: "/devotion" },
             // { name: "AGENDA", href: "#agenda" },
             { name: "CONTACT US", href: "/contact" },

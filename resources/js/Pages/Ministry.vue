@@ -28,10 +28,8 @@ const faqSection = computed<FAQSectionData>(() => props.sections.faq || { title:
 <template>
     <DefaultLayout>
         <!-- Hero Section -->
-        <section
-            class="bg-blue-800 text-white pt-20 h-[35vh] mb-12 relative"
-            :style="{ backgroundImage: heroSection.image ? `url(/storage/${heroSection.image})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }"
-        >
+        <section class="bg-blue-800 text-white pt-20 h-[35vh] mb-12 relative"
+            :style="{ backgroundImage: heroSection.image ? `url(/storage/${heroSection.image})` : 'none', backgroundSize: 'cover', backgroundPosition: 'center' }">
             <div class="max-w-screen-xl mx-auto h-full flex flex-col items-center justify-center p-8 relative z-10">
                 <h1 class="text-5xl">{{ heroSection.title || 'Serve at our ministries' }}</h1>
             </div>
@@ -40,7 +38,8 @@ const faqSection = computed<FAQSectionData>(() => props.sections.faq || { title:
         <!-- Intro Section -->
         <section class="max-w-screen-xl mx-auto mb-12">
             <h2 class="text-3xl mb-8">{{ introSection.title || 'Lorem Ipsum Dolor Sit Amet' }}</h2>
-            <div class="font-sans tracking-tight leading-relaxed" v-html="introSection.desc || `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate perferendis laborum, quidem corporis, soluta adipisci, vitae est distinctio incidunt tempora et alias labore non voluptatum voluptatibus. Impedit fugit esse, officia quas voluptate temporibus voluptatibus. Impedit fugit esse, officia quas voluptate temporibus consequatur beatae accusantium facilis architecto dignissimos nesciunt velit enim voluptatem veritatis pariatur amet repellendus laborum iure reprehenderit facere ab id recusandae! Alias quasi temporibus iusto voluptates inventore, at dolorem magni. Debitis cum enim dolorem, rerum iste cumque impedit laboriosam at laborum! Culpa, minima ad sit expedita molestias natus quis dolore velit nam veniam atque praesentium odio voluptatem, error eius libero tenetur saepe harum consequatur, voluptatum consequuntur ex. Facilis at aperiam optio nisi enim obcaecati rem, minus perferendis officiis, neque consequatur facere aliquam dolor! Consectetur quia sed doloribus perferendis reprehenderit, quis dolore, labore vel natus libero aperiam voluptates ullam temporibus rerum assumenda vero praesentius molestiae, expedita a. Accusamus aut, corporis incidunt beatae voluptas inventore quo repudiandae quam atque?`">
+            <div class="font-sans tracking-tight leading-relaxed"
+                v-html="introSection.desc || `Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate perferendis laborum, quidem corporis, soluta adipisci, vitae est distinctio incidunt tempora et alias labore non voluptatum voluptatibus. Impedit fugit esse, officia quas voluptate temporibus voluptatibus. Impedit fugit esse, officia quas voluptate temporibus consequatur beatae accusantium facilis architecto dignissimos nesciunt velit enim voluptatem veritatis pariatur amet repellendus laborum iure reprehenderit facere ab id recusandae! Alias quasi temporibus iusto voluptates inventore, at dolorem magni. Debitis cum enim dolorem, rerum iste cumque impedit laboriosam at laborum! Culpa, minima ad sit expedita molestias natus quis dolore velit nam veniam atque praesentium odio voluptatem, error eius libero tenetur saepe harum consequatur, voluptatum consequuntur ex. Facilis at aperiam optio nisi enim obcaecati rem, minus perferendis officiis, neque consequatur facere aliquam dolor! Consectetur quia sed doloribus perferendis reprehenderit, quis dolore, labore vel natus libero aperiam voluptates ullam temporibus rerum assumenda vero praesentius molestiae, expedita a. Accusamus aut, corporis incidunt beatae voluptas inventore quo repudiandae quam atque?`">
             </div>
         </section>
 
@@ -50,15 +49,18 @@ const faqSection = computed<FAQSectionData>(() => props.sections.faq || { title:
             <div class="grid grid-cols-2 gap-8">
                 <Card v-for="(ministry, index) in serveSection.ministryList" :key="index" class="shadow-none">
                     <CardHeader>
-                        <img :src="ministry.image ? `/storage/${ministry.image}` : 'https://placehold.co/600x400'" class="aspect-video object-cover rounded-lg mb-4"
-                            :alt="ministry.title">
+                        <img :src="ministry.image ? `/storage/${ministry.image}` : 'https://placehold.co/600x400'"
+                            class="aspect-video object-cover rounded-lg mb-4" :alt="ministry.title">
                         <CardTitle class="text-2xl">{{ ministry.title }}</CardTitle>
                     </CardHeader>
                     <CardContent class="font-sans">
                         <div class="text-sm leading-relaxed" v-html="ministry.desc"></div>
                     </CardContent>
                     <CardFooter class="font-sans">
-                        <Button variant="outline" :href="ministry.link" target="_blank">Volunteer now!</Button>
+                        <a :href="ministry.link" target="_blank">
+                            <!-- TODO: sementara pake hover class dulu soalnya shadcnnya rusak -->
+                            <Button variant="outline" class="hover:bg-gray-100">Volunteer now!</Button>
+                        </a>
                     </CardFooter>
                 </Card>
                 <Card v-if="!serveSection.ministryList || serveSection.ministryList.length === 0" class="shadow-none">

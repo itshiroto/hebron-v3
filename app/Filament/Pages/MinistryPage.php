@@ -21,10 +21,9 @@ class MinistryPage extends Page implements HasForms
     use InteractsWithForms;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
     protected static string $view = 'filament.pages.ministry-page';
 
-    protected static ?string $title = 'Edit Ministries Page';
+    protected static ?string $title = 'Ministries Page';
     protected static ?string $navigationGroup = 'Pages';
 
     public ?array $heroData = [];
