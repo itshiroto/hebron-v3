@@ -10,10 +10,25 @@ class DivisionController extends Controller
 {
     public function show()
     {
-        $Data = Division::all();
+        $divisionsData = Division::all();
+
+        $divisionPage = Pages::where('name', 'Division Page')->with('sections')->first();
+
+        $heroData = [];
+
+        if ($divisionPage) {
+            foreach ($divisionPage->sections as $section) {
+                switch ($section->name) {
+                    case 'hero':
+                        $heroData = $section->content;
+                        break;
+                }
+            }
+        }
 
         return Inertia::render('Division', [
-            'data' => $Data
+            'data' => $divisionsData,
+            'hero' => $heroData, // Pass the hero data to the view
         ]);
     }
 }
