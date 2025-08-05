@@ -79,7 +79,7 @@ const props = defineProps({
         type: Array,
         default: () => [
             { name: "ABOUT US", href: "/about" },
-            { name: "DIVISIONS", href: "#divisions" },
+            { name: "DIVISIONS", href: "/division" },
             { name: "MINISTRIES", href: "/ministry" },
             { name: "DEVOTIONS", href: "/devotion" },
             // { name: "AGENDA", href: "#agenda" },

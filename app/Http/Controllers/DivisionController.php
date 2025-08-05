@@ -28,7 +28,7 @@ class DivisionController extends Controller
 
         return Inertia::render('Division', [
             'data' => $divisionsData,
-            'hero' => $heroData, // Pass the hero data to the view
+            'hero' => $heroData,
         ]);
     }
 }

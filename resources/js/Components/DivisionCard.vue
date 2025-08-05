@@ -1,28 +1,26 @@
 <template>
-    <div
-        :class="[
-            'flex flex-col',
-            isReverse ? 'md:flex-row-reverse' : 'md:flex-row',
-        ]"
-    >
-        <img
-            :src="image"
-            :alt="title"
-            class="object-cover object-center w-full md:w-1/2"
-        />
-        <div class="flex flex-col justify-between p-8 gap-5 md:gap-0 md:p-16">
-            <p class="text-3xl md:text-5xl font-playfair">{{ title }}</p>
-            <p class="text-xl md:text-3xl font-playfair">
+    <div class="grid md:grid-cols-2">
+        <img :src="`/storage/${props.image}`" :alt="title" class="object-cover w-full h-full"
+            :class="{ 'md:order-2': index % 2 !== 0 }" />
+        <div class="flex flex-col justify-center px-12 py-8" :class="{ 'md:order-1': index % 2 !== 0 }">
+            <p class="mb-4 text-3xl md:text-4xl font-bold">{{ title }}</p>
+            <p class="mb-8 text-xl font-sans">{{ time }}</p>
+            <p class="mb-8 md:text-lg font-sans tracking-tight leading-relaxed">
                 {{ description }}
             </p>
-            <PrimaryButton class="justify-center">Read More</PrimaryButton>
+            <a v-if="link" :href="link">
+                <Button
+                    class="font-sans w-full font-semibold uppercase bg-blue-600 hover:bg-blue-500 text-white tracking-tight rounded-full shadow-none"
+                    size="lg">
+                    Learn More
+                </Button>
+            </a>
         </div>
     </div>
 </template>
 
 <script setup>
-import { computed } from "vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { Button } from "@/components/ui/button"
 
 const props = defineProps({
     title: {
@@ -33,16 +31,18 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    time: {
+        type: String,
+    },
     image: {
         type: String,
-        default: "/storage/images/pemandangan.jpg",
+    },
+    link: {
+        type: String,
     },
     index: {
         type: Number,
         required: true,
     },
 });
-
-// Otomatis reverse untuk index ganjil (1, 3, 5, ...)
-const isReverse = computed(() => props.index % 2 === 1);
 </script>

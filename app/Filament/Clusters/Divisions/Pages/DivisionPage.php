@@ -3,47 +3,39 @@
 namespace App\Filament\Clusters\Divisions\Pages;
 
 use App\Filament\Clusters\Divisions;
-use App\Models\Pages; // Import the Pages model
-use Filament\Forms\Components\FileUpload; // Import FileUpload
-use Filament\Forms\Components\Section; // Import Section
-use Filament\Forms\Components\TextInput; // Import TextInput
-use Filament\Forms\Concerns\InteractsWithForms; // Import InteractsWithForms
-use Filament\Forms\Contracts\HasForms; // Import HasForms
-use Filament\Forms\Form; // Import Form
-use Filament\Notifications\Notification; // Import Notification
+use App\Models\Pages;
+use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Concerns\InteractsWithForms;
+use Filament\Forms\Contracts\HasForms;
+use Filament\Forms\Form;
+use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 
-class DivisionPage extends Page implements HasForms // Implement HasForms
+class DivisionPage extends Page implements HasForms
 {
-    use InteractsWithForms; // Use InteractsWithForms trait
+    use InteractsWithForms;
 
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
-
     protected static string $view = 'filament.clusters.divisions.pages.division-page';
-
     protected static ?string $cluster = Divisions::class;
+    protected static ?string $title = 'Division Page Content';
 
-    protected static ?string $title = 'Division Page Content'; // Custom title for the page
-    protected static ?string $navigationGroup = 'Divisions'; // Optional: Group under Divisions
+    public ?array $heroData = [];
 
-    public ?array $heroData = []; // Property to hold hero section data
-
-    protected Pages $divisionPageModel; // Property to hold the Pages model instance
+    protected Pages $divisionPageModel;
 
     public function mount(): void
     {
-        // Find or create the 'Pages' entry for this specific division page content
-        // Assuming a generic 'Division Page' for now. Adjust if dynamic per division.
         $this->divisionPageModel = Pages::firstOrCreate(['name' => 'Division Page']);
 
-        // Find or create the 'hero' section for this page
         $heroSection = $this->divisionPageModel->sections()->firstOrCreate(
             ['name' => 'hero', 'page_id' => $this->divisionPageModel->id],
-            ['content' => []] // Default empty content if new
+            ['content' => []]
         );
-        $this->heroData = $heroSection->content; // Load existing content
+        $this->heroData = $heroSection->content;
 
-        // Fill the form with the retrieved data
         $this->form->fill([
             'heroData' => $this->heroData,
         ]);
@@ -62,7 +54,7 @@ class DivisionPage extends Page implements HasForms // Implement HasForms
                         ->label('Background Image')
                         ->image()
                         ->imageEditor()
-                        ->directory('division-page-hero') // Directory for uploaded images
+                        ->directory('division-page-hero')
                         ->required(),
                 ])
         ]);
@@ -70,17 +62,14 @@ class DivisionPage extends Page implements HasForms // Implement HasForms
 
     public function submit(): void
     {
-        // Re-fetch or ensure the page model is loaded
         $this->divisionPageModel = Pages::firstOrCreate(['name' => 'Division Page']);
 
         $data = $this->form->getState();
 
-        // Handle image path for heroData (FileUpload returns an array)
         if (isset($data['heroData']['image']) && is_array($data['heroData']['image'])) {
             $data['heroData']['image'] = $data['heroData']['image'][0] ?? null;
         }
 
-        // Update or create the 'hero' section content in the database
         $this->divisionPageModel->sections()->updateOrCreate(
             ['name' => 'hero', 'page_id' => $this->divisionPageModel->id],
             ['content' => $data['heroData']]
