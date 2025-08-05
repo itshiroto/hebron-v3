@@ -1,32 +1,19 @@
 <template>
+
     <Head title="Divisions" />
     <DefaultLayout>
-        <section id="section1">
-            <div
-                class="bg-cover bg-center bg-[url('/storage/images/pemandangan.jpg')]"
-            >
-                <div
-                    class="container-hebron h-screen flex md:py-20 items-center"
-                >
-                    <p
-                        class="text-white text-5xl md:text-7xl md:px-40 font-playfair w-full text-center md:text-left"
-                    >
-                        Our Divisions
-                    </p>
-                </div>
+        <section id="section1" class="bg-black bg-cover bg-center bg-[url('/storage/images/pemandangan.jpg')]">
+            <div class="min-h-[40vh] max-w-screen-xl px-8 mx-auto flex justify-center items-center">
+                <p class="text-white text-5xl">
+                    Our Divisions
+                </p>
             </div>
         </section>
 
         <section id="section2">
-            <div
-                v-for="(division, index) in props.data"
-                :key="division.id || index"
-            >
-                <DivisionCard
-                    :index="index"
-                    :title="division.title"
-                    :description="division.description"
-                />
+            <div v-for="(division, index) in props.data" :key="division.id || index">
+                <DivisionCard :index="index" :title="division.title" :description="division.description"
+                    :image="division.image" />
             </div>
         </section>
     </DefaultLayout>
