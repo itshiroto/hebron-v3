@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
+import { Head } from '@inertiajs/vue3';
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { Vue3Marquee } from "vue3-marquee";
 
@@ -40,6 +41,8 @@ const props = withDefaults(defineProps<HomePageProps>(), {
 </script>
 
 <template>
+
+    <Head title="Welcome" />
     <DefaultLayout>
         <section id="hero" class="relative h-screen text-white pt-20 bg-cover bg-center bg-black mb-24"
             :style="{ backgroundImage: `url(/storage/${hero.image})` }">
@@ -63,7 +66,7 @@ const props = withDefaults(defineProps<HomePageProps>(), {
 
         <section id="visi-misi" class="max-w-screen-xl mx-auto px-8 mb-32">
             <div class="mb-8">
-                <p class="text-3xl md:text-4xl mb-24 font-medium" v-html="visionMission.title"></p>
+                <p class="text-4xl mb-24 font-medium" v-html="visionMission.title"></p>
 
                 <div class="flex flex-col md:flex-row gap-12 mb-24">
                     <div>
@@ -92,23 +95,22 @@ const props = withDefaults(defineProps<HomePageProps>(), {
 
         <!-- Carousel -->
         <section id="carousel" class="mb-32">
-            <Vue3Marquee class="w-full" :speed="25" pause-on-hover :gradient="false">
-                <div class="flex gap-4 px-2 items-center">
-                    <img v-for="(image, index) in carousel" :key="index" :src="`/storage/${image}`" class="aspect-video h-64 object-cover"
-                        alt="carousel image" />
-                </div>
+            <Vue3Marquee class="w-full overflow-y-hidden" :speed="25" pause-on-hover :gradient="false">
+                <img v-for="(image, index) in carousel" :key="index" :src="`/storage/${image}`"
+                    class="h-80 object-cover mx-2 hover:scale-110 transition" alt="carousel image" />
             </Vue3Marquee>
         </section>
 
         <section id="services" class="max-w-screen-xl mx-auto px-8 mb-32">
-            <div class="bg-black min-h-[512px] flex flex-col justify-end text-white p-4 md:p-8 mb-4 rounded-lg"
+            <div class="relative bg-black min-h-[512px] flex flex-col justify-end text-white p-4 md:p-8 mb-4 rounded-lg bg-cover bg-center overflow-hidden"
                 :style="{ backgroundImage: `url(/storage/${schedule.img})` }">
-                <h4 class="font-sans text-sm md:text-lg uppercase font-bold">{{ schedule.subtitle }}</h4>
-                <h2 class="text-3xl md:text-4xl">{{ schedule.title }}</h2>
+                <div class="absolute inset-0 bg-gradient-to-b from-black/0 to-black/50"></div>
+                <h4 class="relative z-10 font-sans text-sm md:text-lg uppercase font-bold">{{ schedule.subtitle }}</h4>
+                <h2 class="relative z-10 text-3xl md:text-4xl">{{ schedule.title }}</h2>
             </div>
             <div class="flex flex-col md:flex-row gap-4 justify-stretch items-stretch font-sans min-h-24">
                 <div v-for="(service, index) in schedule.services" :key="index"
-                    class="bg-gray-100 hover:bg-gray-200 transition w-full py-4 px-4 flex flex-col justify-center rounded-lg">
+                    class="bg-gray-100 hover:bg-gray-200 transition w-full py-4 px-4 flex flex-col justify-center rounded-lg cursor-default">
                     <p class="text-xl tracking-tight">{{ service.title }}</p>
                     <p class="text-3xl font-semibold">{{ service.time }}</p>
                 </div>
@@ -129,7 +131,8 @@ const props = withDefaults(defineProps<HomePageProps>(), {
         <section id="sambutan-gembala" class="mb-32 bg-amber-50 lg:mx-16 lg:rounded-xl">
             <div class="max-w-screen-xl mx-auto px-8 py-8 lg:py-24 grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                 <div class="h-full flex flex-col gap-8 order-2 lg:order-none">
-                    <h4 class="font-sans text-sm lg:text-lg uppercase font-bold opacity-75">{{ pastorGreeting.subtitle }}
+                    <h4 class="font-sans text-sm lg:text-lg uppercase font-bold opacity-75">{{ pastorGreeting.subtitle
+                        }}
                     </h4>
                     <h1 class="text-3xl lg:text-5xl font-semibold">{{ pastorGreeting.pastors_name }} </h1>
                     <p class="text-lg leading-relaxed mb-auto" v-html="pastorGreeting.desc">
@@ -147,9 +150,9 @@ const props = withDefaults(defineProps<HomePageProps>(), {
                     </a>
                 </div>
                 <div class="relative h-full w-full">
-                    <img class="h-full w-full object-cover rounded-xl" :src="`/storage/${pastorGreeting.pastor_img}`" alt="">
-                    <img class="absolute bottom-4 right-4 w-48"
-                        :src="`/storage/${pastorGreeting.pastor_signature}`" />
+                    <img class="h-full w-full object-cover rounded-xl" :src="`/storage/${pastorGreeting.pastor_img}`"
+                        alt="">
+                    <img class="absolute bottom-4 right-4 h-32" :src="`/storage/${pastorGreeting.pastor_signature}`" />
                 </div>
             </div>
         </section>

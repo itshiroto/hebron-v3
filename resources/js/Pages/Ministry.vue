@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
+import { Head } from '@inertiajs/vue3';
 
 import {
     Card,
@@ -26,6 +27,8 @@ const faqSection = computed<FAQSectionData>(() => props.sections.faq || { title:
 </script>
 
 <template>
+
+    <Head title="Ministry" />
     <DefaultLayout>
         <!-- Hero Section -->
         <section class="bg-blue-800 text-white pt-20 h-[35vh] mb-12 relative"

@@ -7,7 +7,7 @@ import Navbar from '@/Components/Navbar.vue';
     <div>
         <div class="min-h-screen">
             <Navbar />
-            <main class="font-serif">
+            <main class="font-serif min-h-screen">
                 <slot />
             </main>
             <Footer />
