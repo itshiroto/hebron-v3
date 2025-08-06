@@ -47,9 +47,9 @@
         <!-- Mobile Menu -->
         <transition name="fade">
             <div v-if="isOpen"
-                class="md:hidden fixed inset-0 z-40 bg-black/90 backdrop-blur-sm flex items-start pt-20 px-6"
+                class="md:hidden fixed inset-0 z-40 bg-black/90 backdrop-blur-sm flex flex-col justify-center items-center"
                 @click.self="closeMenu">
-                <div class="w-full flex flex-col space-y-4">
+                <div class="w-full flex flex-col space-y-4 p-6">
                     <a v-for="(item, index) in menuItems" :key="item.name" :href="item.href"
                         class="text-white text-lg font-medium hover:text-blue-300 transition py-2 border-b border-white/10">
                         {{ item.name }}
