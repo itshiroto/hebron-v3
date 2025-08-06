@@ -18,23 +18,25 @@
             </div>
 
             <!-- Tiga Kolom Navigasi -->
-            <div v-for="n in 2" :key="n" class="space-y-2">
+            <div class="space-y-2">
                 <h3 class="font-semibold mb-4">GPDI Hebron</h3>
                 <ul class="text-sm text-gray-400 space-y-2">
+                    <li v-for="item in menuItems" :key="item.name">
+                        <a :href="item.href" class="hover:text-white transition">{{ item.name }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="space-y-2">
+                <h3 class="font-semibold mb-4">Connect With Us</h3>
+                <ul class="text-sm text-gray-400 space-y-2">
                     <li>
-                        <a href="#" class="hover:text-white transition">Lorem Ipsum</a>
+                        <a href="#" class="hover:text-white transition">Facebook</a>
                     </li>
                     <li>
-                        <a href="#" class="hover:text-white transition">Lorem Ipsum</a>
+                        <a href="#" class="hover:text-white transition">Instagram</a>
                     </li>
                     <li>
-                        <a href="#" class="hover:text-white transition">Lorem Ipsum</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-white transition">Lorem Ipsum</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-white transition">Lorem Ipsum</a>
+                        <a href="#" class="hover:text-white transition">YouTube</a>
                     </li>
                 </ul>
             </div>
@@ -64,10 +66,24 @@
 </template>
 
 <script setup>
-// Opsional: GSAP animasi
-import { onMounted } from "vue";
+import { onMounted, computed } from "vue";
 import { gsap } from "gsap";
 import Button from "@/components/ui/button/Button.vue";
+import Navbar from "@/Components/Navbar.vue"; // Import Navbar to access its navigation data
+
+const menuItems = computed(() => {
+    // This is a simplified way to get the navigation data.
+    // In a real application, you might want to define this data in a shared store
+    // or pass it down as a prop from a common parent component.
+    // For this example, we're replicating the default navigation from Navbar.vue
+    return [
+        { name: "ABOUT US", href: "/about" },
+        { name: "DIVISIONS", href: "/division" },
+        { name: "MINISTRIES", href: "/ministry" },
+        { name: "DEVOTIONS", href: "/devotion" },
+        { name: "CONTACT US", href: "/contact" },
+    ];
+});
 
 onMounted(() => {
     gsap.from("footer", {
