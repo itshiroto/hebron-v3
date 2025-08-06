@@ -64,6 +64,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+import { useNavigationStore } from '@/Stores/navigationStore'; // Import the store
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -75,29 +76,20 @@ const props = defineProps({
             subtitle: "Gading Serpong",
         }),
     },
-    navigation: {
-        type: Array,
-        default: () => [
-            { name: "ABOUT US", href: "/about" },
-            { name: "DIVISIONS", href: "/division" },
-            { name: "MINISTRIES", href: "/ministry" },
-            { name: "DEVOTIONS", href: "/devotion" },
-            // { name: "AGENDA", href: "#agenda" },
-            { name: "CONTACT US", href: "/contact" },
-        ],
-    },
     scrollOffset: {
         type: Number,
         default: 80,
     },
 });
 
+const navigationStore = useNavigationStore(); // Use the store
+
 const navRef = ref(null);
 const logoRef = ref(null);
 const isOpen = ref(false);
 const isScrolled = ref(false);
 
-const menuItems = computed(() => props.navigation);
+const menuItems = computed(() => navigationStore.getMenuItems); // Get menu items from the store
 
 const handleScroll = () => {
     isScrolled.value = window.scrollY > 50;
