@@ -15,8 +15,10 @@ use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use App\Models\Pages;
 
-class HomePage extends Page
+class HomePage extends Page implements HasForms
 {
+    use InteractsWithForms;
+
     protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'filament.pages.home-page';
@@ -26,7 +28,9 @@ class HomePage extends Page
 
     public ?array $heroData = [];
     public ?array $visionMissionData = [];
-    public ?array $ministriesData = [];
+    public ?array $carouselData = [];
+    public ?array $scheduleData = [];
+    public ?array $pastorGreetingData = [];
 
     protected $homePage;
 
@@ -46,16 +50,31 @@ class HomePage extends Page
         );
         $this->visionMissionData = $visionMissionSection->content;
 
-        $ministriesSection = $this->homePage->sections()->firstOrCreate(
-            ['name' => 'values', 'page_id' => $this->homePage->id],
+        $carouselSection = $this->homePage->sections()->firstOrCreate(
+            ['name' => 'carousel', 'page_id' => $this->homePage->id],
             ['content' => []]
         );
-        $this->ministriesData = $ministriesSection->content;
+        $this->carouselData = $carouselSection->content;
+
+        $scheduleSection = $this->homePage->sections()->firstOrCreate(
+            ['name' => 'schedule', 'page_id' => $this->homePage->id],
+            ['content' => []]
+        );
+        $this->scheduleData = $scheduleSection->content;
+
+        $pastorGreetingSection = $this->homePage->sections()->firstOrCreate(
+            ['name' => 'pastor_greeting', 'page_id' => $this->homePage->id],
+            ['content' => []]
+        );
+        $this->pastorGreetingData = $pastorGreetingSection->content;
+
 
         $this->form->fill([
             'heroData' => $this->heroData,
             'visionMissionData' => $this->visionMissionData,
-            'ministriesData' => $this->ministriesData,
+            'carouselData' => $this->carouselData,
+            'scheduleData' => $this->scheduleData,
+            'pastorGreetingData' => $this->pastorGreetingData,
         ]);
     }
 
@@ -75,14 +94,14 @@ class HomePage extends Page
                         ->directory('home-page-hero')
                         ->required(),
                     Grid::make(2)->schema([
-                        TextInput::make('heroData.button1.text')
-                            ->label('Button 1 Text'),
-                        TextInput::make('heroData.button1.link')
-                            ->label('Button 1 URL'),
-                        TextInput::make('heroData.button2.text')
-                            ->label('Button 2 Text'),
-                        TextInput::make('heroData.button2.link')
-                            ->label('Button 2 URL'),
+                        TextInput::make('heroData.primary_button.text')
+                            ->label('Primary Button Text'),
+                        TextInput::make('heroData.primary_button.link')
+                            ->label('Primary Button URL'),
+                        TextInput::make('heroData.secondary_button.text')
+                            ->label('Secondary Button Text'),
+                        TextInput::make('heroData.secondary_button.link')
+                            ->label('Secondary Button URL'),
                     ]),
                 ]),
 
@@ -92,59 +111,97 @@ class HomePage extends Page
                     TextInput::make('visionMissionData.title')
                         ->label('Title')
                         ->required(),
-                    RichEditor::make('visionMissionData.visi')
+                    TextInput::make('visionMissionData.visi.title')
+                        ->label('Vision Title')
+                        ->required(),
+                    RichEditor::make('visionMissionData.visi.desc')
                         ->label('Vision Description')
                         ->required(),
-                    RichEditor::make('visionMissionData.misi')
+                    TextInput::make('visionMissionData.misi.title')
+                        ->label('Mission Title')
+                        ->required(),
+                    RichEditor::make('visionMissionData.misi.desc')
                         ->label('Mission Description')
                         ->required(),
-                    FileUpload::make('visionMissionData.image')
-                        ->label('Carousel Image')
+                    TextInput::make('visionMissionData.about_button_text')
+                        ->label('About Button Text')
+                        ->required(),
+                ]),
+
+            Section::make('Carousel Section')
+                ->description('Upload images for the carousel.')
+                ->schema([
+                    FileUpload::make('carouselData')
+                        ->label('Carousel Images')
                         ->image()
                         ->multiple()
                         ->imageEditor()
-                        ->directory('home-page-vision-mission')
+                        ->directory('home-page-carousel')
                         ->required()
                 ]),
 
-            Section::make('Ministries Section')
-                ->description('Define the ministries of your organization.')
+            Section::make('Schedule Section')
+                ->description('Configure the service schedule.')
                 ->schema([
-                    Repeater::make('ministriesData')
-                        ->label('Values')
+                    TextInput::make('scheduleData.title')
+                        ->label('Title')
+                        ->required(),
+                    TextInput::make('scheduleData.subtitle')
+                        ->label('Subtitle')
+                        ->required(),
+                    FileUpload::make('scheduleData.img')
+                        ->label('Background Image')
+                        ->image()
+                        ->imageEditor()
+                        ->directory('home-page-schedule')
+                        ->required(),
+                    Repeater::make('scheduleData.services')
+                        ->label('Services')
                         ->schema([
-
-
-                            Grid::make(2)->schema([
-                                TextInput::make('title')
-                                    ->label('Title')
-                                    ->required(),
-                                TextInput::make('hours')
-                                    ->label('hours')
-                                    ->required(),
-                            ]),
-
-                            Grid::make(1)->schema([
-                                FileUpload::make('visionMissionData.image')
-                                    ->label('Image')
-                                    ->image()
-                                    ->imageEditor()
-                                    ->directory('home-page-vision-mission')
-                                    ->required(),
-                            ]),
-                            Grid::make(1)->schema([
-                                RichEditor::make('desc')
-                                    ->label('Description')
-                                    ->required(),
-                            ]),
+                            TextInput::make('title')
+                                ->label('Service Title')
+                                ->required(),
+                            TextInput::make('time')
+                                ->label('Service Time')
+                                ->required(),
                         ])
                         ->defaultItems(1)
-                        ->columns(3)
+                        ->columns(2)
                         ->collapsible()
-                        ->itemLabel(fn(array $state): ?string => $state['title'] ?? null),
+                        ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
+                    TextInput::make('scheduleData.division_button_text')
+                        ->label('Division Button Text')
+                        ->required(),
                 ]),
 
-
+            Section::make('Pastor Greeting Section')
+                ->description('Configure the pastor\'s greeting section.')
+                ->schema([
+                    TextInput::make('pastorGreetingData.subtitle')
+                        ->label('Subtitle')
+                        ->required(),
+                    TextInput::make('pastorGreetingData.pastors_name')
+                        ->label('Pastor\'s Name')
+                        ->required(),
+                    FileUpload::make('pastorGreetingData.pastor_img')
+                        ->label('Pastor Image')
+                        ->image()
+                        ->imageEditor()
+                        ->directory('home-page-pastor')
+                        ->required(),
+                    FileUpload::make('pastorGreetingData.pastor_signature')
+                        ->label('Pastor Signature Image')
+                        ->image()
+                        ->imageEditor()
+                        ->directory('home-page-pastor')
+                        ->required(),
+                    RichEditor::make('pastorGreetingData.desc')
+                        ->label('Description')
+                        ->required(),
+                    TextInput::make('pastorGreetingData.pastoral_button_text')
+                        ->label('Pastoral Button Text')
+                        ->required(),
+                ]),
         ]);
     }
 
@@ -159,19 +216,24 @@ class HomePage extends Page
             $data['heroData']['image'] = $data['heroData']['image'][0] ?? null;
         }
 
-        // Handle image paths for visionMissionData
-        if (isset($data['visionMissionData']['image']) && is_array($data['visionMissionData']['image'])) {
-            $data['visionMissionData']['image'] = $data['visionMissionData']['image'][0] ?? null;
+        // Handle image paths for carouselData
+        if (isset($data['carouselData']) && is_array($data['carouselData'])) {
+            $data['carouselData'] = array_values($data['carouselData']); // Reindex array
         }
 
-        // Handle image paths for ministriesData (within repeater)
-        if (isset($data['ministriesData']) && is_array($data['ministriesData'])) {
-            foreach ($data['ministriesData'] as $key => $item) {
-                if (isset($item['image']) && is_array($item['image'])) {
-                    $data['ministriesData'][$key]['image'] = $item['image'][0] ?? null;
-                }
-            }
+        // Handle image paths for scheduleData
+        if (isset($data['scheduleData']['img']) && is_array($data['scheduleData']['img'])) {
+            $data['scheduleData']['img'] = $data['scheduleData']['img'][0] ?? null;
         }
+
+        // Handle image paths for pastorGreetingData
+        if (isset($data['pastorGreetingData']['pastor_img']) && is_array($data['pastorGreetingData']['pastor_img'])) {
+            $data['pastorGreetingData']['pastor_img'] = $data['pastorGreetingData']['pastor_img'][0] ?? null;
+        }
+        if (isset($data['pastorGreetingData']['pastor_signature']) && is_array($data['pastorGreetingData']['pastor_signature'])) {
+            $data['pastorGreetingData']['pastor_signature'] = $data['pastorGreetingData']['pastor_signature'][0] ?? null;
+        }
+
 
         $this->homePage->sections()->updateOrCreate(
             ['name' => 'hero', 'page_id' => $this->homePage->id],
@@ -184,8 +246,18 @@ class HomePage extends Page
         );
 
         $this->homePage->sections()->updateOrCreate(
-            ['name' => 'values', 'page_id' => $this->homePage->id],
-            ['content' => $data['ministriesData']]
+            ['name' => 'carousel', 'page_id' => $this->homePage->id],
+            ['content' => $data['carouselData']]
+        );
+
+        $this->homePage->sections()->updateOrCreate(
+            ['name' => 'schedule', 'page_id' => $this->homePage->id],
+            ['content' => $data['scheduleData']]
+        );
+
+        $this->homePage->sections()->updateOrCreate(
+            ['name' => 'pastor_greeting', 'page_id' => $this->homePage->id],
+            ['content' => $data['pastorGreetingData']]
         );
 
         Notification::make()
