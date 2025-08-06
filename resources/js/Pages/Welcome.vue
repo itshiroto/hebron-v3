@@ -4,8 +4,39 @@ import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { Vue3Marquee } from "vue3-marquee";
 
 import type { HomePageProps } from "@/types/home-page";
-defineProps<HomePageProps>();
 
+const props = withDefaults(defineProps<HomePageProps>(), {
+    hero: () => ({
+        title: "Welcome to Our Church",
+        image: "",
+        primary_button: { text: "Learn More", link: "#" },
+        secondary_button: { text: "Contact Us", link: "#" },
+    }),
+    visionMission: () => ({
+        title: "Our Vision & Mission",
+        visi: { title: "Vision", desc: "To be a church that glorifies God." },
+        misi: { title: "Mission", desc: "To make disciples of all nations." },
+        about_button_text: "About Us",
+    }),
+    carousel: () => ([]),
+    schedule: () => ({
+        title: "Service Schedule",
+        subtitle: "Join Us",
+        img: "",
+        services: [
+            { title: "Sunday Service", time: "10:00 AM" },
+        ],
+        division_button_text: "View All Services",
+    }),
+    pastorGreeting: () => ({
+        subtitle: "From Our Pastor",
+        pastors_name: "Pastor John Doe",
+        pastor_img: "",
+        pastor_signature: "",
+        desc: "Welcome to our church family! We are delighted to have you join us.",
+        pastoral_button_text: "Meet Our Team",
+    }),
+});
 </script>
 
 <template>
