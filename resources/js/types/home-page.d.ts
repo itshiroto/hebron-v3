@@ -4,8 +4,14 @@ Page.
  */
 export interface HeroSectionData {
     title: string;
-    text1: string;
-    text2: string;
+    button1: {
+        text: string,
+        link: string
+    },
+    button2: {
+        text: string,
+        link: string
+    },
     image?: string; // Path to the background image
 }
 

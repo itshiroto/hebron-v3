@@ -75,10 +75,14 @@ class HomePage extends Page
                         ->directory('home-page-hero')
                         ->required(),
                     Grid::make(2)->schema([
-                        TextInput::make('heroData.button_text1')
-                            ->label('Button Text 1'),
-                        TextInput::make('heroData.button_text2')
-                            ->label('Button Text 2'),
+                        TextInput::make('heroData.button1.text')
+                            ->label('Button 1 Text'),
+                        TextInput::make('heroData.button1.link')
+                            ->label('Button 1 URL'),
+                        TextInput::make('heroData.button2.text')
+                            ->label('Button 2 Text'),
+                        TextInput::make('heroData.button2.link')
+                            ->label('Button 2 URL'),
                     ]),
                 ]),
 
