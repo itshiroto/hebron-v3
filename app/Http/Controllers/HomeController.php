@@ -14,7 +14,9 @@ class HomeController extends Controller
 
         $heroData = [];
         $visionMissionData = [];
-        $ministriesData = [];
+        $carouselData = [];
+        $scheduleData = [];
+        $pastorGreetingData = [];
 
         if ($homePage) {
             foreach ($homePage->sections as $section) {
@@ -25,17 +27,25 @@ class HomeController extends Controller
                     case 'vision_mission':
                         $visionMissionData = $section->content;
                         break;
-                    case 'ministries':
-                        $ministriesData = $section->content;
+                    case 'carousel':
+                        $carouselData = $section->content;
+                        break;
+                    case 'schedule':
+                        $scheduleData = $section->content;
+                        break;
+                    case 'pastor_greeting':
+                        $pastorGreetingData = $section->content;
                         break;
                 }
             }
         }
-        // dd($heroData);
+        
         return Inertia::render('Welcome', [
             'hero' => $heroData,
             'visionMission' => $visionMissionData,
-            'ministries' => $ministriesData,
+            'carousel' => $carouselData,
+            'schedule' => $scheduleData,
+            'pastorGreeting' => $pastorGreetingData,
         ]);
     }
 }

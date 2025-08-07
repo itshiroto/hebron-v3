@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\DivitionResource\Pages;
+namespace App\Filament\Resources\DivisionResource\Pages;
 
-use App\Filament\Resources\DivitionResource;
+use App\Filament\Resources\DivisionResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditDivition extends EditRecord
+class EditDivision extends EditRecord
 {
-    protected static string $resource = DivitionResource::class;
+    protected static string $resource = DivisionResource::class;
 
     protected function getHeaderActions(): array
     {

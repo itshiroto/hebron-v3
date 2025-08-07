@@ -2,37 +2,44 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\DivitionResource\Pages;
-use App\Models\Divition;
+use App\Filament\Clusters\Divisions;
+use App\Filament\Resources\DivisionResource\Pages;
+use App\Models\Division;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\ImageColumn;
 
-class DivitionResource extends Resource
+class DivisionResource extends Resource
 {
-    protected static ?string $model = Divition::class;
+    protected static ?string $model = Division::class;
 
+    protected static ?string $cluster = Divisions::class;
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationLabel = 'Division List';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                TextInput::make('title')->required()->maxLength(255),
-                TextInput::make('description')->required()->maxLength(255),
-                FileUpload::make('image')
-                    ->label('Image')
-                    ->image()
-                    ->imageEditor()
-                    ->directory('divitions-image')
-                    ->required(),
-                TextInput::make('time')->required()->maxLength(255),
-                TextInput::make('link')->required()->maxLength(255),
+                Section::make()->columns(1)->schema([
+                    TextInput::make('title')->required()->maxLength(255),
+                    Textarea::make('description')->required()->maxLength(255)->rows(5),
+                    TextInput::make('time')->required()->maxLength(255),
+                    TextInput::make('link')->maxLength(255),
+                    FileUpload::make('image')
+                        ->label('Image')
+                        ->image()
+                        ->imageEditor()
+                        ->directory('divisions-image')
+                        ->required(),
+                ])
             ]);
     }
 
@@ -41,10 +48,8 @@ class DivitionResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')->searchable()->sortable(),
-                TextColumn::make('description')->sortable(),
-                ImageColumn::make('image')->circular(),
+                ImageColumn::make('image'),
                 TextColumn::make('time')->sortable(),
-                TextColumn::make('link')->sortable(),
             ])
             ->filters([
                 //
@@ -69,9 +74,9 @@ class DivitionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDivitions::route('/'),
-            'create' => Pages\CreateDivition::route('/create'),
-            'edit' => Pages\EditDivition::route('/{record}/edit'),
+            'index' => Pages\ListDivisions::route('/'),
+            'create' => Pages\CreateDivision::route('/create'),
+            'edit' => Pages\EditDivision::route('/{record}/edit'),
         ];
     }
 }

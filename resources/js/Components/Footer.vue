@@ -1,50 +1,34 @@
 <template>
     <footer class="bg-black text-white px-6 py-12">
-        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-16">
             <!-- Kiri: Informasi dan CTA -->
             <div class="md:col-span-1">
                 <h2 class="text-2xl font-semibold mb-4">
                     How can we help you?
                 </h2>
-                <p class="text-sm mb-6 leading-relaxed">
-                    Kompleks Pasar Modern Paramount, Jl. Boulevard Raya Gading
-                    Serpong Blok L39,
-                </p>
-                <button
-                    class="bg-white text-black font-semibold px-5 py-2 rounded-full shadow hover:bg-gray-100 transition w-fit"
-                >
-                    CONTACT US
-                </button>
+                <div class="text-sm mb-6 leading-relaxed" v-html="churchAddress">
+                </div>
+                <a href="/contact">
+                    <Button variant="outline">
+                        CONTACT US
+                    </Button>
+                </a>
             </div>
 
             <!-- Tiga Kolom Navigasi -->
-            <div v-for="n in 3" :key="n" class="space-y-2">
+            <div class="space-y-2">
                 <h3 class="font-semibold mb-4">GPDI Hebron</h3>
                 <ul class="text-sm text-gray-400 space-y-2">
-                    <li>
-                        <a href="#" class="hover:text-white transition"
-                            >Lorem Ipsum</a
-                        >
+                    <li v-for="item in menuItems" :key="item.name">
+                        <a :href="item.href" class="hover:text-white transition">{{ item.name }}</a>
                     </li>
-                    <li>
-                        <a href="#" class="hover:text-white transition"
-                            >Lorem Ipsum</a
-                        >
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-white transition"
-                            >Lorem Ipsum</a
-                        >
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-white transition"
-                            >Lorem Ipsum</a
-                        >
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-white transition"
-                            >Lorem Ipsum</a
-                        >
+                </ul>
+            </div>
+            <div class="space-y-2">
+                <h3 class="font-semibold mb-4">Connect With Us</h3>
+                <ul class="text-sm text-gray-400 space-y-2">
+                    <li v-for="social in socialMediaLinks" :key="social.platform">
+                        <a :href="social.url" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">{{ social.platform }}</a>
                     </li>
                 </ul>
             </div>
@@ -55,39 +39,76 @@
 
         <!-- Footer Bottom -->
         <div
-            class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm text-gray-400 gap-6 px-1"
-        >
+            class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center text-sm text-gray-400 gap-6 px-1">
             <div class="text-center md:text-left">
-                <p class="font-semibold text-white">GPDI Hebron</p>
-                <p>
-                    Kompleks Pasar Modern Paramount, Jl. Boulevard Raya Gading
-                    Serpong Blok L39, Tangerang Regency, Banten 15810
-                </p>
                 <p class="mt-2 text-xs text-gray-500">
-                    ©2024 GPDI Hebron. All Rights Reserved
+                    ©2025 GPdI Hebron Production Team w/ <a href="https://rivo.my.id">34&Co Creative Labs</a>. All
+                    Rights Reserved
                 </p>
             </div>
 
             <!-- Icon Sosial -->
             <div class="flex justify-center space-x-4 text-white text-lg">
-                <a href="#" class="hover:text-red-500"
-                    ><i class="fab fa-youtube"></i
-                ></a>
-                <a href="#" class="hover:text-pink-400"
-                    ><i class="fab fa-instagram"></i
-                ></a>
-                <a href="#" class="hover:text-blue-500"
-                    ><i class="fab fa-facebook"></i
-                ></a>
+                <a v-for="social in socialMediaLinks" :key="social.platform + '-icon'" :href="social.url" target="_blank" rel="noopener noreferrer" :class="getSocialIconClass(social.platform)">
+                    <i :class="getSocialIcon(social.platform)"></i>
+                </a>
             </div>
         </div>
     </footer>
 </template>
 
 <script setup>
-// Opsional: GSAP animasi
-import { onMounted } from "vue";
+import { onMounted, computed, ref } from "vue";
 import { gsap } from "gsap";
+import Button from "@/components/ui/button/Button.vue";
+import { useNavigationStore } from '@/Stores/navigationStore'; // Import the store
+import { usePage } from '@inertiajs/vue3'; // Import usePage
+
+const navigationStore = useNavigationStore(); // Use the store
+const page = usePage(); // Initialize usePage
+
+// Access general settings from Inertia shared props
+const generalSettings = computed(() => page.props.generalSettings || {});
+
+const churchAddress = computed(() => generalSettings.value.church_address || 'Kompleks Pasar Modern Paramount, <br>Jl. Boulevard Raya Gading Serpong Blok L39,');
+const socialMediaLinks = computed(() => generalSettings.value.social_media || []);
+
+const menuItems = computed(() => navigationStore.getMenuItems); // Get menu items from the store
+
+const getSocialIcon = (platform) => {
+    switch (platform.toLowerCase()) {
+        case 'facebook':
+            return 'fab fa-facebook';
+        case 'instagram':
+            return 'fab fa-instagram';
+        case 'youtube':
+            return 'fab fa-youtube';
+        case 'twitter':
+            return 'fab fa-twitter';
+        case 'linkedin':
+            return 'fab fa-linkedin';
+        // Add more cases for other platforms as needed
+        default:
+            return 'fas fa-link'; // Generic link icon
+    }
+};
+
+const getSocialIconClass = (platform) => {
+    switch (platform.toLowerCase()) {
+        case 'facebook':
+            return 'hover:text-blue-500';
+        case 'instagram':
+            return 'hover:text-pink-400';
+        case 'youtube':
+            return 'hover:text-red-500';
+        case 'twitter':
+            return 'hover:text-blue-400';
+        case 'linkedin':
+            return 'hover:text-blue-700';
+        default:
+            return '';
+    }
+};
 
 onMounted(() => {
     gsap.from("footer", {
