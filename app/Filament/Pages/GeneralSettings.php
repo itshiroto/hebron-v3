@@ -22,7 +22,7 @@ class GeneralSettings extends Page implements HasForms
 
     protected static string $view = 'filament.pages.general-settings';
 
-    protected static ?string $title = 'General Settings';
+    protected static ?string $title = 'General';
     protected static ?string $navigationGroup = 'Settings'; // Added navigation group
 
     public ?array $generalSettingsData = [];
