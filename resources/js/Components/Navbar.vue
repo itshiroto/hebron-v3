@@ -7,15 +7,15 @@
             <div class="flex justify-between items-center h-16 lg:h-16">
                 <!-- Logo -->
                 <div ref="logoRef" class="flex items-center space-x-3 cursor-pointer group" @click="goToHome">
-                    <img src="/storage/hebron.png" alt="GPdi Hebron Logo"
+                    <img :src="churchLogo" alt="Church Logo"
                         class="size-8 lg:size-10 rounded-full object-contain shadow-lg transition" />
                     <div class="text-white">
                         <h1
                             class="text-sm lg:text-normal font-bold group-hover:text-blue-300 transition tracking-tight">
-                            Hebron Family Church
+                            {{ churchName }}
                         </h1>
                         <p class="text-xs text-white font-medium group-hover:text-blue-200 transition">
-                            Gading Serpong
+                            {{ churchSubtitle }}
                         </p>
                     </div>
                 </div>
@@ -66,6 +66,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { gsap } from "gsap";
 import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 import { useNavigationStore } from '@/Stores/navigationStore'; // Import the store
+import { usePage } from '@inertiajs/vue3'; // Import usePage
 
 gsap.registerPlugin(ScrollToPlugin);
 
@@ -84,11 +85,19 @@ const props = defineProps({
 });
 
 const navigationStore = useNavigationStore(); // Use the store
+const page = usePage(); // Initialize usePage
 
 const navRef = ref(null);
 const logoRef = ref(null);
 const isOpen = ref(false);
 const isScrolled = ref(false);
+
+// Access general settings from Inertia shared props
+const generalSettings = computed(() => page.props.generalSettings || {});
+
+const churchName = computed(() => generalSettings.value.church_name || 'Hebron Family Church');
+const churchSubtitle = ref('Gading Serpong'); // Subtitle is not in general settings, keep default or remove if not needed
+const churchLogo = computed(() => generalSettings.value.church_logo ? `/storage/${generalSettings.value.church_logo}` : '/storage/hebron.png');
 
 const menuItems = computed(() => navigationStore.getMenuItems); // Get menu items from the store
 

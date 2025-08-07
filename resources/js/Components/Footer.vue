@@ -6,10 +6,8 @@
                 <h2 class="text-2xl font-semibold mb-4">
                     How can we help you?
                 </h2>
-                <p class="text-sm mb-6 leading-relaxed">
-                    Kompleks Pasar Modern Paramount, <br>
-                    Jl. Boulevard Raya Gading Serpong Blok L39,
-                </p>
+                <div class="text-sm mb-6 leading-relaxed" v-html="churchAddress">
+                </div>
                 <a href="/contact">
                     <Button variant="outline">
                         CONTACT US
@@ -29,14 +27,8 @@
             <div class="space-y-2">
                 <h3 class="font-semibold mb-4">Connect With Us</h3>
                 <ul class="text-sm text-gray-400 space-y-2">
-                    <li>
-                        <a href="#" class="hover:text-white transition">Facebook</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-white transition">Instagram</a>
-                    </li>
-                    <li>
-                        <a href="#" class="hover:text-white transition">YouTube</a>
+                    <li v-for="social in socialMediaLinks" :key="social.platform">
+                        <a :href="social.url" target="_blank" rel="noopener noreferrer" class="hover:text-white transition">{{ social.platform }}</a>
                     </li>
                 </ul>
             </div>
@@ -57,23 +49,66 @@
 
             <!-- Icon Sosial -->
             <div class="flex justify-center space-x-4 text-white text-lg">
-                <a href="#" class="hover:text-red-500"><i class="fab fa-youtube"></i></a>
-                <a href="#" class="hover:text-pink-400"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="hover:text-blue-500"><i class="fab fa-facebook"></i></a>
+                <a v-for="social in socialMediaLinks" :key="social.platform + '-icon'" :href="social.url" target="_blank" rel="noopener noreferrer" :class="getSocialIconClass(social.platform)">
+                    <i :class="getSocialIcon(social.platform)"></i>
+                </a>
             </div>
         </div>
     </footer>
 </template>
 
 <script setup>
-import { onMounted, computed } from "vue";
+import { onMounted, computed, ref } from "vue";
 import { gsap } from "gsap";
 import Button from "@/components/ui/button/Button.vue";
 import { useNavigationStore } from '@/Stores/navigationStore'; // Import the store
+import { usePage } from '@inertiajs/vue3'; // Import usePage
 
 const navigationStore = useNavigationStore(); // Use the store
+const page = usePage(); // Initialize usePage
+
+// Access general settings from Inertia shared props
+const generalSettings = computed(() => page.props.generalSettings || {});
+
+const churchAddress = computed(() => generalSettings.value.church_address || 'Kompleks Pasar Modern Paramount, <br>Jl. Boulevard Raya Gading Serpong Blok L39,');
+const socialMediaLinks = computed(() => generalSettings.value.social_media || []);
 
 const menuItems = computed(() => navigationStore.getMenuItems); // Get menu items from the store
+
+const getSocialIcon = (platform) => {
+    switch (platform.toLowerCase()) {
+        case 'facebook':
+            return 'fab fa-facebook';
+        case 'instagram':
+            return 'fab fa-instagram';
+        case 'youtube':
+            return 'fab fa-youtube';
+        case 'twitter':
+            return 'fab fa-twitter';
+        case 'linkedin':
+            return 'fab fa-linkedin';
+        // Add more cases for other platforms as needed
+        default:
+            return 'fas fa-link'; // Generic link icon
+    }
+};
+
+const getSocialIconClass = (platform) => {
+    switch (platform.toLowerCase()) {
+        case 'facebook':
+            return 'hover:text-blue-500';
+        case 'instagram':
+            return 'hover:text-pink-400';
+        case 'youtube':
+            return 'hover:text-red-500';
+        case 'twitter':
+            return 'hover:text-blue-400';
+        case 'linkedin':
+            return 'hover:text-blue-700';
+        default:
+            return '';
+    }
+};
 
 onMounted(() => {
     gsap.from("footer", {

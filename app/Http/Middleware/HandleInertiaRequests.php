@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Pages;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -30,6 +31,14 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        // Fetch general settings
+        $settingsPage = Pages::firstOrCreate(['name' => 'Settings']);
+        $generalSettingsSection = $settingsPage->sections()->firstOrCreate(
+            ['name' => 'general_settings', 'page_id' => $settingsPage->id],
+            ['content' => []]
+        );
+        $generalSettings = $generalSettingsSection->content;
+
         return [
             ...parent::share($request),
             'auth' => [
@@ -39,6 +48,7 @@ class HandleInertiaRequests extends Middleware
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),
             ],
+            'generalSettings' => $generalSettings, // Share general settings
         ];
     }
 }
