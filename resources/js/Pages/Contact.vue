@@ -19,6 +19,9 @@ const props = defineProps<{
 
 const page = usePage(); // Initialize usePage
 const generalSettings = computed(() => page.props.generalSettings || {});
+
+// @ts-ignore
+// nanti bikin typenya, gw lagi mager
 const churchAddress = computed(() => generalSettings.value.church_address || 'Kompleks Pasar Modern Paramount, <br>Jl. Boulevard Raya Gading Serpong Blok L39,');
 </script>
 
