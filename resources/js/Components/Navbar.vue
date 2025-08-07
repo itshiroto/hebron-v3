@@ -96,7 +96,7 @@ const isScrolled = ref(false);
 const generalSettings = computed(() => page.props.generalSettings || {});
 
 const churchName = computed(() => generalSettings.value.church_name || 'Hebron Family Church');
-const churchSubtitle = ref('Gading Serpong'); // Subtitle is not in general settings, keep default or remove if not needed
+const churchSubtitle = computed(() => generalSettings.value.church_subtitle || 'Gading Serpong'); // Subtitle is not in general settings, keep default or remove if not needed
 const churchLogo = computed(() => generalSettings.value.church_logo ? `/storage/${generalSettings.value.church_logo}` : '/storage/hebron.png');
 
 const menuItems = computed(() => navigationStore.getMenuItems); // Get menu items from the store

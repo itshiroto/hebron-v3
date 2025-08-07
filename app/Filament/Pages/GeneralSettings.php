@@ -58,6 +58,9 @@ class GeneralSettings extends Page implements HasForms
                     TextInput::make('generalSettingsData.church_name')
                         ->label('Church Name')
                         ->required(),
+                    TextInput::make('generalSettingsData.church_subtitle')
+                        ->label('Church Subtitle')
+                        ->required(),
                     FileUpload::make('generalSettingsData.church_logo')
                         ->label('Church Logo')
                         ->image()
