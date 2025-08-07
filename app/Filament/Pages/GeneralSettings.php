@@ -18,12 +18,13 @@ class GeneralSettings extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-cog'; // Changed icon for settings
+    // protected static ?string $navigationIcon = 'heroicon-o-cog'; // Changed icon for settings
 
     protected static string $view = 'filament.pages.general-settings';
 
     protected static ?string $title = 'General';
     protected static ?string $navigationGroup = 'Settings'; // Added navigation group
+    protected static ?int $navigationSort = 99;
 
     public ?array $generalSettingsData = [];
 

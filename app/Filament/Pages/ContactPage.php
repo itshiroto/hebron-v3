@@ -18,12 +18,13 @@ class ContactPage extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
+    // protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
     protected static string $view = 'filament.pages.contact-page';
 
     protected static ?string $title = 'Contact Us';
     protected static ?string $navigationGroup = 'Pages';
+    protected static ?int $navigationSort = 4;
 
     public ?array $heroData = [];
     public ?array $contactListData = [];
