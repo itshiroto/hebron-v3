@@ -27,20 +27,23 @@ const churchAddress = computed(() => generalSettings.value.church_address || 'Ko
 
 <template>
     <DefaultLayout>
-        <div class="min-h-screen px-8 py-20 bg-cover bg-center"
+        <div class="min-h-screen sm:px-8 pt-20 sm:py-20 bg-cover bg-center relative"
             :style="hero.image ? { backgroundImage: `url(${hero.image})` } : { backgroundColor: '#2b6cb0' }">
-            <div class="text-white text-center my-16">
-                <h1 class="text-5xl mb-4">{{ hero.title }}</h1>
-                <h3 class="text-2xl font-sans tracking-tight">{{ hero.subtitle }}</h3>
+            <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+            <div class="relative z-10">
+                <div class="text-white text-center my-16">
+                    <h1 class="text-5xl mb-4">{{ hero.title }}</h1>
+                    <h3 class="text-2xl font-sans tracking-tight">{{ hero.subtitle }}</h3>
+                </div>
             </div>
-            <div class="max-w-screen-xl mx-auto p-6 bg-white rounded-lg w-full shadow-xl grid lg:grid-cols-3 gap-8">
+            <div class="max-w-screen-xl mx-auto p-6 bg-white sm:rounded-lg w-full shadow-xl grid lg:grid-cols-3 gap-8 relative z-10">
                 <div class="">
                     <h4 class="font-bold text-2xl">Our Contact</h4>
                     <hr class="mt-4 mb-8 border-gray-600 ">
                     <div v-for="(item, index) in contactList" :key="index"
-                        class="border-b last:border-none mb-4 pb-4 grid grid-cols-3 font-sans items-center">
-                        <p class="text-sm font-bold text-gray-600 uppercase leading-none">{{ item.title }}</p>
-                        <div class="col-span-2 leading-none text-right">
+                        class="border-b last:border-none mb-4 pb-4 grid grid-cols-1 md:grid-cols-3 font-sans items-center gap-4">
+                        <p class="sm:text-sm font-bold text-gray-600 uppercase leading-none">{{ item.title }}</p>
+                        <div class="col-span-2 leading-none md:text-right">
                             <a v-if="item.link" :href="item.link" target="_blank"
                                 class="text-blue-600 hover:underline text-sm" v-html="item.desc">
                             </a>
@@ -58,3 +61,4 @@ const churchAddress = computed(() => generalSettings.value.church_address || 'Ko
         </div>
     </DefaultLayout>
 </template>
+

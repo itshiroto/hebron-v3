@@ -21,7 +21,7 @@
                 </div>
 
                 <!-- Desktop Menu -->
-                <div class="hidden md:flex items-center space-x-6">
+                <div class="hidden lg:flex items-center space-x-6">
                     <a v-for="(item, index) in menuItems" :key="item.name" :href="item.href"
                         class="uppercase text-white hover:text-blue-300 text-sm font-medium relative group transition py-2 px-1">
                         {{ item.name }}
@@ -32,7 +32,7 @@
 
                 <!-- Mobile menu button -->
                 <button @click="toggleMenu"
-                    class="md:hidden p-2 rounded-md text-white hover:text-blue-300 hover:bg-white/20 transition bg-black/30">
+                    class="lg:hidden p-2 rounded-md text-white hover:text-blue-300 hover:bg-white/20 transition bg-black/30">
                     <svg v-if="isOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M6 18L18 6M6 6l12 12" />
@@ -48,7 +48,7 @@
         <!-- Mobile Menu -->
         <transition name="fade">
             <div v-if="isOpen"
-                class="md:hidden inset-0 z-40 bg-black/90 backdrop-blur-sm flex flex-col justify-center items-center"
+                class="lg:hidden uppercase inset-0 z-40 bg-black/90 backdrop-blur-sm flex flex-col justify-center items-center"
                 @click.self="closeMenu">
                 <div class="w-full flex flex-col space-y-4 p-6">
                     <a v-for="(item, index) in menuItems" :key="item.name" :href="item.href"

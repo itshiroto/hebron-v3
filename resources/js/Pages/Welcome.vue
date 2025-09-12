@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<HomePageProps>(), {
             :style="{ backgroundImage: `url(/storage/${hero.image})` }">
             <div class="relative h-full max-w-screen-xl mx-auto px-8 flex flex-col justify-center gap-8 z-10">
                 <h1 class="text-5xl max-w-[50%]">{{ hero.title }}</h1>
-                <div class="flex gap-4 font-sans">
+                <div class="flex gap-4 font-sans flex-wrap">
                     <a :href="hero.primary_button.link">
                         <Button variant="secondary" class="bg-white text-black">
                             {{ hero.primary_button.text }}
@@ -68,20 +68,20 @@ const props = withDefaults(defineProps<HomePageProps>(), {
             <div class="mb-8">
                 <p class="text-4xl mb-24 font-medium" v-html="visionMission.title"></p>
 
-                <div class="flex flex-col md:flex-row gap-12 mb-24">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-24">
                     <div>
                         <p class="mb-4 text-gray-600 font-sans uppercase font-bold">{{ visionMission.visi.title }}</p>
                         <p class="text-xl leading-normal" v-html="visionMission.visi.desc"></p>
                     </div>
                     <div>
                         <p class="mb-4 text-gray-600 font-sans uppercase font-bold">{{ visionMission.misi.title }}</p>
-                        <p class="text-xl leading-normal" v-html="visionMission.misi.desc"></p>
+                        <p class="prose text-xl text-black marker:text-gray-600 leading-normal" v-html="visionMission.misi.desc"></p>
                     </div>
                 </div>
 
                 <a href="/about">
                     <Button
-                        class="font-sans font-semibold text-sm rounded-full shadow-none bg-blue-600 hover:bg-blue-500 text-white uppercase tracking-tight"
+                        class="font-sans text-left h-auto py-2 font-semibold text-sm rounded-full shadow-none bg-blue-600 hover:bg-blue-500 text-white uppercase tracking-tight whitespace-normal"
                         size="lg">
                         {{ visionMission.about_button_text }}
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">

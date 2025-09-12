@@ -2,11 +2,15 @@
 
     <Head title="About Us" />
     <DefaultLayout>
-        <section id="hero" class="h-screen text-white pt-20 bg-cover bg-center"
+        <section id="hero" class="relative h-screen text-white pt-20 bg-cover bg-center"
             :style="{ backgroundImage: `url(/storage/${hero.image})` }">
-            <div class="h-full max-w-screen-xl mx-auto py-16 px-8 flex flex-col justify-between">
-                <h1 class="text-5xl">{{ hero.title }}</h1>
-                <p class="leading-relaxed text-lg max-w-3xl" v-html="hero.subtitle"></p>
+            <div class="absolute inset-0 bg-gradient-to-t from-20% from-black/60 to-black/0 mix-blend-multiply"></div>
+            <div class="z-10 relative h-full max-w-screen-xl mx-auto py-16 px-8">
+                <div class="h-full max-w-2xl mx-auto text-center flex flex-col justify-between">
+                    <div></div>
+                    <h1 class="text-6xl font-semibold tracking-tight mb-8 drop-shadow">{{ hero.title }}</h1>
+                    <p class="leading-relaxed text-xl font-sans tracking-tight" v-html="hero.subtitle"></p>
+                </div>
             </div>
         </section>
 
@@ -21,16 +25,16 @@
                 </div>
                 <div>
                     <h3 class="uppercase font-sans font-bold text-gray-600 mb-4">{{ visionMission.misi.title }}</h3>
-                    <p class="text-xl leading-relaxed" v-html="visionMission.misi.desc"></p>
+                    <p class="prose text-xl text-black marker:text-gray-600 leading-relaxed" v-html="visionMission.misi.desc"></p>
                 </div>
             </div>
         </section>
 
         <section id="values" class="max-w-screen-xl mx-auto my-32 px-8">
             <h1 class="text-4xl mb-16 text-center">Our Values</h1>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-center">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-stretch">
                 <div v-for="val in values" :key="val.title"
-                    class="flex flex-col items-center border border-gray-200 rounded-lg p-8">
+                    class="flex flex-col items-center border border-gray-200 rounded-lg p-8 h-full">
                     <div
                         class="rounded-full aspect-square h-36 mb-8 bg-gray-800 flex items-center justify-center text-white text-5xl">
                         <i :class="val.icon"></i>
