@@ -25,7 +25,7 @@ class MinistryPage extends Page implements HasForms
 
     protected static ?string $title = 'Ministries';
     protected static ?string $navigationGroup = 'Pages';
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 2;
 
     public ?array $heroData = [];
     public ?array $introData = [];

@@ -47,7 +47,7 @@ const props = withDefaults(defineProps<HomePageProps>(), {
         <section id="hero" class="relative h-screen text-white pt-20 bg-cover bg-center bg-black mb-24"
             :style="{ backgroundImage: `url(/storage/${hero.image})` }">
             <div class="relative h-full max-w-screen-xl mx-auto px-8 flex flex-col justify-center gap-8 z-10">
-                <h1 class="text-5xl max-w-[50%]">{{ hero.title }}</h1>
+                <h1 class="text-5xl md:max-w-[50%]">{{ hero.title }}</h1>
                 <div class="flex gap-4 font-sans flex-wrap">
                     <a :href="hero.primary_button.link">
                         <Button variant="secondary" class="bg-white text-black">

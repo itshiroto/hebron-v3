@@ -36,8 +36,8 @@
                 <div v-for="val in values" :key="val.title"
                     class="flex flex-col items-center border border-gray-200 rounded-lg p-8 h-full">
                     <div
-                        class="rounded-full aspect-square h-36 mb-8 bg-gray-800 flex items-center justify-center text-white text-5xl">
-                        <i :class="val.icon"></i>
+                        class="rounded-full aspect-square size-24 mb-8 text-5xl">
+                        <Icon :icon="val.icon" class="h-full w-full" />
                     </div>
                     <h4 class="text-2xl mb-2">{{ val.title }}</h4>
                     <p class="text-center" v-html="val.desc"></p>
@@ -109,6 +109,7 @@ import { Head } from "@inertiajs/vue3";
 import { onMounted, onUnmounted } from 'vue';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Icon } from '@iconify/vue';
 gsap.registerPlugin(ScrollTrigger);
 
 import type { AboutPageProps } from '@/types/about-page';

@@ -25,7 +25,7 @@ class HomePage extends Page implements HasForms
 
     protected static ?string $title = 'Home';
     protected static ?string $navigationGroup = 'Pages';
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 0;
 
     public ?array $heroData = [];
     public ?array $visionMissionData = [];

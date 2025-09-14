@@ -8,6 +8,8 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Grid;
+use Illuminate\Support\HtmlString;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Form;
@@ -23,7 +25,7 @@ class AboutPage extends Page implements HasForms
 
     protected static ?string $title = 'About Us';
     protected static ?string $navigationGroup = 'Pages';
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 1;
 
     public ?array $heroData = [];
     public ?array $visionMissionData = [];
@@ -75,12 +77,14 @@ class AboutPage extends Page implements HasForms
             Section::make('Hero Section')
                 ->description('Configure the main hero section of the About page.')
                 ->schema([
-                    TextInput::make('heroData.title')
-                        ->label('Title')
-                        ->required(),
-                    TextInput::make('heroData.subtitle')
-                        ->label('Subtitle')
-                        ->required(),
+                    Grid::make(2)->schema([
+                        TextInput::make('heroData.title')
+                            ->label('Title')
+                            ->required(),
+                        TextInput::make('heroData.subtitle')
+                            ->label('Subtitle')
+                            ->required(),
+                    ]),
                     FileUpload::make('heroData.image')
                         ->label('Background Image')
                         ->image()
@@ -92,18 +96,22 @@ class AboutPage extends Page implements HasForms
             Section::make('Vision and Mission Section')
                 ->description('Define the vision and mission statements.')
                 ->schema([
-                    TextInput::make('visionMissionData.visi.title')
-                        ->label('Vision Title')
-                        ->required(),
-                    RichEditor::make('visionMissionData.visi.desc')
-                        ->label('Vision Description')
-                        ->required(),
-                    TextInput::make('visionMissionData.misi.title')
-                        ->label('Mission Title')
-                        ->required(),
-                    RichEditor::make('visionMissionData.misi.desc')
-                        ->label('Mission Description')
-                        ->required(),
+                    Grid::make(2)->schema([
+                        TextInput::make('visionMissionData.visi.title')
+                            ->label('Vision Title')
+                            ->required(),
+                        TextInput::make('visionMissionData.misi.title')
+                            ->label('Mission Title')
+                            ->required(),
+                    ]),
+                    Grid::make(2)->schema([
+                        RichEditor::make('visionMissionData.visi.desc')
+                            ->label('Vision Description')
+                            ->required(),
+                        RichEditor::make('visionMissionData.misi.desc')
+                            ->label('Mission Description')
+                            ->required(),
+                    ]),
                     FileUpload::make('visionMissionData.image')
                         ->label('Image')
                         ->image()
@@ -118,15 +126,20 @@ class AboutPage extends Page implements HasForms
                     Repeater::make('valuesData')
                         ->label('Values')
                         ->schema([
-                            TextInput::make('icon')
-                                ->label('Icon (e.g., Font Awesome class)')
-                                ->required(),
-                            TextInput::make('title')
-                                ->label('Title')
-                                ->required(),
-                            RichEditor::make('desc')
-                                ->label('Description')
-                                ->required(),
+                            Grid::make(2)->schema([
+                                TextInput::make('title')
+                                    ->label('Title')
+                                    ->required(),
+                                TextInput::make('icon')
+                                    ->label('Icon')
+                                    ->hint(new HtmlString('Nama Iconnya bisa diambil di <a class="underline" href="https://icones.js.org/collection/all">icones.js.org</a>'))
+                                    ->required(),
+                            ]),
+                            Grid::make(1)->schema([
+                                RichEditor::make('desc')
+                                    ->label('Description')
+                                    ->required(),
+                            ])
                         ])
                         ->defaultItems(1)
                         ->columns(3)
@@ -143,11 +156,11 @@ class AboutPage extends Page implements HasForms
                             TextInput::make('title')
                                 ->label('Event Title')
                                 ->required(),
-                            RichEditor::make('desc')
-                                ->label('Event Description')
-                                ->required(),
                             TextInput::make('date')
                                 ->label('Date (e.g., "2023")')
+                                ->required(),
+                            RichEditor::make('desc')
+                                ->label('Event Description')
                                 ->required(),
                             FileUpload::make('image')
                                 ->label('Image')
