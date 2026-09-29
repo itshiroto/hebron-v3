@@ -25,6 +25,7 @@ createInertiaApp({
             .mount(el);
     },
     progress: {
-        color: '#4B5563',
+        // Brand teal (--brand-teal); Inertia's progress bar needs a literal colour.
+        color: '#27617F',
     },
 });

@@ -19,7 +19,7 @@ onMounted(async () => {
         >Lewati ke konten</a
     >
     <SiteHeader />
-    <main id="konten" class="min-h-screen bg-white font-sans text-ink">
+    <main id="konten" class="page-enter min-h-screen bg-white font-sans text-ink">
         <slot />
     </main>
     <SiteFooter />
