@@ -146,7 +146,7 @@ New components go in `resources/js/Components/site/`. Each one is presentational
 |---|---|
 | `SiteHeader.vue` | Transparent overlay header. Nav links sit left and right of a centred logo; the "Kunjungi Kami" outline button is at the right. The active page gets a coral underline. It turns solid deep teal after scrolling. Below `lg` it shows the logo and a menu button. |
 | `MobileMenu.vue` | Full-screen deep-teal overlay with the links in large serif type. It also shows the Sunday times and a "Kunjungi Ibadah Kami" button. It closes on Esc or a link click and traps focus while open. |
-| `SiteFooter.vue` | Deeper-teal footer: logo, motto in serif italic, Jelajahi / Terhubung / Kunjungi columns, and a copyright row. Data comes from `generalSettings`. |
+| `SiteFooter.vue` | Deeper-teal footer: logo, motto in serif italic, Jelajahi / Terhubung / Kunjungi columns, and a copyright row ("© {year} GPdI Hebron Gading Serpong. Hak cipta dilindungi." · "GPdI Hebron Production Team w/ 34 Creative Labs"). Data comes from `generalSettings`. |
 | `PageHero.vue` | Full-bleed image hero: eyebrow, H1 and optional subtitle at the bottom-left. Props: `image`, `video?`, `eyebrow`, `title`, `subtitle?`, `height` (`full` for home, `page` for about 560–640px). |
 | `SectionHeading.vue` | Eyebrow with a short rule, plus an H2. Props: `eyebrow`, `title`, `align`, `tone` (`light`/`dark`). An optional slot on the right holds actions. |
 | `BaseButton.vue` | `variant: primary \| outline \| outline-light \| light \| link`, rendered as `<a>` or `<button>`. |
