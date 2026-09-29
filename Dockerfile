@@ -16,7 +16,7 @@ RUN npm run build
 # 3. Runtime: nginx + php-fpm, runs migrations/storage:link/optimize on boot (AUTORUN_ENABLED)
 FROM serversideup/php:8.4-fpm-nginx
 USER root
-RUN install-php-extensions intl
+RUN install-php-extensions intl gd
 USER www-data
 COPY --chown=www-data:www-data . .
 COPY --chown=www-data:www-data --from=vendor /app/vendor ./vendor
