@@ -17,6 +17,7 @@ class AboutController extends Controller
         $visionMissionData = [];
         $valuesData = [];
         $historyData = [];
+        $beliefsData = [];
 
         if ($aboutPage) {
             foreach ($aboutPage->sections as $section) {
@@ -33,6 +34,9 @@ class AboutController extends Controller
                     case 'history':
                         $historyData = $section->content;
                         break;
+                    case 'beliefs':
+                        $beliefsData = $section->content;
+                        break;
                 }
             }
         }
@@ -42,6 +46,7 @@ class AboutController extends Controller
             'visionMission' => $visionMissionData,
             'values' => $valuesData,
             'history' => $historyData,
+            'beliefs' => $beliefsData,
             'pastors' => $pastorsData
         ]);
     }

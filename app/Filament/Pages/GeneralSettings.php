@@ -71,6 +71,12 @@ class GeneralSettings extends Page implements HasForms
                     RichEditor::make('generalSettingsData.church_address')
                         ->label('Church Address')
                         ->required(),
+                    TextInput::make('generalSettingsData.maps_url')
+                        ->label('Google Maps link (Petunjuk arah)')
+                        ->url(),
+                    TextInput::make('generalSettingsData.livestream_url')
+                        ->label('Live streaming link (Tonton Online)')
+                        ->url(),
                 ]),
             Section::make('Social Media Accounts')
                 ->description('Add links to your social media profiles.')

@@ -33,3 +33,17 @@ it('shows the hero video and livestream fields on the home admin page', function
         ->assertSee('heroData.video', false)
         ->assertSee('Live Streaming');
 });
+
+it('shows the beliefs section on the about admin page', function () {
+    $this->get('/admin/about-page')
+        ->assertOk()
+        ->assertSee('beliefsData.title', false)
+        ->assertSee('Pengakuan Iman');
+});
+
+it('shows the maps and livestream links on the general settings page', function () {
+    $this->get('/admin/general-settings')
+        ->assertOk()
+        ->assertSee('generalSettingsData.maps_url', false)
+        ->assertSee('generalSettingsData.livestream_url', false);
+});
