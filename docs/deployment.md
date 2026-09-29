@@ -137,6 +137,25 @@ php artisan db:copy-from "mariadb://user:pass@host:3306/hebron_v3"
 
 Watch progress in the repo's **Actions** tab. In Portainer, the stack page shows the new container.
 
+### Redeploy without a new build
+
+If the image built but the redeploy did not happen, you do not need a new build. Use one of these:
+
+- In Portainer, open the stack and click **Pull and redeploy**.
+- Re-run the failed workflow run:
+
+  ```bash
+  gh run rerun <run-id> --repo itshiroto/hebron-v3
+  ```
+
+  A re-run uses the workflow file **from the commit of that run**, not the current one. A run from
+  before the environment setup reads only a repository-level `PORTAINER_WEBHOOK_URL` and ignores the
+  environment secrets. For those old runs, use **Pull and redeploy**, or push again:
+
+  ```bash
+  git push origin main:production
+  ```
+
 ## Rollback
 
 Every build is also tagged with its commit SHA. To roll back one environment:
@@ -164,7 +183,8 @@ exact volume names.
 
 | Symptom | Check |
 |---------|-------|
-| Workflow fails at "Redeploy Portainer stack" | The environment secret `PORTAINER_WEBHOOK_URL` is missing or wrong. |
+| Workflow fails at "Redeploy Portainer stack" with `curl -fsS -X POST ""` and `curl: (3) URL rejected` | The secret `PORTAINER_WEBHOOK_URL` does not exist in that GitHub environment (step 4). The image is already in GHCR, so see [Redeploy without a new build](#redeploy-without-a-new-build). |
+| Workflow fails at "Redeploy Portainer stack" with an HTTP error | The webhook URL is wrong, or GitOps updates are off on the stack. |
 | Deploy succeeds but the site does not change | **Re-pull image** is off on the stack. |
 | Stack fails with `set APP_KEY in the Portainer stack env` | Add `APP_KEY` to the stack environment variables. |
 | Portainer cannot pull the image | GHCR registry credentials are missing or the token expired (step 1). |
