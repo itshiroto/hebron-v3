@@ -31,6 +31,7 @@ it('shows the hero video and livestream fields on the home admin page', function
     $this->get('/admin/home-page')
         ->assertOk()
         ->assertSee('heroData.video', false)
+        ->assertSee('Maks. 12 MB')
         ->assertSee('Live Streaming');
 });
 

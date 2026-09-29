@@ -21,7 +21,7 @@ function indexFromHash(): number {
 function select(i: number) {
     selected.value = i;
     openIndex.value = i;
-    history.replaceState(null, '', `#${props.divisions[i].slug}`);
+    history.replaceState(history.state, '', `#${props.divisions[i].slug}`);
 }
 
 function toggle(i: number) {

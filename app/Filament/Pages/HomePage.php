@@ -98,9 +98,10 @@ class HomePage extends Page implements HasForms
                     FileUpload::make('heroData.video')
                         ->label('Background Video (optional, muted loop)')
                         ->acceptedFileTypes(['video/mp4', 'video/webm'])
-                        ->maxSize(51200)
+                        // Livewire's default temporary-upload rule caps files at 12 MB.
+                        ->maxSize(12288)
                         ->directory('home-page-hero')
-                        ->helperText('Gambar latar dipakai sebagai poster dan cadangan.'),
+                        ->helperText('Maks. 12 MB. Gambar latar dipakai sebagai poster dan cadangan.'),
                     Grid::make(2)->schema([
                         TextInput::make('heroData.primary_button.text')
                             ->label('Primary Button Text'),
