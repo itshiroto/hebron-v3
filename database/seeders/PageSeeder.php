@@ -250,11 +250,6 @@ class PageSeeder extends Seeder
                         'desc' => '@gpdigadingserpong',
                         'link' => 'https://www.instagram.com/gpdigadingserpong',
                     ],
-                    [
-                        'title' => 'Lokasi',
-                        'desc' => 'Kompleks Pasar Modern Paramount Blok L39, Gading Serpong',
-                        'link' => 'https://maps.app.goo.gl/GoMhnkkmL2A7wp6c9',
-                    ],
                 ],
             ],
             'Ministries Page' => [
