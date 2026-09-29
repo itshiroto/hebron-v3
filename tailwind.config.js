@@ -1,5 +1,7 @@
 import forms from '@tailwindcss/forms';
 
+const token = (name) => `rgb(var(${name}) / <alpha-value>)`;
+
 /** @type {import('tailwindcss').Config} */
 export default {
     darkMode: ['class'],
@@ -13,16 +15,11 @@ export default {
     theme: {
     	extend: {
     		fontFamily: {
-    			sans: [
-    				'Montserrat',
-    				'sans-serif'
-    			],
-    			serif: [
-    				'Playfair Display',
-    				'serif'
-    			]
+    			sans: ['var(--font-sans)'],
+    			serif: ['var(--font-serif)']
     		},
     		borderRadius: {
+    			button: 'var(--radius-button)',
     			lg: 'var(--radius)',
     			md: 'calc(var(--radius) - 2px)',
     			sm: 'calc(var(--radius) - 4px)'
@@ -67,6 +64,28 @@ export default {
     				'3': 'hsl(var(--chart-3))',
     				'4': 'hsl(var(--chart-4))',
     				'5': 'hsl(var(--chart-5))'
+    			},
+    			brand: {
+    				deep: token('--brand-deep'),
+    				deeper: token('--brand-deeper'),
+    				teal: token('--brand-teal'),
+    				mint: token('--brand-mint'),
+    				orange: token('--brand-orange'),
+    				coral: token('--brand-coral'),
+    				cream: token('--brand-cream'),
+    				primary: token('--color-primary'),
+    				accent: token('--color-accent')
+    			},
+    			heading: token('--color-heading'),
+    			decor: token('--color-decor'),
+    			ink: {
+    				DEFAULT: token('--ink'),
+    				muted: token('--ink-muted')
+    			},
+    			mist: token('--mist'),
+    			line: {
+    				DEFAULT: token('--line'),
+    				strong: token('--line-strong')
     			}
     		},
     		keyframes: {

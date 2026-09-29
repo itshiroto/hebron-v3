@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Pages;
+use App\Support\ServiceTimes;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -49,6 +50,11 @@ class HandleInertiaRequests extends Middleware
                 'location' => $request->url(),
             ],
             'generalSettings' => $generalSettings, // Share general settings
+            'services' => fn () => ServiceTimes::normalize(
+                Pages::where('name', 'Home')->first()
+                    ?->sections()->where('name', 'schedule')->first()
+                    ?->content['services'] ?? null
+            ),
         ];
     }
 }

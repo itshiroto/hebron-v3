@@ -4,6 +4,7 @@
 export interface HeroSectionData {
     title: string;
     image?: string; // Path to the background image
+    video?: string;
     primary_button: {
         text: string;
         link: string;
@@ -41,6 +42,7 @@ export type CarouselSectionData = string[];
 export interface ServiceItem {
     title: string;
     time: string;
+    livestream?: boolean;
 }
 
 /**
@@ -75,4 +77,6 @@ export interface HomePageProps {
     carousel: CarouselSectionData;
     schedule: ScheduleSectionData;
     pastorGreeting: PastorGreetingSectionData;
+    divisions: import('./site').DivisionItem[];
+    latestDevotions: import('./site').DevotionSummary[];
 }

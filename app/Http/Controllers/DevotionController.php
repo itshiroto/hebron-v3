@@ -3,30 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\Devotion;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Illuminate\Support\Str;
 
 class DevotionController extends Controller
 {
-    public function all()
+    public function all(Request $request)
     {
-        $data = Devotion::all()->map(function ($devotion) {
-            $plainContent = strip_tags($devotion->content);
-            $devotion->snippet = Str::words($plainContent, 50); // Limit to 50 words
-
-            return $devotion;
-        });
-
-        return Inertia::render('DevotionList', ['data' => $data]);
-    }
-    public function single(string $slug)
-    {
-        $data = Devotion::where('slug', $slug)->first();
-
-        if (!$data) {
-            abort(404);
+        $category = $request->query('category');
+        if (! is_string($category) || ! in_array($category, Devotion::CATEGORIES, true)) {
+            $category = null;
         }
 
-        return Inertia::render('Devotion', ['data' => $data]);
+        $posts = Devotion::query()
+            ->when($category, fn ($query) => $query->where('category', $category))
+            ->latest()
+            ->paginate(9)
+            ->withQueryString()
+            ->through(fn (Devotion $d) => $d->append(['snippet', 'reading_minutes'])->makeHidden('content'));
+
+        return Inertia::render('DevotionList', [
+            'posts' => $posts,
+            'category' => $category,
+        ]);
+    }
+
+    public function single(string $slug)
+    {
+        $data = Devotion::where('slug', $slug)->firstOrFail();
+
+        $related = Devotion::whereKeyNot($data->getKey())
+            ->latest()
+            ->take(3)
+            ->get()
+            ->map(fn (Devotion $d) => $d->append('reading_minutes')->makeHidden('content'))
+            ->values();
+
+        return Inertia::render('Devotion', [
+            'data' => $data->append('reading_minutes'),
+            'related' => $related,
+        ]);
     }
 }

@@ -8,6 +8,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Grid;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Concerns\InteractsWithForms;
@@ -31,6 +32,7 @@ class AboutPage extends Page implements HasForms
     public ?array $visionMissionData = [];
     public ?array $valuesData = [];
     public ?array $historyData = [];
+    public ?array $beliefsData = [];
 
     protected $aboutPage;
 
@@ -62,12 +64,19 @@ class AboutPage extends Page implements HasForms
         );
         $this->historyData = $historySection->content;
 
+        $beliefsSection = $this->aboutPage->sections()->firstOrCreate(
+            ['name' => 'beliefs', 'page_id' => $this->aboutPage->id],
+            ['content' => []]
+        );
+        $this->beliefsData = $beliefsSection->content;
+
         // Ensure the form is filled with data from the properties
         $this->form->fill([
             'heroData' => $this->heroData,
             'visionMissionData' => $this->visionMissionData,
             'valuesData' => $this->valuesData,
             'historyData' => $this->historyData,
+            'beliefsData' => $this->beliefsData,
         ]);
     }
 
@@ -173,6 +182,30 @@ class AboutPage extends Page implements HasForms
                         ->collapsible()
                         ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
                 ]),
+
+            Section::make('Beliefs Section (Pengakuan Iman)')
+                ->description('Ditampilkan di halaman Tentang Kami, menggantikan Sejarah.')
+                ->schema([
+                    TextInput::make('beliefsData.title')
+                        ->label('Title')
+                        ->placeholder('Apa yang kami percaya'),
+                    RichEditor::make('beliefsData.intro')
+                        ->label('Intro'),
+                    TextInput::make('beliefsData.link')
+                        ->label('Link to full Pengakuan Iman GPdI')
+                        ->url(),
+                    Repeater::make('beliefsData.items')
+                        ->label('Belief items')
+                        ->schema([
+                            TextInput::make('title')->label('Title')->required(),
+                            Textarea::make('desc')->label('One-sentence summary')->rows(2)->required(),
+                            TextInput::make('verse')->label('Verse reference'),
+                        ])
+                        ->columns(1)
+                        ->reorderable()
+                        ->collapsible()
+                        ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
+                ]),
         ]);
     }
 
@@ -219,6 +252,11 @@ class AboutPage extends Page implements HasForms
         $this->aboutPage->sections()->updateOrCreate(
             ['name' => 'history', 'page_id' => $this->aboutPage->id],
             ['content' => $data['historyData']]
+        );
+
+        $this->aboutPage->sections()->updateOrCreate(
+            ['name' => 'beliefs', 'page_id' => $this->aboutPage->id],
+            ['content' => $data['beliefsData'] ?? []]
         );
 
         Notification::make()
