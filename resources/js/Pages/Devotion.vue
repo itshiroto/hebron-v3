@@ -53,7 +53,7 @@ async function copyLink() {
             </div>
         </section>
 
-        <div class="container-site -mt-[88px] lg:-mt-44">
+        <div class="container-site mt-[-88px] lg:-mt-44">
             <div class="h-[240px] overflow-hidden bg-brand-teal lg:h-[600px]">
                 <img v-if="data.image" :src="storageUrl(data.image)!" :alt="data.title" class="h-full w-full object-cover" />
             </div>

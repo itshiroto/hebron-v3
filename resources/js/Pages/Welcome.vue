@@ -78,8 +78,8 @@ onMounted(updateProgress);
                     <template #actions>
                         <BaseButton href="/division" variant="link">Semua divisi →</BaseButton>
                         <div class="flex gap-2">
-                            <button type="button" aria-label="Divisi sebelumnya" class="flex h-12 w-12 items-center justify-center rounded-full border border-line-strong text-heading focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(-1)">←</button>
-                            <button type="button" aria-label="Divisi berikutnya" class="flex h-12 w-12 items-center justify-center rounded-full bg-heading text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(1)">→</button>
+                            <button type="button" aria-label="Divisi sebelumnya" class="flex h-12 w-12 items-center justify-center rounded-full border border-line-strong text-heading focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(-1)">←</button>
+                            <button type="button" aria-label="Divisi berikutnya" class="flex h-12 w-12 items-center justify-center rounded-full bg-heading text-white focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(1)">→</button>
                         </div>
                     </template>
                 </SectionHeading>
@@ -87,13 +87,13 @@ onMounted(updateProgress);
             <div
                 ref="track"
                 v-reveal="150"
-                class="mt-8 flex snap-x snap-mandatory scroll-pl-5 gap-3.5 overflow-x-auto pl-5 pr-5 [scrollbar-width:none] lg:mt-14 lg:scroll-pl-[120px] lg:gap-6 lg:pl-[120px]"
+                class="mt-8 flex snap-x snap-mandatory scroll-pl-5 gap-3.5 overflow-x-auto pl-5 pr-5 scrollbar-none lg:mt-14 lg:scroll-pl-[120px] lg:gap-6 lg:pl-[120px]"
                 @scroll.passive="updateProgress"
             >
                 <DivisionCard v-for="division in divisions" :key="division.id" :division="division" />
             </div>
             <div class="container-site mt-8 flex items-center gap-4">
-                <div class="relative h-0.5 flex-grow bg-line">
+                <div class="relative h-0.5 grow bg-line">
                     <div class="absolute inset-y-0 left-0 bg-heading transition-[width]" :style="{ width: `${Math.max(progress, 1 / divisions.length) * 100}%` }"></div>
                 </div>
                 <BaseButton href="/division" variant="link" class="shrink-0 lg:hidden">Semua divisi →</BaseButton>
@@ -167,7 +167,7 @@ onMounted(updateProgress);
             <div class="container-site section-y flex flex-col gap-10 lg:gap-[72px]">
                 <SectionHeading v-reveal eyebrow="Bertumbuh bersama kami" title="Temukan tempatmu di keluarga Hebron" align="center" />
                 <div class="grid gap-10 lg:grid-cols-3">
-                    <Link v-for="(step, index) in steps" :key="step.n" v-reveal="index * 150" :href="step.href" class="group flex flex-col gap-3 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-teal">
+                    <Link v-for="(step, index) in steps" :key="step.n" v-reveal="index * 150" :href="step.href" class="group flex flex-col gap-3 text-ink focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-teal">
                         <div class="h-[200px] bg-brand-mint/40 lg:h-[320px]">
                             <img v-if="step.image" :src="storageUrl(step.image)!" alt="" loading="lazy" class="h-full w-full object-cover" />
                         </div>

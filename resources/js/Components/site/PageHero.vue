@@ -44,7 +44,7 @@ function toggle() {
 <template>
     <section
         class="relative isolate overflow-hidden bg-brand-deep text-white"
-        :class="size === 'full' ? 'h-[100svh] min-h-[560px]' : 'h-[480px] md:h-[560px]'"
+        :class="size === 'full' ? 'h-svh min-h-[560px]' : 'h-[480px] md:h-[560px]'"
     >
         <img v-if="imageUrl" :src="imageUrl" alt="" class="absolute inset-0 -z-20 h-full w-full object-cover" />
         <video
@@ -61,10 +61,10 @@ function toggle() {
         ></video>
         <div class="absolute inset-0 -z-10 bg-brand-deeper/30"></div>
         <!-- Readability gradients: top for the overlay header, bottom-left for the hero text -->
-        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-brand-deeper/75 to-transparent lg:h-40"></div>
+        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-32 bg-linear-to-b from-brand-deeper/75 to-transparent lg:h-40"></div>
         <div
             aria-hidden="true"
-            class="absolute inset-x-0 bottom-0 -z-10 h-full bg-gradient-to-t from-brand-deeper/95 via-brand-deeper/60 to-transparent md:bg-gradient-to-tr md:from-brand-deeper/95 md:via-brand-deeper/55"
+            class="absolute inset-x-0 bottom-0 -z-10 h-full bg-linear-to-t from-brand-deeper/95 via-brand-deeper/60 to-transparent md:bg-linear-to-tr md:from-brand-deeper/95 md:via-brand-deeper/55"
         ></div>
 
         <div class="absolute inset-x-5 bottom-10 flex max-w-3xl flex-col gap-4 md:inset-x-14 md:bottom-16 md:gap-5">
@@ -82,7 +82,7 @@ function toggle() {
         <button
             v-if="videoUrl"
             type="button"
-            class="absolute right-5 top-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange md:bottom-16 md:right-14 md:top-auto"
+            class="absolute right-5 top-20 flex h-11 w-11 items-center justify-center rounded-full border border-white/60 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange md:bottom-16 md:right-14 md:top-auto"
             :aria-label="playing ? 'Jeda video latar' : 'Putar video latar'"
             @click="toggle"
         >

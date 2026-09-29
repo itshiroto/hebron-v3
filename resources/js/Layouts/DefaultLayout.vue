@@ -15,7 +15,7 @@ onMounted(async () => {
 <template>
     <a
         href="#konten"
-        class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-white focus:px-4 focus:py-2 focus:text-heading"
+        class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-70 focus:bg-white focus:px-4 focus:py-2 focus:text-heading"
         >Lewati ke konten</a
     >
     <SiteHeader />

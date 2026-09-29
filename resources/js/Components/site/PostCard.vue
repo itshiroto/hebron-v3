@@ -10,7 +10,7 @@ withDefaults(defineProps<{ post: DevotionSummary; variant?: 'grid' | 'featured' 
     <Link
         v-if="variant === 'featured'"
         :href="`/devotion/${post.slug}`"
-        class="group grid gap-6 text-ink lg:grid-cols-[7fr_5fr] lg:items-center lg:gap-[72px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-teal"
+        class="group grid gap-6 text-ink lg:grid-cols-[7fr_5fr] lg:items-center lg:gap-[72px] focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-teal"
     >
         <div class="h-[240px] overflow-hidden bg-brand-teal lg:h-[480px]">
             <img v-if="post.image" :src="storageUrl(post.image)!" :alt="post.title" class="h-full w-full object-cover" />
@@ -22,7 +22,7 @@ withDefaults(defineProps<{ post: DevotionSummary; variant?: 'grid' | 'featured' 
             <p class="text-xs text-ink-muted lg:text-[13px]">{{ formatDate(post.created_at) }} · {{ readingLabel(post.reading_minutes) }}</p>
         </div>
     </Link>
-    <Link v-else :href="`/devotion/${post.slug}`" class="group flex gap-4 border-b border-line py-5 text-ink md:flex-col md:gap-4 md:border-0 md:py-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-teal">
+    <Link v-else :href="`/devotion/${post.slug}`" class="group flex gap-4 border-b border-line py-5 text-ink md:flex-col md:gap-4 md:border-0 md:py-0 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-teal">
         <div class="h-[104px] w-[104px] shrink-0 overflow-hidden bg-brand-mint/40 md:mb-1.5 md:h-[240px] md:w-full">
             <img v-if="post.image" :src="storageUrl(post.image)!" :alt="post.title" loading="lazy" class="h-full w-full object-cover" />
         </div>

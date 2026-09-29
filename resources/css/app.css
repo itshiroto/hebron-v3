@@ -1,33 +1,189 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,400..700;1,400..700&display=swap')
+layer(base);
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+@plugin 'tailwindcss-animate';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  /* Brand — change here only (palette v2: teal / cream / coral / orange / mint) */
+  --color-brand-deep: #173f55;   /* headings, dark bands */
+  --color-brand-deeper: #10303f; /* footer */
+  --color-brand-teal: #27617f;   /* primary */
+  --color-brand-mint: #83ccc5;   /* highlights on dark only */
+  --color-brand-orange: #f9960b; /* accent on deep/deeper only */
+  --color-brand-coral: #fa5a23;  /* decorative only, never text */
+  --color-brand-cream: #f8f6ea;  /* warm off-white */
+  --color-brand-primary: var(--color-brand-teal);
+  --color-brand-accent: var(--color-brand-orange);
+
+  --color-heading: var(--color-brand-deep);
+  --color-decor: var(--color-brand-coral);
+  --color-ink: #16303d;
+  --color-ink-muted: #52636e;
+  --color-mist: var(--color-brand-cream);
+  --color-line: #e9e5d6;
+  --color-line-strong: #d9d3bf;
+
+  --font-sans: 'Montserrat', system-ui, sans-serif;
+  --font-serif: 'Instrument Serif', 'Times New Roman', serif;
+
+  --radius-button: 2px;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--reka-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--reka-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility page-enter {
+  animation: page-enter 450ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  @supports (view-transition-name: none) {
+    animation: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@utility container-site {
+  /* Browsers with view transitions animate navigation there instead (see below). */
+  @apply mx-auto w-full max-w-[1440px] px-5 lg:px-[120px];
+}
+
+@utility section-y {
+  @apply py-16 lg:py-32;
+}
+
+@utility rich-text {
+  /* CMS rich text (values, ministries, pastor greeting, devotion body) */
+  & p {
+    @apply mb-4 last:mb-0;
+  }
+  & ul {
+    @apply list-disc pl-5;
+  }
+  & ol {
+    @apply list-decimal pl-5;
+  }
+  & li {
+    @apply mb-1;
+  }
+  & a {
+    @apply text-brand-teal underline underline-offset-2;
+  }
+  & h2 {
+    @apply mb-4 mt-10 font-serif text-3xl leading-tight text-heading lg:text-[40px];
+  }
+  & h3 {
+    @apply mb-3 mt-8 font-serif text-2xl text-heading;
+  }
+  & blockquote {
+    @apply my-8 border-l-2 border-brand-teal pl-5 font-serif text-[26px] italic leading-snug text-heading lg:pl-8 lg:text-[34px];
+  }
+  & blockquote cite {
+    @apply mt-3 block font-sans text-xs font-semibold not-italic uppercase tracking-[0.16em] text-brand-teal;
+  }
+  & cite {
+    @apply mt-3 block font-sans text-xs font-semibold not-italic uppercase tracking-[0.16em] text-brand-teal;
+  }
+}
+
+@utility mission-list {
+  /* Mission list: roman numerals in the serif */
+  & ol {
+    @apply flex flex-col gap-4 pl-8;
+    list-style: lower-roman;
+  }
+  & ul {
+    @apply flex flex-col gap-4 pl-8;
+    list-style: lower-roman;
+  }
+  & li::marker {
+    font-family: var(--font-serif);
+    color: var(--color-brand-teal);
+  }
+}
+
 @layer base {
   :root {
-    /* Brand — change here only (palette v2: teal / cream / coral / orange / mint) */
-    --brand-deep: 23 63 85;        /* #173F55 headings, dark bands */
-    --brand-deeper: 16 48 63;      /* #10303F footer */
-    --brand-teal: 39 97 127;       /* #27617F primary */
-    --brand-mint: 131 204 197;     /* #83CCC5 highlights on dark only */
-    --brand-orange: 249 150 11;    /* #F9960B accent on deep/deeper only */
-    --brand-coral: 250 90 35;      /* #FA5A23 decorative only, never text */
-    --brand-cream: 248 246 234;    /* #F8F6EA warm off-white */
-
-    --ink: 22 48 61;
-    --ink-muted: 82 99 110;
-    --mist: var(--brand-cream);
-    --line: 233 229 214;
-    --line-strong: 217 211 191;
-
-    --color-accent: var(--brand-orange);
-    --color-decor: var(--brand-coral);
-    --color-primary: var(--brand-teal);
-    --color-heading: var(--brand-deep);
-
-    --font-serif: 'Instrument Serif', 'Times New Roman', serif;
-    --font-sans: 'Montserrat', system-ui, sans-serif;
-    --radius-button: 2px;
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -90,42 +246,18 @@
   }
 }
 
-/* Page transition: content fades and rises in on every Inertia page mount. */
-@keyframes page-enter {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: none; }
-}
-
-@layer components {
-  .page-enter {
-    animation: page-enter 450ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+@layer utilities {
+  /* Page transition: content fades and rises in on every Inertia page mount. */
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
-  /* Browsers with view transitions animate navigation there instead (see below). */
-  @supports (view-transition-name: none) {
-    .page-enter { animation: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .page-enter { animation: none; }
-  }
-  .container-site {
-    @apply mx-auto w-full max-w-[1440px] px-5 lg:px-[120px];
-  }
-  .section-y {
-    @apply py-16 lg:py-32;
-  }
-  /* CMS rich text (values, ministries, pastor greeting, devotion body) */
-  .rich-text p { @apply mb-4 last:mb-0; }
-  .rich-text ul { @apply list-disc pl-5; }
-  .rich-text ol { @apply list-decimal pl-5; }
-  .rich-text li { @apply mb-1; }
-  .rich-text a { @apply text-brand-teal underline underline-offset-2; }
-  .rich-text h2 { @apply mb-4 mt-10 font-serif text-3xl leading-tight text-heading lg:text-[40px]; }
-  .rich-text h3 { @apply mb-3 mt-8 font-serif text-2xl text-heading; }
-  .rich-text blockquote { @apply my-8 border-l-2 border-brand-teal pl-5 font-serif text-[26px] italic leading-snug text-heading lg:pl-8 lg:text-[34px]; }
-  .rich-text blockquote cite, .rich-text cite { @apply mt-3 block font-sans text-xs font-semibold not-italic uppercase tracking-[0.16em] text-brand-teal; }
-  /* Mission list: roman numerals in the serif */
-  .mission-list ol, .mission-list ul { @apply flex flex-col gap-4 pl-8; list-style: lower-roman; }
-  .mission-list li::marker { font-family: var(--font-serif); color: rgb(var(--brand-teal)); }
 }
 
 /* Scroll reveal (outside @layer so Tailwind keeps it; the classes only appear at runtime), toggled by the v-reveal directive (resources/js/lib/reveal.ts). */

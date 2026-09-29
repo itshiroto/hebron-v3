@@ -7,7 +7,7 @@ defineProps<{ division: DivisionItem }>();
 </script>
 
 <template>
-    <Link :href="`/division#${division.slug}`" class="group flex w-[260px] shrink-0 snap-start flex-col gap-2.5 text-ink lg:w-[290px] lg:gap-3.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-teal">
+    <Link :href="`/division#${division.slug}`" class="group flex w-[260px] shrink-0 snap-start flex-col gap-2.5 text-ink lg:w-[290px] lg:gap-3.5 focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-teal">
         <div class="mb-1.5 h-[300px] overflow-hidden bg-brand-mint/40 lg:h-[360px]">
             <img
                 v-if="division.image"
