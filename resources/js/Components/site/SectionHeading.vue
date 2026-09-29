@@ -13,8 +13,8 @@ withDefaults(
 
 <template>
     <div
-        class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between"
-        :class="align === 'center' ? 'md:justify-center' : ''"
+        class="flex flex-col gap-6 md:flex-row md:items-end"
+        :class="align === 'center' ? 'md:justify-center' : 'md:justify-between'"
     >
         <div class="flex flex-col gap-4 md:gap-5" :class="align === 'center' ? 'items-center text-center' : ''">
             <p
