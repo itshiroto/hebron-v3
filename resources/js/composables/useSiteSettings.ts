@@ -1,5 +1,6 @@
 import { computed } from 'vue';
 import { usePage } from '@inertiajs/vue3';
+import type { PageProps } from '@inertiajs/core';
 import type { GeneralSettings, ServiceTime } from '@/types/site';
 import { storageUrl } from '@/lib/site';
 
@@ -7,7 +8,7 @@ const DEFAULT_ADDRESS =
     'Kompleks Pasar Modern Paramount Blok L39, Jl. Boulevard Raya Gading Serpong, Curug Sangereng, Kelapa Dua, Kab. Tangerang, Banten 15810';
 
 export function useSiteSettings() {
-    const page = usePage<{ generalSettings: GeneralSettings | null; services: ServiceTime[] }>();
+    const page = usePage<PageProps & { generalSettings: GeneralSettings | null; services: ServiceTime[] }>();
     const settings = computed<GeneralSettings>(() => page.props.generalSettings ?? {});
 
     return {
