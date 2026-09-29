@@ -69,27 +69,28 @@ In `resources/css/app.css`, inside `@layer base`, space-separated RGB channels k
 
 ```css
 :root {
-  /* Brand — change here only */
-  --brand-navy: 14 30 79;        /* #0E1E4F  headings, dark bands */
-  --brand-navy-deep: 10 22 64;   /* #0A1640  footer */
-  --brand-blue: 36 70 171;       /* #2446AB  primary (brand Primary Blue) */
-  --brand-sky: 105 201 241;      /* #69C9F1  highlights on dark only */
-  --brand-yellow: 247 231 81;    /* #F7E751  accent on dark only */
-  --brand-green: 167 216 66;     /* #A7D842  alternate accent on dark only */
-  --brand-gray: 170 179 194;     /* #AAB3C2  brand grey */
+  /* Brand — change here only (palette v2: teal / cream / coral / orange / mint) */
+  --brand-deep: 23 63 85;        /* #173F55  headings, dark bands (deepened teal) */
+  --brand-deeper: 16 48 63;      /* #10303F  footer */
+  --brand-teal: 39 97 127;       /* #27617F  primary — links, labels, buttons */
+  --brand-mint: 131 204 197;     /* #83CCC5  highlights on dark only */
+  --brand-orange: 249 150 11;    /* #F9960B  accent — small labels and CTA fill on deep/deeper only */
+  --brand-coral: 250 90 35;      /* #FA5A23  decorative only — rules, dots, active underline */
+  --brand-cream: 248 246 234;    /* #F8F6EA  warm off-white */
 
   /* Neutrals */
-  --ink: 15 23 41;               /* #0F1729  body text */
-  --ink-muted: 90 100 120;       /* #5A6478  secondary text (≥4.5:1 on white and mist) */
-  --mist: 244 246 250;           /* #F4F6FA  alternate section background */
-  --line: 230 234 241;           /* #E6EAF1  hairlines */
-  --line-strong: 213 220 232;    /* #D5DCE8  borders on mist */
+  --ink: 22 48 61;               /* #16303D  body text */
+  --ink-muted: 82 99 110;        /* #52636E  secondary text (≥4.5:1 on white and cream) */
+  --mist: var(--brand-cream);    /*          alternate section background */
+  --line: 233 229 214;           /* #E9E5D6  hairlines */
+  --line-strong: 217 211 191;    /* #D9D3BF  borders on cream */
   --surface: 255 255 255;
 
   /* Role aliases — components use these, not the brand names */
-  --color-accent: var(--brand-yellow);
-  --color-primary: var(--brand-blue);
-  --color-heading: var(--brand-navy);
+  --color-accent: var(--brand-orange);
+  --color-decor: var(--brand-coral);
+  --color-primary: var(--brand-teal);
+  --color-heading: var(--brand-deep);
 
   /* Type */
   --font-serif: 'Instrument Serif', 'Times New Roman', serif;
@@ -100,14 +101,17 @@ In `resources/css/app.css`, inside `@layer base`, space-separated RGB channels k
 }
 ```
 
-In `tailwind.config.js`, map the variables under `theme.extend.colors`, for example `brand: { navy: 'rgb(var(--brand-navy) / <alpha-value>)', … }` plus `ink`, `mist`, `line`, `accent`, `primary`, `heading`. Point `fontFamily.serif` and `fontFamily.sans` at `var(--font-serif)` and `var(--font-sans)`.
+In `tailwind.config.js`, map the variables under `theme.extend.colors`, for example `brand: { deep: 'rgb(var(--brand-deep) / <alpha-value>)', … }` plus `ink`, `mist`, `line`, `accent`, `decor`, `primary`, `heading`. Point `fontFamily.serif` and `fontFamily.sans` at `var(--font-serif)` and `var(--font-sans)`.
 
 Keep the existing shadcn HSL variables. They are only used by the `ui/` primitives (accordion, card). Once pages stop using those primitives, they can be removed in a later cleanup.
 
-Rules:
+Contrast rules (checked against the palette above):
 
-- Yellow, green and sky appear only on navy or blue backgrounds. They fail contrast on white.
-- Accent colour means `--color-accent`. Switching the accent to green is a one-line change.
+- Orange and mint text appear only on `--brand-deep` or `--brand-deeper` (orange 5.0:1, mint 6.1:1 on deep). On `--brand-teal` bands, use cream or white text instead; orange is only 3.0:1 there.
+- Coral never carries text. It fails 4.5:1 on every background in the palette, so use it only for rules, dots, underlines and shapes.
+- Teal (`--color-primary`) is safe for text on white and cream (about 6.8:1).
+- The CTA on dark backgrounds is an orange fill with `--brand-deep` text.
+- Accent colour means `--color-accent`, so swapping the accent is a one-line change.
 
 ### 5.2 Typography
 
@@ -130,8 +134,8 @@ Rules:
 - Content width is 1200px, with 120px side padding at desktop and 20px on mobile.
 - Section vertical padding is about 128–144px on desktop and 56–72px on mobile.
 - Buttons are square-cornered (`--radius-button: 2px`) and at least 44px tall.
-  - Primary: navy fill.
-  - Secondary: navy outline.
+  - Primary: deep-teal fill.
+  - Secondary: deep-teal outline.
   - Text link: blue with an arrow icon.
 
 ## 6. Components
@@ -140,8 +144,8 @@ New components go in `resources/js/Components/site/`. Each one is presentational
 
 | Component | Purpose |
 |---|---|
-| `SiteHeader.vue` | Transparent overlay header. Nav links sit left and right of a centred logo; the "Kunjungi Kami" outline button is at the right. The active page gets an accent underline. It turns solid navy after scrolling. Below `lg` it shows the logo and a menu button. |
-| `MobileMenu.vue` | Full-screen navy overlay with the links in large serif type. It also shows the Sunday times and a "Kunjungi Ibadah Kami" button. It closes on Esc or a link click and traps focus while open. |
+| `SiteHeader.vue` | Transparent overlay header. Nav links sit left and right of a centred logo; the "Kunjungi Kami" outline button is at the right. The active page gets a coral underline. It turns solid deep teal after scrolling. Below `lg` it shows the logo and a menu button. |
+| `MobileMenu.vue` | Full-screen deep-teal overlay with the links in large serif type. It also shows the Sunday times and a "Kunjungi Ibadah Kami" button. It closes on Esc or a link click and traps focus while open. |
 | `SiteFooter.vue` | Navy-deep footer: logo, motto in serif italic, Jelajahi / Terhubung / Kunjungi columns, and a copyright row. Data comes from `generalSettings`. |
 | `PageHero.vue` | Full-bleed image hero: eyebrow, H1 and optional subtitle at the bottom-left. Props: `image`, `video?`, `eyebrow`, `title`, `subtitle?`, `height` (`full` for home, `page` for about 560–640px). |
 | `SectionHeading.vue` | Eyebrow with a short rule, plus an H2. Props: `eyebrow`, `title`, `align`, `tone` (`light`/`dark`). An optional slot on the right holds actions. |
@@ -187,7 +191,7 @@ Section order follows the canvas. Unless noted, every item comes from the existi
 
 **Home**
 1. Full-screen hero:
-   - Video or image with a 28% navy scrim, and the header overlaid.
+   - Video or image with a 28% deep-teal scrim, and the header overlaid.
    - Eyebrow "GPdI Hebron · Gading Serpong".
    - H1 from the hero title.
    - "Kunjungi Ibadah Kami" (links to Kontak) and "Tonton Online" (links to `livestream_url`).
@@ -209,7 +213,7 @@ Section order follows the canvas. Unless noted, every item comes from the existi
 
 - Hero.
 - Visi & Misi beside an arch-topped image.
-- Values on navy: 4 columns, each showing a number, name, Bible reference and points rendered from the rich text.
+- Values on deep teal: 4 columns, each showing a number, name, Bible reference and points rendered from the rich text.
 - History timeline, alternating left and right; it is a single column on mobile.
 - Tim Pastoral grid (`#pastoral`).
 
@@ -278,7 +282,7 @@ Section order follows the canvas. Unless noted, every item comes from the existi
 ## 10. Error handling and empty states
 
 - Missing admin data renders nothing for that section rather than broken UI. For example, the devotion section is hidden when there are no posts, and the gallery is hidden when there are no carousel images.
-- A missing hero image falls back to a solid navy background, and text stays legible.
+- A missing hero image falls back to a solid deep-teal background, and text stays legible.
 - An unknown devotion slug returns 404, as today. An unknown category returns the unfiltered list.
 
 ## 11. Testing
