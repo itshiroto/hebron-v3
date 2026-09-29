@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Division;
+use App\Models\Pages;
 use App\Models\User;
 
 beforeEach(function () {
@@ -20,4 +21,15 @@ it('lists divisions in the admin table', function () {
     $this->get('/admin/divisions/divisions')
         ->assertOk()
         ->assertSee('Seeds of Truth');
+});
+
+it('shows the hero video and livestream fields on the home admin page', function () {
+    Pages::create(['name' => 'Home'])->sections()->create(['name' => 'schedule', 'content' => [
+        'services' => [['title' => 'Ibadah Raya 2', 'time' => '10.00']],
+    ]]);
+
+    $this->get('/admin/home-page')
+        ->assertOk()
+        ->assertSee('heroData.video', false)
+        ->assertSee('Live Streaming');
 });

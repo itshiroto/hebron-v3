@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Devotion;
+use App\Models\Division;
 use App\Models\Pages;
 use App\Models\Pastor;
 use Inertia\Inertia;
@@ -46,6 +48,10 @@ class HomeController extends Controller
             'carousel' => $carouselData,
             'schedule' => $scheduleData,
             'pastorGreeting' => $pastorGreetingData,
+            'divisions' => Division::ordered()->get(),
+            'latestDevotions' => Devotion::latest()->take(3)->get()
+                ->map(fn (Devotion $d) => $d->append(['snippet', 'reading_minutes'])->makeHidden('content'))
+                ->values(),
         ]);
     }
 }

@@ -8,6 +8,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Toggle;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
 use Filament\Forms\Components\Grid;
@@ -94,6 +95,12 @@ class HomePage extends Page implements HasForms
                         ->imageEditor()
                         ->directory('home-page-hero')
                         ->required(),
+                    FileUpload::make('heroData.video')
+                        ->label('Background Video (optional, muted loop)')
+                        ->acceptedFileTypes(['video/mp4', 'video/webm'])
+                        ->maxSize(51200)
+                        ->directory('home-page-hero')
+                        ->helperText('Gambar latar dipakai sebagai poster dan cadangan.'),
                     Grid::make(2)->schema([
                         TextInput::make('heroData.primary_button.text')
                             ->label('Primary Button Text'),
@@ -165,9 +172,12 @@ class HomePage extends Page implements HasForms
                             TextInput::make('time')
                                 ->label('Service Time')
                                 ->required(),
+                            Toggle::make('livestream')
+                                ->label('Live Streaming')
+                                ->default(false),
                         ])
                         ->defaultItems(1)
-                        ->columns(2)
+                        ->columns(3)
                         ->collapsible()
                         ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
                     TextInput::make('scheduleData.division_button_text')
@@ -215,6 +225,10 @@ class HomePage extends Page implements HasForms
         // Handle image paths for heroData
         if (isset($data['heroData']['image']) && is_array($data['heroData']['image'])) {
             $data['heroData']['image'] = $data['heroData']['image'][0] ?? null;
+        }
+
+        if (isset($data['heroData']['video']) && is_array($data['heroData']['video'])) {
+            $data['heroData']['video'] = $data['heroData']['video'][0] ?? null;
         }
 
         // Handle image paths for carouselData
