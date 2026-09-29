@@ -146,7 +146,7 @@ New components go in `resources/js/Components/site/`. Each one is presentational
 |---|---|
 | `SiteHeader.vue` | Transparent overlay header. Nav links sit left and right of a centred logo; the "Kunjungi Kami" outline button is at the right. The active page gets a coral underline. It turns solid deep teal after scrolling. Below `lg` it shows the logo and a menu button. |
 | `MobileMenu.vue` | Full-screen deep-teal overlay with the links in large serif type. It also shows the Sunday times and a "Kunjungi Ibadah Kami" button. It closes on Esc or a link click and traps focus while open. |
-| `SiteFooter.vue` | Navy-deep footer: logo, motto in serif italic, Jelajahi / Terhubung / Kunjungi columns, and a copyright row. Data comes from `generalSettings`. |
+| `SiteFooter.vue` | Deeper-teal footer: logo, motto in serif italic, Jelajahi / Terhubung / Kunjungi columns, and a copyright row. Data comes from `generalSettings`. |
 | `PageHero.vue` | Full-bleed image hero: eyebrow, H1 and optional subtitle at the bottom-left. Props: `image`, `video?`, `eyebrow`, `title`, `subtitle?`, `height` (`full` for home, `page` for about 560–640px). |
 | `SectionHeading.vue` | Eyebrow with a short rule, plus an H2. Props: `eyebrow`, `title`, `align`, `tone` (`light`/`dark`). An optional slot on the right holds actions. |
 | `BaseButton.vue` | `variant: primary \| outline \| outline-light \| light \| link`, rendered as `<a>` or `<button>`. |
@@ -196,7 +196,7 @@ Section order follows the canvas. Unless noted, every item comes from the existi
    - H1 from the hero title.
    - "Kunjungi Ibadah Kami" (links to Kontak) and "Tonton Online" (links to `livestream_url`).
    - A pause button, 44px, with the aria-label "Jeda video latar".
-2. Navy "Ibadah Raya" band: one column per service, showing the title, time + "WIB", and the livestream badge.
+2. Deep-teal "Ibadah Raya" band: one column per service, showing the title, time + "WIB", and the livestream badge.
 3. Divisi carousel:
    - Eyebrow "{n} Divisi", heading "Ibadah untuk setiap generasi".
    - Prev/next buttons with a progress bar.
@@ -232,14 +232,14 @@ Section order follows the canvas. Unless noted, every item comes from the existi
 
 **Renungan (list):**
 
-- Navy header band with the category tabs Semua / Renungan / Berita / Pengumuman. The tabs are links, not client-side state, so the filter works without JavaScript.
+- Deep-teal header band with the category tabs Semua / Renungan / Berita / Pengumuman. The tabs are links, not client-side state, so the filter works without JavaScript.
 - The featured post.
 - A 3-column grid.
 - Pagination. Mobile uses a "Muat lebih banyak" link to the next page.
 
 **Renungan (post):**
 
-- Navy title band with "← Semua renungan", the category, the title, and the date + "{n} menit baca".
+- Deep-teal title band with "← Semua renungan", the category, the title, and the date + "{n} menit baca".
 - The featured image overlaps the band.
 - A 720px article column with typography styles for `p`, `h2`, `blockquote` (serif italic with a blue left rule) and `cite`.
 - Share buttons: WhatsApp, Facebook, and "Salin tautan" using the Clipboard API.
