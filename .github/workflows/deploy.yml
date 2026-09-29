@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - production
-      - staging
+      - main
 
 permissions:
   contents: read
@@ -13,8 +13,8 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    # Each GitHub environment (production, staging) holds its own PORTAINER_WEBHOOK_URL secret
-    environment: ${{ github.ref_name }}
+    # main deploys staging. Each GitHub environment holds its own PORTAINER_WEBHOOK_URL secret
+    environment: ${{ github.ref_name == 'production' && 'production' || 'staging' }}
 
     steps:
       - name: Checkout code
@@ -33,7 +33,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/itshiroto/hebron-v3:${{ github.ref_name == 'production' && 'latest' || github.ref_name }}
+            ghcr.io/itshiroto/hebron-v3:${{ github.ref_name == 'production' && 'latest' || 'staging' }}
             ghcr.io/itshiroto/hebron-v3:${{ github.sha }}
 
       - name: Redeploy Portainer stack

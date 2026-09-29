@@ -5,13 +5,13 @@ image and the same `docker-compose.yml`. Only the stack environment variables ar
 
 ## How a deploy works
 
-1. You push to the `staging` or `production` branch.
+1. You push to `main` (deploys staging) or `production` (deploys production).
 2. [`.github/workflows/deploy.yml`](../.github/workflows/deploy.yml) builds the image and pushes it to GHCR:
 
    | Branch       | Image tag                                | GitHub environment |
    |--------------|------------------------------------------|--------------------|
    | `production` | `ghcr.io/itshiroto/hebron-v3:latest`     | `production`       |
-   | `staging`    | `ghcr.io/itshiroto/hebron-v3:staging`    | `staging`          |
+   | `main`       | `ghcr.io/itshiroto/hebron-v3:staging`    | `staging`          |
 
    Every build is also tagged with the commit SHA, for rollbacks.
 3. The workflow calls the `PORTAINER_WEBHOOK_URL` secret of that GitHub environment.
@@ -51,7 +51,7 @@ Create one stack per environment: **Stacks → Add stack → Repository**.
 |--------------------------|------------------------------------|------------------------------------|
 | Name                     | `hebron-production`                | `hebron-staging`                   |
 | Repository URL           | `https://github.com/itshiroto/hebron-v3` | same                         |
-| Repository reference     | `refs/heads/production`            | `refs/heads/staging`               |
+| Repository reference     | `refs/heads/production`            | `refs/heads/main`                  |
 | Compose path             | `docker-compose.yml`               | `docker-compose.yml`               |
 | Authentication           | GitHub username + PAT with `repo` read access (if the repo is private) | same |
 
@@ -97,13 +97,10 @@ Caddy, Cloudflare Tunnel) in front of it and terminate HTTPS there:
 
 The app trusts proxy headers, so HTTPS URLs are generated correctly. Make sure `APP_URL` uses `https://`.
 
-### 6. Create the `staging` branch
+### 6. First deploy
 
-```bash
-git push origin main:staging
-```
-
-This push triggers the first staging build and deploy.
+Push to `main` (any commit) to trigger the first staging build and deploy. Push to `production` for
+the first production deploy.
 
 ### 7. First-run data
 
@@ -130,13 +127,8 @@ php artisan db:copy-from "mariadb://user:pass@host:3306/hebron_v3"
 
 ## Day-to-day releases
 
-1. Merge your work into `main`.
-2. Deploy to staging and check the site:
-
-   ```bash
-   git push origin main:staging
-   ```
-
+1. Push or merge your work into `main`. This deploys staging automatically.
+2. Check the staging site.
 3. When staging looks good, deploy the same commit to production:
 
    ```bash
