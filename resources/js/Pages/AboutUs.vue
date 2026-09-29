@@ -1,170 +1,95 @@
+<script setup lang="ts">
+import { computed } from 'vue';
+import { Head } from '@inertiajs/vue3';
+import { Icon } from '@iconify/vue';
+import DefaultLayout from '@/Layouts/DefaultLayout.vue';
+import PageHero from '@/Components/site/PageHero.vue';
+import SectionHeading from '@/Components/site/SectionHeading.vue';
+import BaseButton from '@/Components/site/BaseButton.vue';
+import { storageUrl } from '@/lib/site';
+import type { AboutPageProps, BeliefsSectionData } from '@/types/about-page';
+
+const props = defineProps<AboutPageProps>();
+const beliefs = computed<BeliefsSectionData>(() => (Array.isArray(props.beliefs) ? {} : props.beliefs ?? {}));
+const beliefItems = computed(() => beliefs.value.items ?? []);
+</script>
+
 <template>
-
-    <Head title="About Us" />
+    <Head title="Tentang Kami" />
     <DefaultLayout>
-        <section id="hero" class="relative h-screen text-white pt-20 bg-cover bg-center"
-            :style="{ backgroundImage: `url(/storage/${hero.image})` }">
-            <div class="absolute inset-0 bg-gradient-to-t from-20% from-black/60 to-black/0 mix-blend-multiply"></div>
-            <div class="z-10 relative h-full max-w-screen-xl mx-auto py-16 px-8">
-                <div class="h-full max-w-2xl mx-auto text-center flex flex-col justify-between">
-                    <div></div>
-                    <h1 class="text-6xl font-semibold tracking-tight mb-8 drop-shadow">{{ hero.title }}</h1>
-                    <p class="leading-relaxed text-xl font-sans tracking-tight" v-html="hero.subtitle"></p>
+        <PageHero :image="hero?.image" eyebrow="Tentang Kami" :title="hero?.title || 'Tentang Hebron'" :subtitle="hero?.subtitle" />
+
+        <!-- Visi & Misi -->
+        <section v-if="visionMission?.visi" class="container-site section-y grid gap-8 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-28">
+            <div class="h-[380px] overflow-hidden rounded-t-[170px] rounded-b bg-brand-mint/40 lg:h-[600px] lg:rounded-t-[240px]">
+                <img v-if="visionMission.image" :src="storageUrl(visionMission.image)!" alt="" loading="lazy" class="h-full w-full object-cover" />
+            </div>
+            <div class="flex flex-col gap-8 lg:gap-12">
+                <div class="flex flex-col gap-3 border-b border-line pb-8 lg:gap-5 lg:border-0 lg:pb-0">
+                    <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-teal lg:text-xs">{{ visionMission.visi.title }}</p>
+                    <div class="rich-text font-serif text-[28px] leading-tight text-heading lg:text-[40px]" v-html="visionMission.visi.desc"></div>
+                </div>
+                <div class="hidden h-px bg-line lg:block"></div>
+                <div class="flex flex-col gap-3 lg:gap-6">
+                    <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-teal lg:text-xs">{{ visionMission.misi.title }}</p>
+                    <div class="rich-text mission-list text-base leading-relaxed lg:text-lg" v-html="visionMission.misi.desc"></div>
                 </div>
             </div>
         </section>
 
-        <section id="visimisi" class="max-w-screen-xl mx-auto my-32 px-8 grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div class="w-full h-[24em] lg:h-full bg-gray-800">
-                <img class="h-full w-full object-cover" :src="`/storage/${visionMission.image}`" />
-            </div>
-            <div class="flex flex-col gap-12">
-                <div>
-                    <h3 class="uppercase font-sans font-bold text-gray-600 mb-4">{{ visionMission.visi.title }}</h3>
-                    <p class="text-xl leading-relaxed" v-html="visionMission.visi.desc"></p>
-                </div>
-                <div>
-                    <h3 class="uppercase font-sans font-bold text-gray-600 mb-4">{{ visionMission.misi.title }}</h3>
-                    <p class="prose text-xl text-black marker:text-gray-600 leading-relaxed" v-html="visionMission.misi.desc"></p>
-                </div>
-            </div>
-        </section>
-
-        <section id="values" class="max-w-screen-xl mx-auto my-32 px-8">
-            <h1 class="text-4xl mb-16 text-center">Our Values</h1>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center items-stretch">
-                <div v-for="val in values" :key="val.title"
-                    class="flex flex-col items-center border border-gray-200 rounded-lg p-8 h-full">
+        <!-- Nilai-nilai -->
+        <section v-if="values?.length" class="bg-brand-deep text-white">
+            <div class="container-site section-y flex flex-col gap-8 lg:gap-16">
+                <SectionHeading eyebrow="Yang kami pegang" title="Nilai-nilai kami" tone="dark" />
+                <div class="grid border-t border-white/20 lg:grid-cols-4">
                     <div
-                        class="rounded-full aspect-square size-24 mb-8 text-5xl">
-                        <Icon :icon="val.icon" class="h-full w-full" />
-                    </div>
-                    <h4 class="text-2xl mb-2">{{ val.title }}</h4>
-                    <p class="text-center" v-html="val.desc"></p>
-                </div>
-            </div>
-        </section>
-
-        <section id="history" class="my-32 bg-gray-100">
-            <div class="max-w-screen-xl mx-auto py-16 px-8">
-                <h1 class="text-4xl mb-16 text-center">The Story behind Our Journey</h1>
-                <div id="stories-list"
-                    class="relative pl-10 md:pl-0 py-16 flex flex-col items-center justify-center gap-32">
-
-                    <div id="stories-progressBar"
-                        class="origin-top absolute top-0 left-1.5 md:left-auto h-full w-1 md:w-0.5 bg-gray-800 rounded-full z-10" />
-                    <div id="stories-progressBarBg"
-                        class="absolute top-0 left-1.5 md:left-auto h-full w-1 md:w-0.5 bg-gray-200 rounded-full" />
-
-                    <div v-for="(story, index) in history" :key="index"
-                        class="stories-item relative grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-48 z-10"
-                        :class="{ 'md:grid-flow-col-dense': index % 2 !== 0 }">
-
-                        <div
-                            class="story-dot absolute -left-10 md:left-1/2 md:-translate-x-1/2 top-0 rounded-full aspect-square w-4 mt-2 bg-gray-600">
-                        </div>
-
-                        <div class="flex flex-col"
-                            :class="{ 'md:order-2 items-start': index % 2 !== 0, 'md:items-end md:text-right': index % 2 === 0 }">
-                            <h3 class="uppercase font-sans text-2xl font-bold tracking-tight mb-4">
-                                {{ story.title }}
-                            </h3>
-                            <div v-if="story.image" class="w-full max-w-lg aspect-video bg-gray-900">
-                                <img :src="`/storage/${story.image}`" alt="" class="w-full h-full object-cover" />
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col"
-                            :class="{ 'md:order-1': index % 2 !== 0, 'md:items-end md:text-right': index % 2 !== 0 }">
-                            <p class="font-sans text-sm font-bold text-gray-600 uppercase mt-2 mb-4">{{ story.date }}
-                            </p>
-                            <p class="text-lg leading-relaxed" v-html="story.desc"></p>
-                        </div>
+                        v-for="(value, index) in values"
+                        :key="value.title"
+                        class="flex flex-col gap-3 border-b border-white/20 py-6 lg:gap-5 lg:border-b-0 lg:py-0 lg:pr-8 lg:pt-10"
+                        :class="index > 0 ? 'lg:border-l lg:pl-8' : ''"
+                    >
+                        <p class="text-xs font-semibold tracking-[0.16em] text-brand-orange lg:text-[13px]">{{ String(index + 1).padStart(2, '0') }}</p>
+                        <Icon v-if="value.icon" :icon="value.icon" class="h-9 w-9 text-brand-mint" aria-hidden="true" />
+                        <p class="font-serif text-[28px] leading-tight lg:text-[34px]">{{ value.title }}</p>
+                        <div class="rich-text text-sm leading-loose text-white/75 lg:text-[15px] [&_a]:text-brand-mint [&>p:first-child]:text-[13px] [&>p:first-child]:font-semibold [&>p:first-child]:tracking-[0.12em] [&>p:first-child]:text-brand-mint" v-html="value.desc"></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="pastoral" class="max-w-screen-xl mx-auto my-32 px-8">
-            <h1 class="text-4xl mb-16 text-center">Pastoral Team</h1>
-            <div class="flex flex-wrap gap-8 justify-center items-center">
-                <div v-for="pastor in pastors" class="max-w-sm w-full flex flex-col gap-4">
-                    <div class="aspect-square h-full w-full bg-gray-800 mb-4 rounded-lg overflow-clip">
-                        <img v-if="pastor.image" class="w-full h-full object-cover" :src="`/storage/${pastor.image}`"
-                            alt="" />
+        <!-- Pengakuan Iman -->
+        <section v-if="beliefItems.length" class="container-site section-y grid gap-8 lg:grid-cols-[5fr_7fr] lg:gap-28">
+            <div class="flex flex-col gap-5 lg:gap-6">
+                <SectionHeading eyebrow="Pengakuan Iman" :title="beliefs.title || 'Apa yang kami percaya'" />
+                <div v-if="beliefs.intro" class="rich-text text-[15px] leading-relaxed text-ink-muted lg:text-[17px]" v-html="beliefs.intro"></div>
+                <BaseButton v-if="beliefs.link" :href="beliefs.link" external variant="link" class="self-start">Baca Pengakuan Iman GPdI lengkap →</BaseButton>
+            </div>
+            <ol class="grid border-t border-line lg:grid-cols-2 lg:gap-x-12">
+                <li v-for="(item, index) in beliefItems" :key="item.title" class="flex gap-4 border-b border-line py-5 lg:flex-col lg:gap-2.5 lg:py-7">
+                    <span class="w-8 shrink-0 font-serif text-2xl leading-tight text-brand-teal lg:text-[28px]">{{ String(index + 1).padStart(2, '0') }}</span>
+                    <div class="flex flex-col gap-1.5 lg:gap-2.5">
+                        <p class="font-serif text-2xl leading-tight text-heading lg:text-[28px]">{{ item.title }}</p>
+                        <p class="text-sm leading-relaxed text-ink-muted lg:text-[15px]">{{ item.desc }}</p>
+                        <p v-if="item.verse" class="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-teal lg:text-xs">{{ item.verse }}</p>
                     </div>
-                    <h4 class="uppercase text-sm text-gray-600 font-bold font-sans leading-none">{{ pastor.position }}
-                    </h4>
-                    <h2 class="text-3xl leading-none">{{ pastor.name }}</h2>
+                </li>
+            </ol>
+        </section>
+
+        <!-- Tim Pastoral -->
+        <section v-if="pastors?.length" id="pastoral" class="scroll-mt-16 bg-mist lg:scroll-mt-[88px]">
+            <div class="container-site section-y flex flex-col gap-8 lg:gap-16">
+                <SectionHeading eyebrow="Kepemimpinan" title="Tim Pastoral" />
+                <div class="grid grid-cols-2 gap-x-3.5 gap-y-7 lg:grid-cols-4 lg:gap-8">
+                    <div v-for="pastor in pastors" :key="pastor.name" class="flex flex-col gap-2 lg:gap-3">
+                        <div class="mb-1.5 h-[210px] overflow-hidden bg-brand-mint/40 lg:mb-2 lg:h-[360px]">
+                            <img v-if="pastor.image" :src="storageUrl(pastor.image)!" :alt="pastor.name" loading="lazy" class="h-full w-full object-cover" />
+                        </div>
+                        <p class="text-[10px] font-semibold uppercase tracking-[0.16em] text-brand-teal lg:text-xs">{{ pastor.position }}</p>
+                        <p class="font-serif text-[22px] leading-tight text-heading lg:text-[32px]">{{ pastor.name }}</p>
+                    </div>
                 </div>
             </div>
         </section>
     </DefaultLayout>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue';
-import DefaultLayout from '@/Layouts/DefaultLayout.vue';
-import { Head } from "@inertiajs/vue3";
-import { onMounted, onUnmounted } from 'vue';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Icon } from '@iconify/vue';
-gsap.registerPlugin(ScrollTrigger);
-
-import type { AboutPageProps } from '@/types/about-page';
-
-defineProps<AboutPageProps>();
-
-let ctx: gsap.Context;
-
-onMounted(() => {
-    let history_item = gsap.utils.toArray<HTMLElement>(".stories-item")
-    ctx = gsap.context(() => {
-        gsap.from(
-            "#stories-progressBar",
-            {
-                scaleY: 0,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: "#stories-list",
-                    start: "top center",
-                    end: "bottom center",
-                    scrub: true,
-                }
-            }
-        )
-
-        history_item.forEach(item => {
-            gsap.fromTo(
-                item,
-                {
-                    opacity: "30%"
-                },
-                {
-                    opacity: "100%",
-                    duration: 0.5,
-                    scrollTrigger: {
-                        trigger: item,
-                        start: "top center",
-                        end: "bottom center",
-                        toggleActions: "play none none reverse",
-                        onEnter: () => {
-                            item.children[0].classList.add("bg-blue-800");
-                            item.children[0].classList.remove("bg-gray-600");
-                        },
-                        onLeaveBack: () => {
-                            item.children[0].classList.remove("bg-blue-800");
-                            item.children[0].classList.add("bg-gray-600");
-                        }
-                    },
-                }
-            )
-        })
-    })
-})
-
-onUnmounted(() => {
-    ctx.revert();
-})
-</script>

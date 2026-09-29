@@ -59,4 +59,18 @@ export interface AboutPageProps {
     values: ValueItem[];
     history: HistoryItem[];
     pastors: PastorItem[];
+    beliefs: BeliefsSectionData | [];
+}
+
+export interface BeliefItem {
+    title: string;
+    desc: string;
+    verse?: string;
+}
+
+export interface BeliefsSectionData {
+    title?: string;
+    intro?: string;
+    link?: string;
+    items?: BeliefItem[];
 }
