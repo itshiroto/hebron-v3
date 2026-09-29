@@ -150,7 +150,8 @@ New components go in `resources/js/Components/site/`. Each one is presentational
 | `PageHero.vue` | Full-bleed image hero: eyebrow, H1 and optional subtitle at the bottom-left. Props: `image`, `video?`, `eyebrow`, `title`, `subtitle?`, `height` (`full` for home, `page` for about 560–640px). |
 | `SectionHeading.vue` | Eyebrow with a short rule, plus an H2. Props: `eyebrow`, `title`, `align`, `tone` (`light`/`dark`). An optional slot on the right holds actions. |
 | `BaseButton.vue` | `variant: primary \| outline \| outline-light \| light \| link`, rendered as `<a>` or `<button>`. |
-| `DivisionCard.vue` (rewrite) | Two variants. `compact` is a carousel card with audience, name and time. `DivisionTabs.vue` is a separate component that renders the Divisi page's list + detail / accordion (below). When `time` is empty it shows the "Jadwal akan diumumkan" state. |
+| `DivisionCard.vue` (rewrite) | Homepage carousel card: audience, name, time. An empty `time` shows the "Jadwal akan diumumkan" state. |
+| `DivisionTabs.vue` | Divisi page: list + detail tabs on desktop, accordion on mobile (§8). The empty-time state matches `DivisionCard`. |
 | `PostCard.vue` | Devotion card. Variants: `grid`, `featured`, `row` (the mobile thumbnail row). |
 
 `DefaultLayout.vue` renders `SiteHeader`, the slot and `SiteFooter`. It drops the `font-serif` default on `<main>`, because body text is sans and headings opt into serif.
