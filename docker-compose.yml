@@ -1,0 +1,27 @@
+services:
+  app:
+    image: ghcr.io/itshiroto/hebron-v3:latest
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      APP_NAME: Hebron
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_KEY: ${APP_KEY:?set APP_KEY in the Portainer stack env}
+      APP_URL: ${APP_URL:-https://hebronfamilychurch.com}
+      LOG_CHANNEL: stderr
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /var/www/html/database/data/database.sqlite
+      SESSION_DRIVER: database
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+      AUTORUN_ENABLED: "true"
+      PHP_OPCACHE_ENABLE: "1"
+    volumes:
+      - database:/var/www/html/database/data
+      - uploads:/var/www/html/storage/app
+
+volumes:
+  database:
+  uploads:
