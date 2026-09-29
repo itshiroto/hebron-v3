@@ -37,7 +37,7 @@ const faqs = computed(() => props.sections.faq?.questionsList ?? []);
                     <p class="text-xs font-semibold tracking-[0.16em] text-brand-teal lg:text-[13px]">{{ String(index + 1).padStart(2, '0') }}</p>
                     <h3 class="font-serif text-[28px] leading-[1.05] text-heading lg:text-[34px]">{{ ministry.title }}</h3>
                     <div class="rich-text text-[15px] leading-relaxed text-ink-muted" v-html="ministry.desc"></div>
-                    <BaseButton v-if="ministry.link" :href="ministry.link" external variant="link" class="mt-auto !justify-start self-stretch border-t border-line pt-3.5">Daftar melayani →</BaseButton>
+                    <BaseButton v-if="ministry.link" :href="ministry.link" external variant="link" class="mt-auto justify-start! self-stretch border-t border-line pt-3.5">Daftar melayani →</BaseButton>
                 </article>
             </div>
         </section>

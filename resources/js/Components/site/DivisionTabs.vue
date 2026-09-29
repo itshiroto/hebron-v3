@@ -62,8 +62,8 @@ onMounted(() => {
                 :aria-selected="i === selected"
                 :aria-controls="`panel-${division.slug}`"
                 :tabindex="i === selected ? 0 : -1"
-                class="flex min-h-[88px] w-full items-center justify-between gap-4 border-b border-line px-5 py-4 text-left transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-teal"
-                :class="i === selected ? 'bg-mist shadow-[inset_3px_0_0_rgb(var(--color-decor))]' : 'hover:bg-mist/60'"
+                class="flex min-h-[88px] w-full items-center justify-between gap-4 border-b border-line px-5 py-4 text-left transition-colors focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-teal"
+                :class="i === selected ? 'bg-mist shadow-[inset_3px_0_0_var(--color-decor)]' : 'hover:bg-mist/60'"
                 @click="select(i)"
                 @keydown="onKeydown($event, i)"
             >
@@ -74,7 +74,7 @@ onMounted(() => {
                 <span v-if="division.short_time" class="text-right text-[13px] font-semibold" :class="division.time ? 'text-brand-teal' : 'text-ink-muted'">{{ division.short_time }}</span>
             </button>
         </div>
-        <div v-if="current" :id="`panel-${current.slug}`" role="tabpanel" :aria-labelledby="`tab-${current.slug}`" tabindex="0" class="flex flex-col gap-5 focus-visible:outline-none">
+        <div v-if="current" :id="`panel-${current.slug}`" role="tabpanel" :aria-labelledby="`tab-${current.slug}`" tabindex="0" class="flex flex-col gap-5 focus-visible:outline-hidden">
             <div class="h-[460px] overflow-hidden bg-brand-mint/40">
                 <img v-if="current.image" :src="storageUrl(current.image)!" :alt="current.title" class="h-full w-full object-cover" />
             </div>
@@ -92,7 +92,7 @@ onMounted(() => {
             v-for="(division, i) in divisions"
             :key="division.id"
             class="border-b border-line"
-            :class="openIndex === i ? 'bg-mist shadow-[inset_3px_0_0_rgb(var(--color-decor))]' : ''"
+            :class="openIndex === i ? 'bg-mist shadow-[inset_3px_0_0_var(--color-decor)]' : ''"
         >
             <h2>
                 <button

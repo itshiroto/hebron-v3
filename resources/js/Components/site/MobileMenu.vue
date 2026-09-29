@@ -63,7 +63,7 @@ onBeforeUnmount(() => {
             role="dialog"
             aria-modal="true"
             aria-label="Menu"
-            class="fixed inset-0 z-[60] flex flex-col bg-brand-deep text-white lg:hidden"
+            class="fixed inset-0 z-60 flex flex-col bg-brand-deep text-white lg:hidden"
             @keydown="onKeydown"
         >
             <div class="flex h-16 items-center justify-between pl-5 pr-3">

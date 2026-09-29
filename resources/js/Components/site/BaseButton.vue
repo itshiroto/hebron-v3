@@ -18,13 +18,13 @@ const VARIANTS = {
     'outline-light': 'border border-white/70 text-white hover:bg-white hover:text-heading focus-visible:outline-brand-orange',
     light: 'bg-white text-heading hover:bg-brand-cream focus-visible:outline-brand-orange',
     accent: 'bg-brand-orange text-heading hover:bg-brand-orange/90 focus-visible:outline-white',
-    link: '!min-h-0 !px-0 text-brand-teal hover:text-heading focus-visible:outline-brand-teal',
-    'link-light': '!min-h-0 !px-0 text-white hover:text-brand-mint focus-visible:outline-brand-orange',
+    link: 'min-h-0! px-0! text-brand-teal hover:text-heading focus-visible:outline-brand-teal',
+    'link-light': 'min-h-0! px-0! text-white hover:text-brand-mint focus-visible:outline-brand-orange',
 } as const;
 
 const classes = computed(
     () =>
-        `inline-flex min-h-[44px] items-center justify-center gap-2.5 rounded-button px-6 text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${VARIANTS[props.variant]}`,
+        `inline-flex min-h-[44px] items-center justify-center gap-2.5 rounded-button px-6 text-sm font-semibold transition-colors focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 ${VARIANTS[props.variant]}`,
 );
 const internal = computed(() => !!props.href && !props.external && props.href.startsWith('/'));
 </script>

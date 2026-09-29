@@ -10,6 +10,7 @@ import PostCard from '@/Components/site/PostCard.vue';
 import { useSiteSettings } from '@/composables/useSiteSettings';
 import { MOTTO, storageUrl } from '@/lib/site';
 import type { HomePageProps } from '@/types/home-page';
+import { vReveal } from '@/lib/reveal';
 
 const props = defineProps<HomePageProps>();
 const { address, mapsUrl, livestreamUrl, services, socials } = useSiteSettings();
@@ -52,10 +53,11 @@ onMounted(updateProgress);
         <!-- Ibadah Raya band -->
         <section v-if="services.length" class="bg-brand-deep text-white">
             <div class="container-site grid gap-6 py-12 lg:grid-cols-4 lg:items-center lg:gap-12 lg:py-14">
-                <h2 class="font-serif text-[32px] leading-tight lg:text-4xl">Ibadah Raya</h2>
+                <h2 v-reveal class="font-serif text-[32px] leading-tight lg:text-4xl">Ibadah Raya</h2>
                 <div
-                    v-for="service in services"
+                    v-for="(service, index) in services"
                     :key="service.title"
+                    v-reveal="(index + 1) * 120"
                     class="flex items-center justify-between border-t border-white/20 pt-4 lg:flex-col lg:items-start lg:gap-1.5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
                 >
                     <div class="flex flex-col gap-1.5">
@@ -72,25 +74,26 @@ onMounted(updateProgress);
         <!-- Divisi carousel -->
         <section v-if="divisions.length" class="section-y">
             <div class="container-site">
-                <SectionHeading :eyebrow="`${divisions.length} Divisi`" title="Ibadah untuk setiap generasi" actions-class="hidden lg:flex">
+                <SectionHeading v-reveal :eyebrow="`${divisions.length} Divisi`" title="Ibadah untuk setiap generasi" actions-class="hidden lg:flex">
                     <template #actions>
                         <BaseButton href="/division" variant="link">Semua divisi →</BaseButton>
                         <div class="flex gap-2">
-                            <button type="button" aria-label="Divisi sebelumnya" class="flex h-12 w-12 items-center justify-center rounded-full border border-line-strong text-heading focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(-1)">←</button>
-                            <button type="button" aria-label="Divisi berikutnya" class="flex h-12 w-12 items-center justify-center rounded-full bg-heading text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(1)">→</button>
+                            <button type="button" aria-label="Divisi sebelumnya" class="flex h-12 w-12 items-center justify-center rounded-full border border-line-strong text-heading focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(-1)">←</button>
+                            <button type="button" aria-label="Divisi berikutnya" class="flex h-12 w-12 items-center justify-center rounded-full bg-heading text-white focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(1)">→</button>
                         </div>
                     </template>
                 </SectionHeading>
             </div>
             <div
                 ref="track"
-                class="mt-8 flex snap-x snap-mandatory scroll-pl-5 gap-3.5 overflow-x-auto pl-5 pr-5 [scrollbar-width:none] lg:mt-14 lg:scroll-pl-[120px] lg:gap-6 lg:pl-[120px]"
+                v-reveal="150"
+                class="mt-8 flex snap-x snap-mandatory scroll-pl-5 gap-3.5 overflow-x-auto pl-5 pr-5 scrollbar-none lg:mt-14 lg:scroll-pl-[120px] lg:gap-6 lg:pl-[120px]"
                 @scroll.passive="updateProgress"
             >
                 <DivisionCard v-for="division in divisions" :key="division.id" :division="division" />
             </div>
             <div class="container-site mt-8 flex items-center gap-4">
-                <div class="relative h-0.5 flex-grow bg-line">
+                <div class="relative h-0.5 grow bg-line">
                     <div class="absolute inset-y-0 left-0 bg-heading transition-[width]" :style="{ width: `${Math.max(progress, 1 / divisions.length) * 100}%` }"></div>
                 </div>
                 <BaseButton href="/division" variant="link" class="shrink-0 lg:hidden">Semua divisi →</BaseButton>
@@ -100,16 +103,16 @@ onMounted(updateProgress);
         <!-- Visi & Misi -->
         <section v-if="visionMission?.visi" class="bg-mist lg:bg-white">
             <div class="container-site section-y grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-28">
-                <div class="flex flex-col gap-6">
+                <div v-reveal class="flex flex-col gap-6">
                     <SectionHeading eyebrow="Tentang Hebron" :title="visionMission.title || 'Visi & Misi'" />
                     <BaseButton href="/about" variant="link" class="self-start">{{ visionMission.about_button_text || 'Selengkapnya tentang Hebron' }} →</BaseButton>
                 </div>
                 <div class="flex flex-col">
-                    <div class="flex flex-col gap-3 border-b border-line pb-10 lg:grid lg:grid-cols-[160px_1fr] lg:gap-8 lg:pb-12">
+                    <div v-reveal="150" class="flex flex-col gap-3 border-b border-line pb-10 lg:grid lg:grid-cols-[160px_1fr] lg:gap-8 lg:pb-12">
                         <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-muted lg:pt-3 lg:text-xs">{{ visionMission.visi.title }}</p>
                         <div class="rich-text font-serif text-[26px] leading-tight text-heading lg:text-[34px] lg:leading-snug" v-html="visionMission.visi.desc"></div>
                     </div>
-                    <div class="flex flex-col gap-3 pt-10 lg:grid lg:grid-cols-[160px_1fr] lg:gap-8 lg:pt-12">
+                    <div v-reveal="300" class="flex flex-col gap-3 pt-10 lg:grid lg:grid-cols-[160px_1fr] lg:gap-8 lg:pt-12">
                         <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-muted lg:pt-1.5 lg:text-xs">{{ visionMission.misi.title }}</p>
                         <div class="rich-text mission-list text-base leading-relaxed lg:text-lg" v-html="visionMission.misi.desc"></div>
                     </div>
@@ -120,11 +123,11 @@ onMounted(updateProgress);
         <!-- Sambutan gembala -->
         <section v-if="pastorGreeting?.pastors_name" class="bg-white lg:bg-mist">
             <div class="container-site section-y grid gap-8 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-28">
-                <div class="relative h-[400px] bg-brand-mint/40 lg:h-[620px]">
+                <div v-reveal class="relative h-[400px] bg-brand-mint/40 lg:h-[620px]">
                     <img v-if="pastorGreeting.pastor_img" :src="storageUrl(pastorGreeting.pastor_img)!" :alt="pastorGreeting.pastors_name" loading="lazy" class="h-full w-full object-cover" />
                     <img v-if="pastorGreeting.pastor_signature" :src="storageUrl(pastorGreeting.pastor_signature)!" alt="" class="absolute bottom-4 right-4 h-24 lg:h-32" />
                 </div>
-                <div class="flex flex-col gap-6 lg:gap-8">
+                <div v-reveal="200" class="flex flex-col gap-6 lg:gap-8">
                     <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-teal lg:text-xs">{{ pastorGreeting.subtitle || 'Sambutan dari gembala kami' }}</p>
                     <div class="rich-text font-serif text-[28px] italic leading-tight text-heading lg:text-[40px] lg:leading-snug" v-html="pastorGreeting.desc"></div>
                     <div class="flex flex-col gap-1">
@@ -139,7 +142,7 @@ onMounted(updateProgress);
         <!-- Galeri -->
         <section v-if="gallery.length" class="pt-16 lg:pt-32">
             <div class="container-site">
-                <SectionHeading eyebrow="Kehidupan di Hebron" title="Momen sebagai satu keluarga">
+                <SectionHeading v-reveal eyebrow="Kehidupan di Hebron" title="Momen sebagai satu keluarga">
                     <template v-if="instagram" #actions>
                         <BaseButton :href="instagram" external variant="link">Ikuti kami di Instagram</BaseButton>
                     </template>
@@ -149,6 +152,7 @@ onMounted(updateProgress);
                 <img
                     v-for="(image, index) in gallery"
                     :key="image"
+                    v-reveal="index * 100"
                     :src="storageUrl(image)!"
                     alt=""
                     loading="lazy"
@@ -161,9 +165,9 @@ onMounted(updateProgress);
         <!-- Langkah selanjutnya -->
         <section class="bg-mist lg:bg-white">
             <div class="container-site section-y flex flex-col gap-10 lg:gap-[72px]">
-                <SectionHeading eyebrow="Bertumbuh bersama kami" title="Temukan tempatmu di keluarga Hebron" align="center" />
+                <SectionHeading v-reveal eyebrow="Bertumbuh bersama kami" title="Temukan tempatmu di keluarga Hebron" align="center" />
                 <div class="grid gap-10 lg:grid-cols-3">
-                    <Link v-for="step in steps" :key="step.n" :href="step.href" class="group flex flex-col gap-3 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-teal">
+                    <Link v-for="(step, index) in steps" :key="step.n" v-reveal="index * 150" :href="step.href" class="group flex flex-col gap-3 text-ink focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-teal">
                         <div class="h-[200px] bg-brand-mint/40 lg:h-[320px]">
                             <img v-if="step.image" :src="storageUrl(step.image)!" alt="" loading="lazy" class="h-full w-full object-cover" />
                         </div>
@@ -178,11 +182,11 @@ onMounted(updateProgress);
         <!-- Renungan terbaru -->
         <section v-if="latestDevotions.length" class="bg-white lg:bg-mist">
             <div class="container-site section-y flex flex-col gap-8 lg:gap-14">
-                <SectionHeading eyebrow="Renungan & Berita" title="Terbaru dari Firman">
+                <SectionHeading v-reveal eyebrow="Renungan & Berita" title="Terbaru dari Firman">
                     <template #actions><BaseButton href="/devotion" variant="link" class="self-start">Lihat semua renungan →</BaseButton></template>
                 </SectionHeading>
                 <div class="border-t border-line md:grid md:grid-cols-3 md:gap-10 md:border-0">
-                    <PostCard v-for="post in latestDevotions" :key="post.id" :post="post" />
+                    <PostCard v-for="(post, index) in latestDevotions" :key="post.id" v-reveal="index * 150" :post="post" />
                 </div>
             </div>
         </section>
@@ -190,7 +194,7 @@ onMounted(updateProgress);
         <!-- Mari beribadah -->
         <section class="bg-brand-teal text-white">
             <div class="container-site grid gap-6 py-16 lg:grid-cols-[7fr_5fr] lg:items-center lg:gap-24 lg:py-[120px]">
-                <div class="flex flex-col gap-6 lg:gap-7">
+                <div v-reveal class="flex flex-col gap-6 lg:gap-7">
                     <span aria-hidden="true" class="h-[3px] w-12 bg-decor lg:w-14"></span>
                     <h2 class="font-serif text-[44px] leading-none lg:text-[80px]">Mari beribadah bersama kami</h2>
                     <p class="max-w-[520px] text-base leading-relaxed text-white/85 lg:text-lg">Baik pertama kali datang maupun kembali pulang, selalu ada tempat untukmu di keluarga Hebron.</p>
@@ -199,7 +203,7 @@ onMounted(updateProgress);
                         <BaseButton href="/contact" variant="outline-light">Hubungi kami</BaseButton>
                     </div>
                 </div>
-                <div class="flex flex-col gap-8 lg:border-l lg:border-white/25 lg:pl-12">
+                <div v-reveal="200" class="flex flex-col gap-8 lg:border-l lg:border-white/25 lg:pl-12">
                     <div class="flex flex-col gap-2.5">
                         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-brand-cream">Alamat</p>
                         <div class="rich-text text-sm leading-relaxed text-white/85 lg:text-lg" v-html="address"></div>
