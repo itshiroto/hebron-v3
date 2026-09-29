@@ -16,7 +16,9 @@ RUN npm run build
 # 3. Runtime: nginx + php-fpm, runs migrations/storage:link/optimize on boot (AUTORUN_ENABLED)
 FROM serversideup/php:8.4-fpm-nginx
 USER root
-RUN install-php-extensions intl gd
+RUN install-php-extensions intl gd \
+    && apt-get update && apt-get install -y --no-install-recommends ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
 USER www-data
 COPY --chown=www-data:www-data . .
 COPY --chown=www-data:www-data --from=vendor /app/vendor ./vendor
