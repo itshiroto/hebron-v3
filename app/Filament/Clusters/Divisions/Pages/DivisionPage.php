@@ -2,14 +2,14 @@
 
 namespace App\Filament\Clusters\Divisions\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use App\Filament\Clusters\Divisions;
 use App\Models\Pages;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 
@@ -17,8 +17,8 @@ class DivisionPage extends Page implements HasForms
 {
     use InteractsWithForms;
 
-    protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static string $view = 'filament.clusters.divisions.pages.division-page';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
+    protected string $view = 'filament.clusters.divisions.pages.division-page';
     protected static ?string $cluster = Divisions::class;
     protected static ?string $title = 'Division Page Content';
 
@@ -41,9 +41,9 @@ class DivisionPage extends Page implements HasForms
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Section::make('Hero Section')
                 ->description('Configure the main hero section for the Division Page.')
                 ->schema([

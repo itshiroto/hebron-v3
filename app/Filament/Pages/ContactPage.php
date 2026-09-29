@@ -2,15 +2,15 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use App\Models\Pages;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 
@@ -20,10 +20,10 @@ class ContactPage extends Page implements HasForms
 
     // protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
-    protected static string $view = 'filament.pages.contact-page';
+    protected string $view = 'filament.pages.contact-page';
 
     protected static ?string $title = 'Contact Us';
-    protected static ?string $navigationGroup = 'Pages';
+    protected static string | \UnitEnum | null $navigationGroup = 'Pages';
     protected static ?int $navigationSort = 4;
 
     public ?array $heroData = [];
@@ -53,9 +53,9 @@ class ContactPage extends Page implements HasForms
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Section::make('Hero Section')
                 ->description('Configure the main hero section of the Contact page.')
                 ->schema([

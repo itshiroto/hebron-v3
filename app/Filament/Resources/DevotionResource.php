@@ -2,20 +2,25 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\DevotionResource\Pages\ListDevotions;
+use App\Filament\Resources\DevotionResource\Pages\CreateDevotion;
+use App\Filament\Resources\DevotionResource\Pages\EditDevotion;
 use App\Filament\Resources\DevotionResource\Pages;
 use App\Models\Devotion;
-use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Str;
 
@@ -23,13 +28,13 @@ class DevotionResource extends Resource
 {
     protected static ?string $model = Devotion::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Section::make()->columns(2)->schema([
+        return $schema
+            ->components([
+                Section::make()->columns(2)->columnSpanFull()->schema([
                     TextInput::make('title')->required()->maxLength(255)
                         ->live(onBlur: true)
                         ->afterStateUpdated(function (Get $get, Set $set, ?string $old, ?string $state) {
@@ -50,7 +55,7 @@ class DevotionResource extends Resource
                     // DatePicker::make('published_at')->format('d/m/Y')->label("Published date")
                 ]),
 
-                Section::make()->columns(1)->schema([
+                Section::make()->columns(1)->columnSpanFull()->schema([
                     RichEditor::make('content')
                         ->fileAttachmentsDirectory('devotion-attachments'),
                     FileUpload::make('image')
@@ -74,12 +79,12 @@ class DevotionResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -94,9 +99,9 @@ class DevotionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDevotions::route('/'),
-            'create' => Pages\CreateDevotion::route('/create'),
-            'edit' => Pages\EditDevotion::route('/{record}/edit'),
+            'index' => ListDevotions::route('/'),
+            'create' => CreateDevotion::route('/create'),
+            'edit' => EditDevotion::route('/{record}/edit'),
         ];
     }
 }

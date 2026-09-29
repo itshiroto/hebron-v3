@@ -2,15 +2,15 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
 use App\Models\Pages;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 
@@ -20,10 +20,10 @@ class GeneralSettings extends Page implements HasForms
 
     // protected static ?string $navigationIcon = 'heroicon-o-cog'; // Changed icon for settings
 
-    protected static string $view = 'filament.pages.general-settings';
+    protected string $view = 'filament.pages.general-settings';
 
     protected static ?string $title = 'General';
-    protected static ?string $navigationGroup = 'Settings'; // Added navigation group
+    protected static string | \UnitEnum | null $navigationGroup = 'Settings'; // Added navigation group
     protected static ?int $navigationSort = 99;
 
     public ?array $generalSettingsData = [];
@@ -50,9 +50,9 @@ class GeneralSettings extends Page implements HasForms
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Section::make('Site Information')
                 ->description('Configure general information about your church.')
                 ->schema([
