@@ -150,7 +150,7 @@ New components go in `resources/js/Components/site/`. Each one is presentational
 | `PageHero.vue` | Full-bleed image hero: eyebrow, H1 and optional subtitle at the bottom-left. Props: `image`, `video?`, `eyebrow`, `title`, `subtitle?`, `height` (`full` for home, `page` for about 560–640px). |
 | `SectionHeading.vue` | Eyebrow with a short rule, plus an H2. Props: `eyebrow`, `title`, `align`, `tone` (`light`/`dark`). An optional slot on the right holds actions. |
 | `BaseButton.vue` | `variant: primary \| outline \| outline-light \| light \| link`, rendered as `<a>` or `<button>`. |
-| `DivisionCard.vue` (rewrite) | Two variants. `compact` is a carousel card with audience, name and time. `row` is an alternating image and text row. When `time` is empty it shows the "Jadwal akan diumumkan" state. |
+| `DivisionCard.vue` (rewrite) | Two variants. `compact` is a carousel card with audience, name and time. `DivisionTabs.vue` is a separate component that renders the Divisi page's list + detail / accordion (below). When `time` is empty it shows the "Jadwal akan diumumkan" state. |
 | `PostCard.vue` | Devotion card. Variants: `grid`, `featured`, `row` (the mobile thumbnail row). |
 
 `DefaultLayout.vue` renders `SiteHeader`, the slot and `SiteFooter`. It drops the `font-serif` default on `<main>`, because body text is sans and headings opt into serif.
@@ -166,7 +166,7 @@ Remove:
 All the new fields are optional, so the site keeps rendering while editors fill them in.
 
 1. **Divisions**
-   - A migration adds `audience` (string, nullable) and `sort` (unsigned int, default 0).
+   - A migration adds `audience` (string, nullable), `short_time` (string, nullable, e.g. "Sab 13.30") and `sort` (unsigned int, default 0).
    - The Filament `DivisionResource` gets an Audience input and `->reorderable('sort')`.
    - `Division::orderBy('sort')` is used everywhere divisions are listed.
    - `time` stays free text. An empty value renders "Jadwal akan diumumkan".
@@ -228,8 +228,18 @@ Section order follows the canvas. Unless noted, every item comes from the existi
 **Divisi:**
 
 - Hero.
-- "Lompat ke" pill anchors.
-- One row per division, alternating sides, each showing `{n} / {total} · AUDIENCE`, the name, the time state, the description and "Selengkapnya" (to `link`).
+- **List + detail layout (desktop, `lg` and up):**
+  - A 5/7 grid.
+  - Left is a vertical tab list of every division. Each row shows the name (serif), the audience, and a short time on the right, e.g. "Sab 13.30" or "TBA".
+  - The selected row gets a cream background and a coral left bar.
+  - Right is the detail panel for the selected division: image, `{n} / {total} · AUDIENCE`, name, full time or "Jadwal akan diumumkan", description, and a "Selengkapnya" button (to `link`).
+  - It follows the WAI-ARIA tabs pattern: `role="tablist"` with `aria-orientation="vertical"`, `role="tab"` / `aria-selected`, `role="tabpanel"`, and Up/Down/Home/End keys to move between tabs.
+  - The first division is selected by default.
+  - The URL hash (`#seeds-of-truth`, from a slug of the title) selects a division, so the homepage cards can deep-link to it.
+- **Accordion (below `lg`):**
+  - The same list, where each row is a `<button aria-expanded>` that opens that division's details inline (image, time, description, button).
+  - One item is open at a time, and the first is open by default.
+- **Short time label:** comes from a new optional `short_time` field. If it is empty, show nothing on the list row (the full `time` still shows in the detail).
 
 **Pelayanan:**
 
