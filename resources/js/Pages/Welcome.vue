@@ -59,7 +59,7 @@ onMounted(updateProgress);
                     class="flex items-center justify-between border-t border-white/20 pt-4 lg:flex-col lg:items-start lg:gap-1.5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
                 >
                     <div class="flex flex-col gap-1.5">
-                        <p class="text-[11px] uppercase tracking-[0.18em] text-brand-orange lg:text-xs">{{ service.title }}</p>
+                        <p class="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-orange lg:text-xs lg:font-normal lg:tracking-[0.18em]">{{ service.title }}</p>
                         <p v-if="service.livestream" class="flex items-center gap-2 text-xs font-semibold lg:order-last">
                             <span aria-hidden="true" class="h-2 w-2 rounded-full bg-decor"></span>Live Streaming
                         </p>
