@@ -30,8 +30,19 @@ class DivisionResource extends Resource
             ->schema([
                 Section::make()->columns(1)->schema([
                     TextInput::make('title')->required()->maxLength(255),
+                    TextInput::make('audience')
+                        ->label('Audience')
+                        ->helperText('Contoh: Anak, Remaja, Mahasiswa')
+                        ->maxLength(255),
                     Textarea::make('description')->required()->maxLength(255)->rows(5),
-                    TextInput::make('time')->required()->maxLength(255),
+                    TextInput::make('time')
+                        ->label('Time (full)')
+                        ->helperText('Contoh: Setiap Sabtu · 13.30 WIB. Kosongkan jika jadwal belum ditentukan.')
+                        ->maxLength(255),
+                    TextInput::make('short_time')
+                        ->label('Time (short, for lists)')
+                        ->helperText('Contoh: Sab 13.30')
+                        ->maxLength(32),
                     TextInput::make('link')->maxLength(255),
                     FileUpload::make('image')
                         ->label('Image')
@@ -46,10 +57,13 @@ class DivisionResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->reorderable('sort')
+            ->defaultSort('sort')
             ->columns([
-                TextColumn::make('title')->searchable()->sortable(),
+                TextColumn::make('title')->searchable(),
+                TextColumn::make('audience'),
                 ImageColumn::make('image'),
-                TextColumn::make('time')->sortable(),
+                TextColumn::make('time'),
             ])
             ->filters([
                 //

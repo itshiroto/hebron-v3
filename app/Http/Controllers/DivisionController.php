@@ -10,7 +10,7 @@ class DivisionController extends Controller
 {
     public function show()
     {
-        $divisionsData = Division::all();
+        $divisionsData = Division::ordered()->get();
 
         $divisionPage = Pages::where('name', 'Division Page')->with('sections')->first();
 
