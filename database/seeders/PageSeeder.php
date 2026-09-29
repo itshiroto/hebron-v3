@@ -27,48 +27,37 @@ class PageSeeder extends Seeder
 
         foreach ([
             [
-                'name' => 'Ps. Raimond Sumaa & Ps. Yesie Sumaa',
+                'name' => 'Pdt. Raimond Sumaa & Pdt. Yesie Sumaa',
                 'position' => 'Gembala Sidang',
                 'image' => 'pastors-image/01K4G474BJ8W8MN7XPY8GDN7C9.jpg',
             ],
         ] as $pastor) {
             Pastor::updateOrCreate(['name' => $pastor['name']], $pastor);
         }
+        Pastor::where('name', 'Ps. Raimond Sumaa & Ps. Yesie Sumaa')->delete();
 
-        foreach ([
-            [
-                'title' => 'SPoT',
-                'audience' => 'Mahasiswa & Young Professional',
-                'description' => 'College & Young Pro Community',
-                'image' => 'divisions-image/01K42K1GAGYD9CE92R13EVBWEM.jpg',
-                'time' => 'Setiap Sabtu · 16.30 WIB',
-                'short_time' => 'Sab 16.30',
-                'link' => 'https://www.instagram.com/spot_gen?igsh=ZzJ6bTIya3J1YWdx',
-                'sort' => 0,
-            ],
-            [
-                'title' => 'DoT\'s',
-                'audience' => 'Remaja',
-                'description' => 'Descendants Of Truth\'s',
-                'image' => 'divisions-image/01K42JNDFT12PC0JCV349PXMW6.jpg',
-                'time' => 'Setiap Sabtu · 14.00 WIB',
-                'short_time' => 'Sab 14.00',
-                'link' => 'https://www.instagram.com/dots_gen?igsh=bGF1NXAzNXZtbGpt',
-                'sort' => 1,
-            ],
-            [
-                'title' => 'SoT',
-                'audience' => 'Anak',
-                'description' => 'Seeds Of Truth',
-                'image' => 'divisions-image/01K42K067AXAH5CFN7MMQTDFTY.jpg',
-                'time' => 'Setiap Minggu · 10.00 WIB',
-                'short_time' => 'Min 10.00',
-                'link' => 'https://www.instagram.com/seedsoftruth__?igsh=azlwa3FkNm1oMHd2',
-                'sort' => 2,
-            ],
-        ] as $division) {
-            Division::updateOrCreate(['title' => $division['title']], $division);
+        $divisions = [
+            ['Anak', 'Seeds of Truth', 'Setiap Minggu · 10.00 WIB', 'Min 10.00', 'divisions-image/01K42K067AXAH5CFN7MMQTDFTY.jpg', 'https://www.instagram.com/seedsoftruth__?igsh=azlwa3FkNm1oMHd2'],
+            ['Remaja', 'Descendants of Truth', 'Setiap Sabtu · 13.30 WIB', 'Sab 13.30', 'divisions-image/01K42JNDFT12PC0JCV349PXMW6.jpg', 'https://www.instagram.com/dots_gen?igsh=bGF1NXAzNXZtbGpt'],
+            ['Mahasiswa', 'Speaker of Truth', 'Setiap Sabtu · 16.30 WIB', 'Sab 16.30', 'divisions-image/01K42K1GAGYD9CE92R13EVBWEM.jpg', 'https://www.instagram.com/spot_gen?igsh=ZzJ6bTIya3J1YWdx'],
+            ['Profesional Muda', 'Pillars of Truth', 'Minggu, dua pekan sekali · 14.00 WIB', 'Min 14.00', '', null],
+            ['Keluarga Muda', 'Family of Christ Community', null, 'TBA', '', null],
+            ['Kaum Pria', 'Men of God', null, 'TBA', '', null],
+            ['Kaum Wanita', 'Women of God', null, 'TBA', '', null],
+        ];
+
+        foreach ($divisions as $sort => [$audience, $title, $time, $shortTime, $image, $link]) {
+            Division::updateOrCreate(['title' => $title], [
+                'audience' => $audience,
+                'description' => "Komunitas {$audience} di Hebron Family Church.",
+                'image' => $image,
+                'time' => $time,
+                'short_time' => $shortTime,
+                'link' => $link,
+                'sort' => $sort,
+            ]);
         }
+        Division::whereNotIn('title', array_column($divisions, 1))->delete();
 
         foreach ($this->devotions() as $devotion) {
             Devotion::updateOrCreate(['slug' => $devotion['slug']], $devotion);
@@ -83,7 +72,7 @@ class PageSeeder extends Seeder
                     'church_name' => 'Hebron Family Church',
                     'church_subtitle' => 'Gading Serpong',
                     'church_logo' => 'site-settings/01K21F4PSXXQRG1567RKR2ZPXP.png',
-                    'church_address' => '<p>Kompleks Pasar Modern Paramount Blok L39, Jl. Boulevard Raya Gading Serpong,<br>Curug Sangereng, Kelapa Dua,<br>Kabupaten Tangerang, Banten 15810</p>',
+                    'church_address' => '<p>Kompleks Pasar Modern Paramount Blok L39, Jl. Boulevard Raya Gading Serpong, Curug Sangereng, Kelapa Dua, Kab. Tangerang, Banten 15810</p>',
                     'maps_url' => 'https://maps.app.goo.gl/GoMhnkkmL2A7wp6c9',
                     'livestream_url' => 'https://www.instagram.com/gpdigadingserpong/live',
                     'social_media' => [
@@ -101,7 +90,7 @@ class PageSeeder extends Seeder
                     'image' => 'home-page-hero/01KN6ZAD5V4G7YR7XW5BX8K7BN.jpg',
                 ],
                 'hero' => [
-                    'title' => 'God\'s Heart — HFC Good Friday & Easter Service',
+                    'title' => 'United as One Family to Live like Christ',
                     'image' => 'home-page-hero/01KN6ZAD5V4G7YR7XW5BX8K7BN.jpg',
                     'primary_button' => [
                         'text' => 'Kunjungi Ibadah Kami',
@@ -113,14 +102,14 @@ class PageSeeder extends Seeder
                     ],
                 ],
                 'vision_mission' => [
-                    'title' => 'Hebron Family Church, Tempat Persekutuan, Kota Perlindungan dan Tanah yang Subur',
+                    'title' => 'Visi & Misi',
                     'visi' => [
                         'title' => 'Visi Kami',
                         'desc' => '<p>Menjadi keluarga yang bertumbuh didalam kesatuan berlandaskan kasih untuk membangun gereja sebagai rumah bagi setiap generasi, sehingga memiliki Karakter Kristus</p>',
                     ],
                     'misi' => [
                         'title' => 'Misi Kami',
-                        'desc' => '<ul><li>Menghidupi Firman Allah dalam pengurapan Roh Kudus</li><li>Memperlangkapi jemaat Tuhan dalam talenta, karunia, dan kreativitas untuk memenuhi panggilan Tuhan</li><li>Melayani generasi dalam pembapaan dan pemuridan</li></ul>',
+                        'desc' => '<ol><li>Menghidupi Firman Allah dalam pengurapan Roh Kudus</li><li>Memperlengkapi jemaat Tuhan dalam talenta, karunia, dan kreativitas untuk memenuhi panggilan Tuhan</li><li>Melayani generasi dalam pembapaan dan pemuridan</li></ol>',
                     ],
                     'about_button_text' => 'Selengkapnya tentang Hebron',
                 ],
@@ -130,8 +119,8 @@ class PageSeeder extends Seeder
                     'home-page-carousel/01K5222W3ZFFGMKNHXGQR16T91.jpeg',
                 ],
                 'schedule' => [
-                    'title' => 'Ibadah Raya Hebron',
-                    'subtitle' => 'Bertumbuh bersama kami',
+                    'title' => 'Ibadah Raya',
+                    'subtitle' => '',
                     'img' => 'home-page-schedule/01K41T4APF49NKGY31TK3YJZJ3.jpg',
                     'services' => [
                         [
@@ -153,12 +142,12 @@ class PageSeeder extends Seeder
                     'division_button_text' => 'Lihat Ibadah Divisi Hebron',
                 ],
                 'pastor_greeting' => [
-                    'subtitle' => 'Sambutan dari Gembala Kami',
+                    'subtitle' => 'Sambutan dari gembala kami',
                     'pastors_name' => 'Pdt. Raimond Sumaa & Pdt. Yesie Sumaa',
                     'pastor_img' => 'home-page-pastor/01K4CWD64XS1BNK1TQGB0Z8QSP.jpg',
                     'pastor_signature' => 'home-page-pastor/01K4CWGHWCJ87GAEHWMXMCTXFS.png',
-                    'desc' => '<p>Selamat datang di Hebron Family Church! Kami rindu setiap orang yang datang menemukan keluarga, tempat untuk bertumbuh, dan perjumpaan pribadi dengan Tuhan Yesus. Siapa pun Anda dan dari mana pun Anda datang, ada tempat untuk Anda di sini.</p><p>"United as One Family, to Live Like Christ"</p>',
-                    'pastoral_button_text' => 'Lihat tim Pastoral Hebron',
+                    'desc' => '<p>"United as One Family, to Live Like Christ"</p>',
+                    'pastoral_button_text' => 'Lihat tim pastoral Hebron',
                 ],
             ],
             'About' => [
@@ -179,7 +168,7 @@ class PageSeeder extends Seeder
                     ],
                     'misi' => [
                         'title' => 'Misi Kami',
-                        'desc' => '<ul><li>Menghidupi Firman Allah dalam pengurapan Roh Kudus</li><li>Memperlangkapi jemaat Tuhan dalam talenta, karunia, dan kreativitas untuk memenuhi panggilan Tuhan</li><li>Melayani generasi dalam pembapaan dan pemuridan</li></ul>',
+                        'desc' => '<ol><li>Menghidupi Firman Allah dalam pengurapan Roh Kudus</li><li>Memperlengkapi jemaat Tuhan dalam talenta, karunia, dan kreativitas untuk memenuhi panggilan Tuhan</li><li>Melayani generasi dalam pembapaan dan pemuridan</li></ol>',
                     ],
                     'image' => 'about-page-vision-mission/01K4W8Y7YPEVVX878P69TFCTYJ.jpg',
                 ],
@@ -326,7 +315,7 @@ class PageSeeder extends Seeder
             'Division Page' => [
                 'meta' => [
                     'title' => 'Divisi — Hebron Family Church',
-                    'description' => 'Ibadah untuk setiap generasi: SoT untuk anak, DoT\'s untuk remaja, dan SPoT untuk mahasiswa & young professional.',
+                    'description' => 'Ibadah untuk setiap generasi: anak, remaja, mahasiswa, profesional muda, keluarga muda, kaum pria, dan kaum wanita.',
                     'image' => 'divisions-image/01K42K1GAGYD9CE92R13EVBWEM.jpg',
                 ],
                 'hero' => [
