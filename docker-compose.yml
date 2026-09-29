@@ -4,9 +4,7 @@ services:
     restart: unless-stopped
     # No published ports: Caddy (docker-compose.proxy.yml) reaches the app over the shared proxy network
     networks:
-      proxy:
-        aliases:
-          - hebron-${APP_ENV:-production}
+      - proxy
     environment:
       APP_NAME: Hebron
       APP_ENV: ${APP_ENV:-production}

@@ -3,16 +3,20 @@
 The site runs as one Docker container (nginx + php-fpm, SQLite). Staging and production use the same
 image and the same `docker-compose.yml`. Only the stack environment variables are different.
 
-Both environments run on one server behind one shared Caddy stack
-([`docker-compose.proxy.yml`](../docker-compose.proxy.yml)). Caddy gets the HTTPS certificates and
-sends each domain to its app over a shared Docker network named `proxy`:
+All sites on the server (this app and hebron-event, staging and production) sit behind one shared
+Caddy stack ([`docker-compose.proxy.yml`](../docker-compose.proxy.yml)). Caddy gets the HTTPS
+certificates and sends each domain to its container over a shared Docker network named `proxy`:
 
 ```
-internet ──80/443──▶ caddy ──proxy network──▶ hebron-production:8080  (production stack)
-                                         └──▶ hebron-staging:8080     (staging stack)
+Cloudflare ──80/443──▶ caddy ──proxy network──┬──▶ hebron-web-app-1:8080            (hebron-web)
+                                              ├──▶ hebron-web-staging-app-1:8080    (hebron-web-staging)
+                                              ├──▶ hebron-event-nginx-1:80          (hebron-event)
+                                              └──▶ hebron-event-staging-nginx-1:80  (hebron-event-staging)
 ```
 
-The app containers do not publish any ports. Only Caddy is reachable from outside.
+Caddy finds each container by its name, `<stack name>-<service>-1`. The stack names are therefore
+part of the proxy config: if you rename a stack, update the Caddyfile too. The app containers do
+not publish any ports. Only Caddy is reachable from outside.
 
 ## How a deploy works
 
@@ -56,34 +60,28 @@ Keep the output (`base64:...`). If you change the key later, all sessions and en
 
 ### 3. Point DNS at the server
 
-Create `A` (and `AAAA` if you use IPv6) records for the production and staging domains that point to
-the server's IP. Open ports 80 and 443 (TCP and UDP) in the firewall. Caddy needs both for Let's Encrypt.
+Point each domain at the server's IP in Cloudflare (proxied), the same way as the existing
+hebron-event domains. Ports 80 and 443 must be open in the firewall.
 
-If the domains are behind Cloudflare, set the Cloudflare SSL mode to **Full (strict)**.
+### 4. Create the proxy network and stack
 
-### 4. Create the proxy stack
+Skip this step if the `proxy` stack already exists (for example, because hebron-event uses it).
 
-Deploy this stack **before** the app stacks, because it creates the `proxy` network they join.
+1. **Networks → Add network**, name `proxy`, driver `bridge`. Every stack joins this network, so
+   create it once, before any stack that uses it.
+2. **Stacks → Add stack → Repository**:
 
-**Stacks → Add stack → Repository**:
+   | Field                | Value                                  |
+   |----------------------|----------------------------------------|
+   | Name                 | `proxy`                                |
+   | Repository URL       | `https://github.com/itshiroto/hebron-v3` |
+   | Repository reference | `refs/heads/main`                      |
+   | Compose path         | `docker-compose.proxy.yml`             |
 
-| Field                | Value                                  |
-|----------------------|----------------------------------------|
-| Name                 | `proxy`                                |
-| Repository URL       | `https://github.com/itshiroto/hebron-v3` |
-| Repository reference | `refs/heads/main`                      |
-| Compose path         | `docker-compose.proxy.yml`             |
-
-Environment variables:
-
-| Variable            | Value                                                      |
-|---------------------|------------------------------------------------------------|
-| `STAGING_DOMAIN`    | the staging domain, e.g. `staging.hebronfamilychurch.com` (required) |
-| `PRODUCTION_DOMAIN` | `hebronfamilychurch.com` (or leave out)                    |
-
-GitOps updates are not needed for this stack. To change the proxy config later, click
-**Pull and redeploy**. Certificates are kept in the stack's `data` volume, so a redeploy does not
-request new ones.
+The domains are in the Caddyfile inside the compose file. To add or change a site, edit
+`docker-compose.proxy.yml`, push to `main`, then click **Pull and redeploy** on the `proxy` stack.
+GitOps updates are not needed for this stack. Certificates are kept in the stack's `data` volume,
+so a redeploy does not request new ones.
 
 The Caddyfile is inline in the compose file (`configs.content`). This needs Docker Compose 2.23 or
 later, which recent Portainer versions include.
@@ -94,7 +92,7 @@ Create one stack per environment: **Stacks → Add stack → Repository**.
 
 | Field                    | Production                         | Staging                            |
 |--------------------------|------------------------------------|------------------------------------|
-| Name                     | `hebron-production`                | `hebron-staging`                   |
+| Name                     | `hebron-web`                       | `hebron-web-staging`               |
 | Repository URL           | `https://github.com/itshiroto/hebron-v3` | same                         |
 | Repository reference     | `refs/heads/production`            | `refs/heads/main`                  |
 | Compose path             | `docker-compose.yml`               | `docker-compose.yml`               |
@@ -111,14 +109,16 @@ Under **Environment variables**, add:
 | Variable     | Production                           | Staging                               |
 |--------------|--------------------------------------|---------------------------------------|
 | `APP_KEY`    | production key from step 2           | staging key from step 2               |
-| `APP_URL`    | `https://hebronfamilychurch.com`     | your staging URL, e.g. `https://staging.hebronfamilychurch.com` |
+| `APP_URL`    | `https://hebronfamilychurch.com`     | `https://staging.gpdi-hebron.com`     |
 | `IMAGE_TAG`  | `stable` (or leave out)              | `latest`                              |
 | `APP_ENV`    | `production` (or leave out)          | `staging`                             |
 
 `APP_KEY` is required. The stack does not start without it.
 
-`APP_ENV` also sets the name Caddy uses to find the app (`hebron-production` or `hebron-staging`).
-Use exactly `production` or `staging`, or Caddy returns `502 Bad Gateway`.
+Use exactly these stack names. Caddy finds the app by the container name `<stack name>-app-1`.
+
+For production, also uncomment the production site block in `docker-compose.proxy.yml` and redeploy
+the `proxy` stack.
 
 Click **Deploy the stack**.
 
@@ -216,6 +216,36 @@ docker run --rm -v hebron-production_database:/data -v "$PWD":/backup alpine tar
 Do the same for the `hebron-production_uploads` volume. Use `docker volume ls` to confirm the
 exact volume names.
 
+## Moving from the host Caddy
+
+Before the shared `proxy` stack, a Caddy installed directly on the host OS served hebron-event on
+`127.0.0.1:7231` (production) and `127.0.0.1:7230` (staging). Do this once to move to the `proxy`
+stack. The event sites are down for about a minute during step 4, so pick a quiet time. Payment
+gateway callbacks that arrive in that minute fail and are retried by the gateway.
+
+1. On the server, save a copy of the host Caddyfile and compare it with the one in
+   `docker-compose.proxy.yml`. Copy over any extra directives (headers, `encode`, `tls` settings):
+
+   ```bash
+   sudo cp /etc/caddy/Caddyfile ~/Caddyfile.host-backup
+   ```
+
+2. Create the `proxy` network (step 4 above, part 1).
+3. Update both hebron-event stacks (**Editor** tab) with the new `docker-compose.portainer.yml` from
+   the hebron-event repo, then click **Update the stack**. nginx then joins the `proxy` network and
+   stops publishing `127.0.0.1:<APP_PORT>`, so the host Caddy can no longer reach it.
+4. Stop the host Caddy so that ports 80 and 443 are free, then deploy the `proxy` stack
+   (step 4 above, part 2) right away:
+
+   ```bash
+   sudo systemctl disable --now caddy
+   ```
+
+5. Check that each site loads, and check the `proxy-caddy-1` logs for `certificate obtained successfully`.
+
+To roll back, remove the `proxy` stack, then run `sudo systemctl enable --now caddy` and restore the
+previous compose file on the hebron-event stacks.
+
 ## Troubleshooting
 
 | Symptom | Check |
@@ -225,8 +255,9 @@ exact volume names.
 | Deploy succeeds but the site does not change | **Re-pull image** is off on the stack. |
 | Stack fails with `set APP_KEY in the Portainer stack env` | Add `APP_KEY` to the stack environment variables. |
 | Portainer cannot pull the image | GHCR registry credentials are missing or the token expired (step 1). |
-| App stack fails with `network proxy declared as external, but could not be found` | Deploy the proxy stack first (step 4). |
-| `502 Bad Gateway` from Caddy | The app stack is not running, or its `APP_ENV` is not exactly `production` or `staging`. Check the Caddy container logs. |
-| Browser shows a certificate error | DNS does not point to the server yet, or ports 80/443 are closed. Check the Caddy container logs for the Let's Encrypt error. |
+| Stack fails with `network proxy declared as external, but could not be found` | Create the `proxy` network (step 4). |
+| `502 Bad Gateway` from Caddy | The stack is not running, is not on the `proxy` network, or its name does not match the Caddyfile. Check the Caddy container logs. |
+| Cloudflare error 525/526, or a certificate error | Caddy has no certificate yet. DNS does not point to the server, or ports 80/443 are closed. Check the Caddy container logs for the Let's Encrypt error. |
+| `proxy` stack fails with `address already in use` | Something else holds port 80 or 443, such as the old Caddy on the host. See [Moving from the host Caddy](#moving-from-the-host-caddy). |
 | Mixed-content warnings or `http://` links | `APP_URL` is not `https://`. |
 | 500 errors | Open the container **Logs** in Portainer. The app logs to stderr. |
