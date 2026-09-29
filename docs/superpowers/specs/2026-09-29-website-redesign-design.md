@@ -331,6 +331,7 @@ Section order follows the canvas. Unless noted, every item comes from the existi
   | Men of God | Kaum Pria | TBA |
   | Women of God | Kaum Wanita | TBA |
 
+- **Ministries:** move "Sound Manager" out of Praise & Worship and add it to Production as "Sound Engineer".
 - **Values:** fix the Evangelism value's points. They currently duplicate Ministry's.
 - **Beliefs:** write the Pengakuan Iman items (title, one-sentence summary, verse) and the intro sentence. The pastor should confirm the wording. Add the link to the full GPdI confession.
 - **New fields:** add the hero video (optional), `maps_url` and `livestream_url`, and set the livestream flag on Ibadah Raya 2.
