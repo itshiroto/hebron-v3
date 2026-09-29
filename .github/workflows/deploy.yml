@@ -33,7 +33,7 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/itshiroto/hebron-v3:${{ github.ref_name == 'production' && 'latest' || 'staging' }}
+            ghcr.io/itshiroto/hebron-v3:${{ github.ref_name == 'production' && 'stable' || 'latest' }}
             ghcr.io/itshiroto/hebron-v3:${{ github.sha }}
 
       - name: Redeploy Portainer stack

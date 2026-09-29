@@ -10,8 +10,8 @@ image and the same `docker-compose.yml`. Only the stack environment variables ar
 
    | Branch       | Image tag                                | GitHub environment |
    |--------------|------------------------------------------|--------------------|
-   | `production` | `ghcr.io/itshiroto/hebron-v3:latest`     | `production`       |
-   | `main`       | `ghcr.io/itshiroto/hebron-v3:staging`    | `staging`          |
+   | `production` | `ghcr.io/itshiroto/hebron-v3:stable`     | `production`       |
+   | `main`       | `ghcr.io/itshiroto/hebron-v3:latest`     | `staging`          |
 
    Every build is also tagged with the commit SHA, for rollbacks.
 3. The workflow calls the `PORTAINER_WEBHOOK_URL` secret of that GitHub environment.
@@ -38,7 +38,7 @@ Do this once per Portainer instance (once if staging and production share a serv
 Use a different key for staging and production. Run this on any machine with Docker:
 
 ```bash
-docker run --rm ghcr.io/itshiroto/hebron-v3:latest php artisan key:generate --show
+docker run --rm ghcr.io/itshiroto/hebron-v3:stable php artisan key:generate --show
 ```
 
 Keep the output (`base64:...`). If you change the key later, all sessions and encrypted values become invalid.
@@ -58,7 +58,7 @@ Create one stack per environment: **Stacks → Add stack → Repository**.
 Under **GitOps updates**:
 
 - Turn on **GitOps updates** and select **Webhook** as the mechanism.
-- Turn on **Re-pull image** (without it, Portainer keeps the old `latest`/`staging` image).
+- Turn on **Re-pull image** (without it, Portainer keeps the old `stable`/`latest` image).
 - Copy the webhook URL. You need it in step 4.
 
 Under **Environment variables**, add:
@@ -67,7 +67,7 @@ Under **Environment variables**, add:
 |--------------|--------------------------------------|---------------------------------------|
 | `APP_KEY`    | production key from step 2           | staging key from step 2               |
 | `APP_URL`    | `https://hebronfamilychurch.com`     | your staging URL, e.g. `https://staging.hebronfamilychurch.com` |
-| `IMAGE_TAG`  | `latest` (or leave out)              | `staging`                             |
+| `IMAGE_TAG`  | `stable` (or leave out)              | `latest`                              |
 | `APP_ENV`    | `production` (or leave out)          | `staging`                             |
 | `HOST_PORT`  | `8080` (or leave out)                | `8081` if on the same server as production |
 
@@ -163,7 +163,7 @@ Every build is also tagged with its commit SHA. To roll back one environment:
 1. In the stack's **Environment variables**, set `IMAGE_TAG` to the SHA of the last good build
    (find it in the **Actions** tab or with `git log`).
 2. Click **Update the stack** with **Re-pull image** turned on.
-3. After you push a fix, set `IMAGE_TAG` back to `latest` (production) or `staging`.
+3. After you push a fix, set `IMAGE_TAG` back to `stable` (production) or `latest` (staging).
 
 A rollback does not undo migrations. If a bad release ran a destructive migration, restore the
 database volume from a backup.
