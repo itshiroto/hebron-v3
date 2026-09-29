@@ -59,12 +59,12 @@ function toggle() {
             aria-hidden="true"
             class="absolute inset-0 -z-20 h-full w-full object-cover"
         ></video>
-        <div class="absolute inset-0 -z-10 bg-brand-deeper/20"></div>
+        <div class="absolute inset-0 -z-10 bg-brand-deeper/30"></div>
         <!-- Readability gradients: top for the overlay header, bottom-left for the hero text -->
-        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-brand-deeper/60 to-transparent lg:h-40"></div>
+        <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-brand-deeper/75 to-transparent lg:h-40"></div>
         <div
             aria-hidden="true"
-            class="absolute inset-x-0 bottom-0 -z-10 h-3/4 bg-gradient-to-t from-brand-deeper/85 via-brand-deeper/40 to-transparent md:bg-gradient-to-tr md:from-brand-deeper/80 md:via-brand-deeper/35"
+            class="absolute inset-x-0 bottom-0 -z-10 h-full bg-gradient-to-t from-brand-deeper/95 via-brand-deeper/60 to-transparent md:bg-gradient-to-tr md:from-brand-deeper/95 md:via-brand-deeper/55"
         ></div>
 
         <div class="absolute inset-x-5 bottom-10 flex max-w-3xl flex-col gap-4 md:inset-x-14 md:bottom-16 md:gap-5">
