@@ -1,11 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Montserrat:ital,wght@0,400..700;1,400..700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @layer base {
   :root {
+    /* Brand — change here only (palette v2: teal / cream / coral / orange / mint) */
+    --brand-deep: 23 63 85;        /* #173F55 headings, dark bands */
+    --brand-deeper: 16 48 63;      /* #10303F footer */
+    --brand-teal: 39 97 127;       /* #27617F primary */
+    --brand-mint: 131 204 197;     /* #83CCC5 highlights on dark only */
+    --brand-orange: 249 150 11;    /* #F9960B accent on deep/deeper only */
+    --brand-coral: 250 90 35;      /* #FA5A23 decorative only, never text */
+    --brand-cream: 248 246 234;    /* #F8F6EA warm off-white */
+
+    --ink: 22 48 61;
+    --ink-muted: 82 99 110;
+    --mist: var(--brand-cream);
+    --line: 233 229 214;
+    --line-strong: 217 211 191;
+
+    --color-accent: var(--brand-orange);
+    --color-decor: var(--brand-coral);
+    --color-primary: var(--brand-teal);
+    --color-heading: var(--brand-deep);
+
+    --font-serif: 'Instrument Serif', 'Times New Roman', serif;
+    --font-sans: 'Montserrat', system-ui, sans-serif;
+    --radius-button: 2px;
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
     --card: 0 0% 100%;
@@ -66,4 +88,26 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-[1440px] px-5 lg:px-[120px];
+  }
+  .section-y {
+    @apply py-16 lg:py-32;
+  }
+  /* CMS rich text (values, ministries, pastor greeting, devotion body) */
+  .rich-text p { @apply mb-4 last:mb-0; }
+  .rich-text ul { @apply list-disc pl-5; }
+  .rich-text ol { @apply list-decimal pl-5; }
+  .rich-text li { @apply mb-1; }
+  .rich-text a { @apply text-brand-teal underline underline-offset-2; }
+  .rich-text h2 { @apply mb-4 mt-10 font-serif text-3xl leading-tight text-heading lg:text-[40px]; }
+  .rich-text h3 { @apply mb-3 mt-8 font-serif text-2xl text-heading; }
+  .rich-text blockquote { @apply my-8 border-l-2 border-brand-teal pl-5 font-serif text-[26px] italic leading-snug text-heading lg:pl-8 lg:text-[34px]; }
+  .rich-text blockquote cite, .rich-text cite { @apply mt-3 block font-sans text-xs font-semibold not-italic uppercase tracking-[0.16em] text-brand-teal; }
+  /* Mission list: roman numerals in the serif */
+  .mission-list ol, .mission-list ul { @apply flex flex-col gap-4 pl-8; list-style: lower-roman; }
+  .mission-list li::marker { font-family: var(--font-serif); color: rgb(var(--brand-teal)); }
 }
