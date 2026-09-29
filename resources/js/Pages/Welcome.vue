@@ -72,10 +72,10 @@ onMounted(updateProgress);
         <!-- Divisi carousel -->
         <section v-if="divisions.length" class="section-y">
             <div class="container-site">
-                <SectionHeading :eyebrow="`${divisions.length} Divisi`" title="Ibadah untuk setiap generasi">
+                <SectionHeading :eyebrow="`${divisions.length} Divisi`" title="Ibadah untuk setiap generasi" actions-class="hidden lg:flex">
                     <template #actions>
                         <BaseButton href="/division" variant="link">Semua divisi →</BaseButton>
-                        <div class="hidden gap-2 lg:flex">
+                        <div class="flex gap-2">
                             <button type="button" aria-label="Divisi sebelumnya" class="flex h-12 w-12 items-center justify-center rounded-full border border-line-strong text-heading focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(-1)">←</button>
                             <button type="button" aria-label="Divisi berikutnya" class="flex h-12 w-12 items-center justify-center rounded-full bg-heading text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(1)">→</button>
                         </div>
@@ -93,6 +93,7 @@ onMounted(updateProgress);
                 <div class="relative h-0.5 flex-grow bg-line">
                     <div class="absolute inset-y-0 left-0 bg-heading transition-[width]" :style="{ width: `${Math.max(progress, 1 / divisions.length) * 100}%` }"></div>
                 </div>
+                <BaseButton href="/division" variant="link" class="shrink-0 lg:hidden">Semua divisi →</BaseButton>
             </div>
         </section>
 

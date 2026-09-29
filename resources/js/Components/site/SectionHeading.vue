@@ -6,8 +6,9 @@ withDefaults(
         align?: 'left' | 'center';
         tone?: 'light' | 'dark';
         as?: 'h1' | 'h2';
+        actionsClass?: string;
     }>(),
-    { align: 'left', tone: 'light', as: 'h2' },
+    { align: 'left', tone: 'light', as: 'h2', actionsClass: 'flex' },
 );
 </script>
 
@@ -30,6 +31,6 @@ withDefaults(
                 >{{ title }}</component
             >
         </div>
-        <div v-if="$slots.actions" class="flex items-center gap-6"><slot name="actions" /></div>
+        <div v-if="$slots.actions" class="items-center gap-6" :class="actionsClass"><slot name="actions" /></div>
     </div>
 </template>
