@@ -2,16 +2,17 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Exception;
 use App\Models\Pages;
 use App\Models\Sections;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\DB;
@@ -21,10 +22,10 @@ class MinistryPage extends Page implements HasForms
     use InteractsWithForms;
 
     // protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static string $view = 'filament.pages.ministry-page';
+    protected string $view = 'filament.pages.ministry-page';
 
     protected static ?string $title = 'Ministries';
-    protected static ?string $navigationGroup = 'Pages';
+    protected static string | \UnitEnum | null $navigationGroup = 'Pages';
     protected static ?int $navigationSort = 2;
 
     public ?array $heroData = [];
@@ -70,9 +71,9 @@ class MinistryPage extends Page implements HasForms
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Section::make('Hero Section')
                 ->description('Background image and title for the hero section.')
                 ->schema([
@@ -191,7 +192,7 @@ class MinistryPage extends Page implements HasForms
                 ->title('Ministries Page updated successfully!')
                 ->success()
                 ->send();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Notification::make()
                 ->title('Error updating Ministries Page.')
                 ->body($e->getMessage())

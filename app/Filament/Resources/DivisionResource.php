@@ -2,15 +2,21 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\DivisionResource\Pages\ListDivisions;
+use App\Filament\Resources\DivisionResource\Pages\CreateDivision;
+use App\Filament\Resources\DivisionResource\Pages\EditDivision;
 use App\Filament\Clusters\Divisions;
 use App\Filament\Resources\DivisionResource\Pages;
 use App\Models\Division;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\FileUpload;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Tables\Columns\TextColumn;
@@ -21,14 +27,14 @@ class DivisionResource extends Resource
     protected static ?string $model = Division::class;
 
     protected static ?string $cluster = Divisions::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationLabel = 'Division List';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
-                Section::make()->columns(1)->schema([
+        return $schema
+            ->components([
+                Section::make()->columns(1)->columnSpanFull()->schema([
                     TextInput::make('title')->required()->maxLength(255),
                     TextInput::make('audience')
                         ->label('Audience')
@@ -68,12 +74,12 @@ class DivisionResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -88,9 +94,9 @@ class DivisionResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListDivisions::route('/'),
-            'create' => Pages\CreateDivision::route('/create'),
-            'edit' => Pages\EditDivision::route('/{record}/edit'),
+            'index' => ListDivisions::route('/'),
+            'create' => CreateDivision::route('/create'),
+            'edit' => EditDivision::route('/{record}/edit'),
         ];
     }
 }

@@ -2,11 +2,17 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\PastorResource\Pages\ListPastors;
+use App\Filament\Resources\PastorResource\Pages\CreatePastor;
+use App\Filament\Resources\PastorResource\Pages\EditPastor;
 use App\Filament\Resources\PastorResource\Pages;
 use App\Models\Pastor;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
@@ -17,12 +23,12 @@ class PastorResource extends Resource
 {
     protected static ?string $model = Pastor::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-circle';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-user-circle';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema([
+        return $schema
+            ->components([
                 TextInput::make('name')->required()->maxLength(255),
                 TextInput::make('position')->required()->maxLength(255),
                 FileUpload::make('image')
@@ -45,12 +51,12 @@ class PastorResource extends Resource
             ->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -65,9 +71,9 @@ class PastorResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPastors::route('/'),
-            'create' => Pages\CreatePastor::route('/create'),
-            'edit' => Pages\EditPastor::route('/{record}/edit'),
+            'index' => ListPastors::route('/'),
+            'create' => CreatePastor::route('/create'),
+            'edit' => EditPastor::route('/{record}/edit'),
         ];
     }
 }

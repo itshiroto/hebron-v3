@@ -2,18 +2,18 @@
 
 namespace App\Filament\Pages;
 
+use Filament\Schemas\Schema;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Grid;
 use App\Models\Pages;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\Grid;
 use Illuminate\Support\HtmlString;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
-use Filament\Forms\Form;
 use Filament\Notifications\Notification;
 use Filament\Pages\Page;
 
@@ -22,10 +22,10 @@ class AboutPage extends Page implements HasForms
     use InteractsWithForms;
 
     // protected static ?string $navigationIcon = 'heroicon-o-document-text';
-    protected static string $view = 'filament.pages.about-page';
+    protected string $view = 'filament.pages.about-page';
 
     protected static ?string $title = 'About Us';
-    protected static ?string $navigationGroup = 'Pages';
+    protected static string | \UnitEnum | null $navigationGroup = 'Pages';
     protected static ?int $navigationSort = 1;
 
     public ?array $heroData = [];
@@ -80,9 +80,9 @@ class AboutPage extends Page implements HasForms
         ]);
     }
 
-    public function form(Form $form): Form
+    public function form(Schema $schema): Schema
     {
-        return $form->schema([
+        return $schema->components([
             Section::make('Hero Section')
                 ->description('Configure the main hero section of the About page.')
                 ->schema([
