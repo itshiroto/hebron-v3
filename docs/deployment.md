@@ -109,7 +109,7 @@ Under **Environment variables**, add:
 | Variable     | Production                           | Staging                               |
 |--------------|--------------------------------------|---------------------------------------|
 | `APP_KEY`    | production key from step 2           | staging key from step 2               |
-| `APP_URL`    | `https://hebronfamilychurch.com`     | `https://staging.gpdi-hebron.com`     |
+| `APP_URL`    | `https://gpdi-hebron.com`     | `https://staging.gpdi-hebron.com`     |
 | `IMAGE_TAG`  | `stable` (or leave out)              | `latest`                              |
 | `APP_ENV`    | `production` (or leave out)          | `staging`                             |
 

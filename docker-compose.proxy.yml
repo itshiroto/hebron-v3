@@ -21,8 +21,12 @@ configs:
   caddyfile:
     content: |
       # hebron-v3 (production): uncomment once the domain and the hebron-web stack exist
-      # hebronfamilychurch.com {
+      # gpdi-hebron.com {
       # 	reverse_proxy hebron-web-app-1:8080
+      # }
+      #
+      # www.gpdi-hebron.com {
+      # 	redir https://gpdi-hebron.com{uri} permanent
       # }
 
       staging.gpdi-hebron.com {
