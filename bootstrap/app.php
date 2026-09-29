@@ -11,6 +11,8 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Runs behind a reverse proxy in Docker; needed for correct https URLs.
+        $middleware->trustProxies(at: '*');
         $middleware->web(append: [
             \Illuminate\Http\Middleware\HandleCors::class,
             \App\Http\Middleware\HandleInertiaRequests::class,
