@@ -8,7 +8,7 @@ const year = new Date().getFullYear();
 </script>
 
 <template>
-    <footer class="bg-brand-deeper text-white">
+    <footer class="bg-brand-deeper text-white [view-transition-name:site-footer]">
         <div class="container-site flex flex-col gap-10 pb-8 pt-16 lg:gap-[72px] lg:pb-12 lg:pt-24">
             <div class="grid gap-10 lg:grid-cols-[2fr_1fr_1fr_1.4fr] lg:gap-16">
                 <div class="flex flex-col gap-5">

@@ -37,7 +37,7 @@ function linkClass(href: string) {
 
 <template>
     <header
-        class="fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300"
+        class="fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300 [view-transition-name:site-header]"
         :class="scrolled ? 'bg-brand-deep shadow-lg' : 'bg-transparent'"
     >
         <div class="flex h-16 items-center justify-between pl-5 pr-3 lg:grid lg:h-[88px] lg:grid-cols-[1fr_auto_1fr] lg:px-14">

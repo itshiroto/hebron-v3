@@ -24,6 +24,10 @@ createInertiaApp({
             .use(pinia)
             .mount(el);
     },
+    defaults: {
+        // Cross-fade between pages with the View Transitions API (ignored by browsers without it).
+        visitOptions: () => ({ viewTransition: true }),
+    },
     progress: {
         // Brand teal (--brand-teal); Inertia's progress bar needs a literal colour.
         color: '#27617F',

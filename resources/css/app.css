@@ -100,6 +100,10 @@
   .page-enter {
     animation: page-enter 450ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
   }
+  /* Browsers with view transitions animate navigation there instead (see below). */
+  @supports (view-transition-name: none) {
+    .page-enter { animation: none; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .page-enter { animation: none; }
   }
@@ -122,4 +126,26 @@
   /* Mission list: roman numerals in the serif */
   .mission-list ol, .mission-list ul { @apply flex flex-col gap-4 pl-8; list-style: lower-roman; }
   .mission-list li::marker { font-family: var(--font-serif); color: rgb(var(--brand-teal)); }
+}
+
+/* View transitions between pages: old page fades out, new page fades and rises in.
+   Header and footer have their own names so they stay still instead of cross-fading. */
+@keyframes vt-fade-out {
+  to { opacity: 0; }
+}
+@keyframes vt-rise-in {
+  from { opacity: 0; transform: translateY(12px); }
+}
+::view-transition-old(root) {
+  animation: 180ms ease-out both vt-fade-out;
+}
+::view-transition-new(root) {
+  animation: 420ms cubic-bezier(0.22, 1, 0.36, 1) 60ms both vt-rise-in;
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none;
+  }
 }
