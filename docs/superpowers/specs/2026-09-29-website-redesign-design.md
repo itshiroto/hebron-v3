@@ -129,7 +129,13 @@ Contrast rules (checked against the palette above):
 | Body | 17–19px / 1.65 | 15–16px | Max measure about 70ch |
 | Article body | 18px / 1.8, 720px column | 17px | |
 
-### 5.3 Layout
+### 5.3 Logo
+
+- Use the original colour logo (`public/hebron.svg`, a blue flame with a yellow/teal outline) everywhere: the header over the hero, the header after scrolling, the mobile menu, and both footers.
+- Stop using the white variant (`public/hebron-white.svg`) on the public site.
+- Where general settings has a `church_logo` uploaded, use that; otherwise fall back to `/hebron.svg`. This replaces the current `/storage/hebron.png` fallback.
+
+### 5.4 Layout
 
 - Content width is 1200px, with 120px side padding at desktop and 20px on mobile.
 - Section vertical padding is about 128–144px on desktop and 56–72px on mobile.
