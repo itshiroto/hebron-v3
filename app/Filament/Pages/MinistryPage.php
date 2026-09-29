@@ -83,7 +83,7 @@ class MinistryPage extends Page implements HasForms
                 ->schema([
                     TextInput::make('heroData.title')
                         ->label('Title')
-                        ->required(),
+                        ->placeholder('Pelayanan di Hebron Family Church'),
                     FileUpload::make('heroData.image')
                         ->label('Background Image')
                         ->image()
@@ -106,7 +106,7 @@ class MinistryPage extends Page implements HasForms
                 ->schema([
                     TextInput::make('serveData.title')
                         ->label('Title')
-                        ->required(),
+                        ->placeholder('Wadah pelayanan kami'),
                     Repeater::make('serveData.ministryList')
                         ->label('Ministry Items')
                         ->schema([
@@ -120,12 +120,11 @@ class MinistryPage extends Page implements HasForms
                                 ->label('Image')
                                 ->image()
                                 ->imageEditor()
-                                ->directory('ministry-page-ministries')
-                                ->required(),
+                                ->directory('ministry-page-ministries'),
                             TextInput::make('link')
                                 ->label('Volunteer Link')
-                                ->url()
-                                ->required(),
+                                ->helperText('Kosongkan untuk menyembunyikan tombol "Daftar melayani".')
+                                ->url(),
                         ])
                         ->defaultItems(1)
                         ->columns(2)
@@ -137,7 +136,7 @@ class MinistryPage extends Page implements HasForms
                 ->schema([
                     TextInput::make('faqData.title')
                         ->label('Title')
-                        ->required(),
+                        ->placeholder('Pertanyaan yang sering diajukan'),
                     Repeater::make('faqData.questionsList')
                         ->label('Questions and Answers')
                         ->schema([

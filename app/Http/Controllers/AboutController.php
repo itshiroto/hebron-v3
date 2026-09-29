@@ -16,7 +16,6 @@ class AboutController extends Controller
         $heroData = [];
         $visionMissionData = [];
         $valuesData = [];
-        $historyData = [];
         $beliefsData = [];
 
         if ($aboutPage) {
@@ -31,9 +30,6 @@ class AboutController extends Controller
                     case 'values':
                         $valuesData = $section->content;
                         break;
-                    case 'history':
-                        $historyData = $section->content;
-                        break;
                     case 'beliefs':
                         $beliefsData = $section->content;
                         break;
@@ -46,7 +42,6 @@ class AboutController extends Controller
             'hero' => $heroData,
             'visionMission' => $visionMissionData,
             'values' => $valuesData,
-            'history' => $historyData,
             'beliefs' => $beliefsData,
             'pastors' => $pastorsData
         ]);

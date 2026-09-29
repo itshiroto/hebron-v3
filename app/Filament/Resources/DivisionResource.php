@@ -49,13 +49,14 @@ class DivisionResource extends Resource
                         ->label('Time (short, for lists)')
                         ->helperText('Contoh: Sab 13.30')
                         ->maxLength(32),
-                    TextInput::make('link')->maxLength(255),
+                    TextInput::make('link')
+                        ->helperText('Tombol "Selengkapnya". Kosongkan untuk menyembunyikan.')
+                        ->maxLength(255),
                     FileUpload::make('image')
                         ->label('Image')
                         ->image()
                         ->imageEditor()
-                        ->directory('divisions-image')
-                        ->required(),
+                        ->directory('divisions-image'),
                 ])
             ]);
     }

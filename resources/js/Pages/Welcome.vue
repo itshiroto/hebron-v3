@@ -15,6 +15,13 @@ import { vReveal } from '@/lib/reveal';
 const props = defineProps<HomePageProps>();
 const { address, mapsUrl, livestreamUrl, services, socials } = useSiteSettings();
 
+const primary = computed(() => ({
+    text: props.hero?.primary_button?.text || 'Kunjungi Ibadah Kami',
+    link: props.hero?.primary_button?.link || '/contact',
+}));
+const secondary = computed(() => (props.hero?.secondary_button?.text ? props.hero.secondary_button : null));
+const isExternal = (href: string) => !href.startsWith('/');
+const divisionButtonText = computed(() => props.schedule?.division_button_text || 'Semua divisi');
 const gallery = computed(() => (props.carousel ?? []).slice(0, 4));
 const instagram = computed(() => socials.value.find((s) => s.platform.toLowerCase().includes('instagram'))?.url ?? null);
 const steps = computed(() => [
@@ -43,8 +50,9 @@ onMounted(updateProgress);
     <Head :title="(!Array.isArray($page.props.meta) && $page.props.meta?.title) || 'Beranda'" />
     <DefaultLayout>
         <PageHero :image="hero?.image" :video="hero?.video" size="full" eyebrow="GPdI Hebron · Gading Serpong" :title="hero?.title || MOTTO">
-            <BaseButton href="/contact" variant="light">Kunjungi Ibadah Kami</BaseButton>
-            <BaseButton v-if="livestreamUrl" :href="livestreamUrl" external variant="link-light">
+            <BaseButton :href="primary.link" :external="isExternal(primary.link)" variant="light">{{ primary.text }}</BaseButton>
+            <BaseButton v-if="secondary" :href="secondary.link" :external="isExternal(secondary.link)" variant="link-light">{{ secondary.text }}</BaseButton>
+            <BaseButton v-else-if="livestreamUrl" :href="livestreamUrl" external variant="link-light">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M10 8.5l5 3.5-5 3.5z" /></svg>
                 Tonton Online
             </BaseButton>
@@ -53,7 +61,7 @@ onMounted(updateProgress);
         <!-- Ibadah Raya band -->
         <section v-if="services.length" class="bg-brand-deep text-white">
             <div class="container-site grid gap-6 py-12 lg:grid-cols-4 lg:items-center lg:gap-12 lg:py-14">
-                <h2 v-reveal class="font-serif text-[32px] leading-tight lg:text-4xl">Ibadah Raya</h2>
+                <h2 v-reveal class="font-serif text-[32px] leading-tight lg:text-4xl">{{ schedule?.title || 'Ibadah Raya' }}</h2>
                 <div
                     v-for="(service, index) in services"
                     :key="service.title"
@@ -76,7 +84,7 @@ onMounted(updateProgress);
             <div class="container-site">
                 <SectionHeading v-reveal :eyebrow="`${divisions.length} Divisi`" title="Ibadah untuk setiap generasi" actions-class="hidden lg:flex">
                     <template #actions>
-                        <BaseButton href="/division" variant="link">Semua divisi →</BaseButton>
+                        <BaseButton href="/division" variant="link">{{ divisionButtonText }} →</BaseButton>
                         <div class="flex gap-2">
                             <button type="button" aria-label="Divisi sebelumnya" class="flex h-12 w-12 items-center justify-center rounded-full border border-line-strong text-heading focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(-1)">←</button>
                             <button type="button" aria-label="Divisi berikutnya" class="flex h-12 w-12 items-center justify-center rounded-full bg-heading text-white focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(1)">→</button>
@@ -96,7 +104,7 @@ onMounted(updateProgress);
                 <div class="relative h-0.5 grow bg-line">
                     <div class="absolute inset-y-0 left-0 bg-heading transition-[width]" :style="{ width: `${Math.max(progress, 1 / divisions.length) * 100}%` }"></div>
                 </div>
-                <BaseButton href="/division" variant="link" class="shrink-0 lg:hidden">Semua divisi →</BaseButton>
+                <BaseButton href="/division" variant="link" class="shrink-0 lg:hidden">{{ divisionButtonText }} →</BaseButton>
             </div>
         </section>
 
@@ -132,7 +140,7 @@ onMounted(updateProgress);
                     <div class="rich-text font-serif text-[28px] italic leading-tight text-heading lg:text-[40px] lg:leading-snug" v-html="pastorGreeting.desc"></div>
                     <div class="flex flex-col gap-1">
                         <p class="font-serif text-2xl text-heading lg:text-[28px]">{{ pastorGreeting.pastors_name }}</p>
-                        <p class="text-[13px] text-ink-muted lg:text-sm">Gembala Sidang</p>
+                        <p class="text-[13px] text-ink-muted lg:text-sm">{{ pastorGreeting.pastors_position || 'Gembala Sidang' }}</p>
                     </div>
                     <BaseButton href="/about#pastoral" variant="outline" class="self-stretch lg:self-start">{{ pastorGreeting.pastoral_button_text || 'Lihat tim pastoral Hebron' }} →</BaseButton>
                 </div>

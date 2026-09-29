@@ -34,7 +34,6 @@ class AboutPage extends Page implements HasForms
     public ?array $heroData = [];
     public ?array $visionMissionData = [];
     public ?array $valuesData = [];
-    public ?array $historyData = [];
     public ?array $beliefsData = [];
 
     protected $aboutPage;
@@ -61,12 +60,6 @@ class AboutPage extends Page implements HasForms
         );
         $this->valuesData = $valuesSection->content;
 
-        $historySection = $this->aboutPage->sections()->firstOrCreate(
-            ['name' => 'history', 'page_id' => $this->aboutPage->id],
-            ['content' => []]
-        );
-        $this->historyData = $historySection->content;
-
         $beliefsSection = $this->aboutPage->sections()->firstOrCreate(
             ['name' => 'beliefs', 'page_id' => $this->aboutPage->id],
             ['content' => []]
@@ -79,7 +72,6 @@ class AboutPage extends Page implements HasForms
             'heroData' => $this->heroData,
             'visionMissionData' => $this->visionMissionData,
             'valuesData' => $this->valuesData,
-            'historyData' => $this->historyData,
             'beliefsData' => $this->beliefsData,
         ]);
     }
@@ -93,10 +85,9 @@ class AboutPage extends Page implements HasForms
                     Grid::make(2)->schema([
                         TextInput::make('heroData.title')
                             ->label('Title')
-                            ->required(),
+                            ->placeholder('Tentang Hebron'),
                         TextInput::make('heroData.subtitle')
-                            ->label('Subtitle')
-                            ->required(),
+                            ->label('Subtitle'),
                     ]),
                     FileUpload::make('heroData.image')
                         ->label('Background Image')
@@ -145,8 +136,8 @@ class AboutPage extends Page implements HasForms
                                     ->required(),
                                 TextInput::make('icon')
                                     ->label('Icon')
-                                    ->hint(new HtmlString('Nama Iconnya bisa diambil di <a class="underline" href="https://icones.js.org/collection/all">icones.js.org</a>'))
-                                    ->required(),
+                                    ->placeholder('lucide:flame')
+                                    ->hint(new HtmlString('Nama Iconnya bisa diambil di <a class="underline" href="https://icones.js.org/collection/all">icones.js.org</a>')),
                             ]),
                             Grid::make(1)->schema([
                                 RichEditor::make('desc')
@@ -160,35 +151,8 @@ class AboutPage extends Page implements HasForms
                         ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
                 ]),
 
-            Section::make('History Section')
-                ->description('Chronicle the history of your organization.')
-                ->schema([
-                    Repeater::make('historyData')
-                        ->label('History Events')
-                        ->schema([
-                            TextInput::make('title')
-                                ->label('Event Title')
-                                ->required(),
-                            TextInput::make('date')
-                                ->label('Date (e.g., "2023")')
-                                ->required(),
-                            RichEditor::make('desc')
-                                ->label('Event Description')
-                                ->required(),
-                            FileUpload::make('image')
-                                ->label('Image')
-                                ->image()
-                                ->imageEditor()
-                                ->directory('about-page-history')
-                        ])
-                        ->defaultItems(1)
-                        ->columns(2)
-                        ->collapsible()
-                        ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
-                ]),
-
             Section::make('Beliefs Section (Pengakuan Iman)')
-                ->description('Ditampilkan di halaman Tentang Kami, menggantikan Sejarah.')
+                ->description('Ditampilkan di halaman Tentang Kami.')
                 ->schema([
                     TextInput::make('beliefsData.title')
                         ->label('Title')
@@ -230,15 +194,6 @@ class AboutPage extends Page implements HasForms
             $data['visionMissionData']['image'] = $data['visionMissionData']['image'][0] ?? null;
         }
 
-        // Handle image paths for historyData (within repeater)
-        if (isset($data['historyData']) && is_array($data['historyData'])) {
-            foreach ($data['historyData'] as $key => $item) {
-                if (isset($item['image']) && is_array($item['image'])) {
-                    $data['historyData'][$key]['image'] = $item['image'][0] ?? null;
-                }
-            }
-        }
-
         $this->aboutPage->sections()->updateOrCreate(
             ['name' => 'hero', 'page_id' => $this->aboutPage->id],
             ['content' => $data['heroData']]
@@ -252,11 +207,6 @@ class AboutPage extends Page implements HasForms
         $this->aboutPage->sections()->updateOrCreate(
             ['name' => 'values', 'page_id' => $this->aboutPage->id],
             ['content' => $data['valuesData']]
-        );
-
-        $this->aboutPage->sections()->updateOrCreate(
-            ['name' => 'history', 'page_id' => $this->aboutPage->id],
-            ['content' => $data['historyData']]
         );
 
         $this->aboutPage->sections()->updateOrCreate(

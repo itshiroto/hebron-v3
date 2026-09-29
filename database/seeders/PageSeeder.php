@@ -40,10 +40,10 @@ class PageSeeder extends Seeder
             ['Anak', 'Seeds of Truth', 'Setiap Minggu · 10.00 WIB', 'Min 10.00', 'divisions-image/01K42K067AXAH5CFN7MMQTDFTY.jpg', 'https://www.instagram.com/seedsoftruth__?igsh=azlwa3FkNm1oMHd2'],
             ['Remaja', 'Descendants of Truth', 'Setiap Sabtu · 13.30 WIB', 'Sab 13.30', 'divisions-image/01K42JNDFT12PC0JCV349PXMW6.jpg', 'https://www.instagram.com/dots_gen?igsh=bGF1NXAzNXZtbGpt'],
             ['Mahasiswa', 'Speaker of Truth', 'Setiap Sabtu · 16.30 WIB', 'Sab 16.30', 'divisions-image/01K42K1GAGYD9CE92R13EVBWEM.jpg', 'https://www.instagram.com/spot_gen?igsh=ZzJ6bTIya3J1YWdx'],
-            ['Profesional Muda', 'Pillars of Truth', 'Minggu, dua pekan sekali · 14.00 WIB', 'Min 14.00', '', null],
-            ['Keluarga Muda', 'Family of Christ Community', null, 'TBA', '', null],
-            ['Kaum Pria', 'Men of God', null, 'TBA', '', null],
-            ['Kaum Wanita', 'Women of God', null, 'TBA', '', null],
+            ['Profesional Muda', 'Pillars of Truth', 'Minggu, dua pekan sekali · 14.00 WIB', 'Min 14.00', null, null],
+            ['Keluarga Muda', 'Family of Christ Community', null, 'TBA', null, null],
+            ['Kaum Pria', 'Men of God', null, 'TBA', null, null],
+            ['Kaum Wanita', 'Women of God', null, 'TBA', null, null],
         ];
 
         foreach ($divisions as $sort => [$audience, $title, $time, $shortTime, $image, $link]) {
@@ -70,7 +70,6 @@ class PageSeeder extends Seeder
             'Settings' => [
                 'general_settings' => [
                     'church_name' => 'Hebron Family Church',
-                    'church_subtitle' => 'Gading Serpong',
                     'church_logo' => 'site-settings/01K21F4PSXXQRG1567RKR2ZPXP.png',
                     'church_address' => '<p>Kompleks Pasar Modern Paramount Blok L39, Jl. Boulevard Raya Gading Serpong, Curug Sangereng, Kelapa Dua, Kab. Tangerang, Banten 15810</p>',
                     'maps_url' => 'https://maps.app.goo.gl/GoMhnkkmL2A7wp6c9',
@@ -120,8 +119,6 @@ class PageSeeder extends Seeder
                 ],
                 'schedule' => [
                     'title' => 'Ibadah Raya',
-                    'subtitle' => '',
-                    'img' => 'home-page-schedule/01K41T4APF49NKGY31TK3YJZJ3.jpg',
                     'services' => [
                         [
                             'title' => 'Ibadah Raya 1',
@@ -144,6 +141,7 @@ class PageSeeder extends Seeder
                 'pastor_greeting' => [
                     'subtitle' => 'Sambutan dari gembala kami',
                     'pastors_name' => 'Pdt. Raimond Sumaa & Pdt. Yesie Sumaa',
+                    'pastors_position' => 'Gembala Sidang',
                     'pastor_img' => 'home-page-pastor/01K4CWD64XS1BNK1TQGB0Z8QSP.jpg',
                     'pastor_signature' => 'home-page-pastor/01K4CWGHWCJ87GAEHWMXMCTXFS.png',
                     'desc' => '<p>"United as One Family, to Live Like Christ"</p>',
@@ -192,14 +190,6 @@ class PageSeeder extends Seeder
                         'icon' => 'lucide:globe',
                         'title' => 'Evangelism',
                         'desc' => '<p><strong>Matius 28:19-20</strong></p><p>Share the Gospel<br>Make disciples<br>Reach every generation</p>',
-                    ],
-                ],
-                'history' => [
-                    [
-                        'title' => 'Sejarah Hebron',
-                        'desc' => '<p>Hebron Family Church bermula dari persekutuan kecil beberapa keluarga yang rindu menghadirkan gereja sebagai rumah bagi setiap generasi di Gading Serpong. Dengan pertolongan Tuhan, persekutuan ini bertumbuh menjadi jemaat GPdI Hebron yang melayani anak, remaja, pemuda, hingga keluarga.</p>',
-                        'date' => '2006',
-                        'image' => 'about-page-history/01K21G3YWDXNCNX7YCX36G2A5C.jpg',
                     ],
                 ],
                 'beliefs' => [

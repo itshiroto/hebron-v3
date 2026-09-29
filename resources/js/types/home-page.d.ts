@@ -2,15 +2,15 @@
  * Represents the data structure for the Hero Section of the Home Page.
  */
 export interface HeroSectionData {
-    title: string;
+    title?: string;
     image?: string; // Path to the background image
     video?: string;
-    primary_button: {
-        text: string;
-        link: string;
+    primary_button?: {
+        text?: string;
+        link?: string;
     };
-    secondary_button: {
-        text: string;
+    secondary_button?: {
+        text?: string;
         link: string;
     };
 }
@@ -19,7 +19,7 @@ export interface HeroSectionData {
  * Represents the data structure for the Vision and Mission Section of the Home Page.
  */
 export interface VisionMissionSectionData {
-    title: string;
+    title?: string;
     visi: {
         title: string;
         desc: string;
@@ -28,7 +28,7 @@ export interface VisionMissionSectionData {
         title: string;
         desc: string;
     };
-    about_button_text: string;
+    about_button_text?: string;
 }
 
 /**
@@ -49,23 +49,22 @@ export interface ServiceItem {
  * Represents the data structure for the Schedule Section of the Home Page.
  */
 export interface ScheduleSectionData {
-    title: string;
-    subtitle: string;
-    img?: string; // Path to the background image
-    services: ServiceItem[];
-    division_button_text: string;
+    title?: string;
+    services?: ServiceItem[];
+    division_button_text?: string;
 }
 
 /**
  * Represents the data structure for the Pastor Greeting Section of the Home Page.
  */
 export interface PastorGreetingSectionData {
-    subtitle: string;
+    subtitle?: string;
     pastors_name: string;
+    pastors_position?: string;
     pastor_img?: string; // Path to the pastor's image
     pastor_signature?: string; // Path to the pastor's signature image
     desc: string;
-    pastoral_button_text: string;
+    pastoral_button_text?: string;
 }
 
 /**

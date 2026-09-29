@@ -65,10 +65,9 @@ class ContactPage extends Page implements HasForms
                 ->schema([
                     TextInput::make('heroData.title')
                         ->label('Title')
-                        ->required(),
+                        ->placeholder('Kami senang bertemu denganmu'),
                     TextInput::make('heroData.subtitle')
-                        ->label('Subtitle')
-                        ->required(),
+                        ->label('Subtitle'),
                     FileUpload::make('heroData.image')
                         ->label('Background Image')
                         ->image()
@@ -78,7 +77,7 @@ class ContactPage extends Page implements HasForms
                 ]),
 
             Section::make('Contact List')
-                ->description('List of contact information.')
+                ->description('Shown under "Hubungi Kami". Address, map link and service times come from General Settings and the Home schedule.')
                 ->schema([
                     Repeater::make('contactListData')
                         ->label('Contact Items')

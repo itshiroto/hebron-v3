@@ -1,6 +1,5 @@
 export interface GeneralSettings {
     church_name?: string;
-    church_subtitle?: string;
     church_logo?: string;
     church_address?: string;
     social_media?: { platform: string; url: string }[];

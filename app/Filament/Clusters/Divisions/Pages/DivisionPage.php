@@ -53,7 +53,7 @@ class DivisionPage extends Page implements HasForms
                 ->schema([
                     TextInput::make('heroData.title')
                         ->label('Title')
-                        ->required(),
+                        ->placeholder('Ibadah untuk setiap generasi'),
                     FileUpload::make('heroData.image')
                         ->label('Background Image')
                         ->image()

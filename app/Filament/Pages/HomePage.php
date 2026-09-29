@@ -92,7 +92,7 @@ class HomePage extends Page implements HasForms
                 ->schema([
                     TextInput::make('heroData.title')
                         ->label('Title')
-                        ->required(),
+                        ->placeholder('United as One Family to Live like Christ'),
                     FileUpload::make('heroData.image')
                         ->label('Background Image')
                         ->image()
@@ -105,16 +105,20 @@ class HomePage extends Page implements HasForms
                         // Livewire's default temporary-upload rule caps files at 12 MB.
                         ->maxSize(12288)
                         ->directory('home-page-hero')
-                        ->helperText('Maks. 12 MB. Gambar latar dipakai sebagai poster dan cadangan.'),
+                        ->helperText('Maks. 12 MB. Otomatis dikompres ke MP4 tanpa suara. Gambar latar dipakai sebagai poster dan cadangan.'),
                     Grid::make(2)->schema([
                         TextInput::make('heroData.primary_button.text')
-                            ->label('Primary Button Text'),
+                            ->label('Primary Button Text')
+                            ->placeholder('Kunjungi Ibadah Kami'),
                         TextInput::make('heroData.primary_button.link')
-                            ->label('Primary Button URL'),
+                            ->label('Primary Button URL')
+                            ->placeholder('/contact'),
                         TextInput::make('heroData.secondary_button.text')
-                            ->label('Secondary Button Text'),
+                            ->label('Secondary Button Text')
+                            ->helperText('Kosongkan untuk menampilkan tombol "Tonton Online" (link live streaming di General Settings).'),
                         TextInput::make('heroData.secondary_button.link')
-                            ->label('Secondary Button URL'),
+                            ->label('Secondary Button URL')
+                            ->requiredWith('heroData.secondary_button.text'),
                     ]),
                 ]),
 
@@ -123,7 +127,7 @@ class HomePage extends Page implements HasForms
                 ->schema([
                     TextInput::make('visionMissionData.title')
                         ->label('Title')
-                        ->required(),
+                        ->placeholder('Visi & Misi'),
                     TextInput::make('visionMissionData.visi.title')
                         ->label('Vision Title')
                         ->required(),
@@ -138,36 +142,28 @@ class HomePage extends Page implements HasForms
                         ->required(),
                     TextInput::make('visionMissionData.about_button_text')
                         ->label('About Button Text')
-                        ->required(),
+                        ->placeholder('Selengkapnya tentang Hebron'),
                 ]),
 
-            Section::make('Carousel Section')
-                ->description('Upload images for the carousel.')
+            Section::make('Gallery Section')
+                ->description('Photos for "Momen sebagai satu keluarga" and the three "Temukan tempatmu" cards.')
                 ->schema([
                     FileUpload::make('carouselData')
-                        ->label('Carousel Images')
+                        ->label('Gallery Images')
                         ->image()
                         ->multiple()
+                        ->reorderable()
                         ->imageEditor()
                         ->directory('home-page-carousel')
-                        ->required()
+                        ->helperText('Foto 1–4: galeri. Foto 5–7: kartu Pelayanan, Renungan, Hubungi Kami.'),
                 ]),
 
             Section::make('Schedule Section')
-                ->description('Configure the service schedule.')
+                ->description('Sunday services. Also shown in the footer and on the Contact page.')
                 ->schema([
                     TextInput::make('scheduleData.title')
                         ->label('Title')
-                        ->required(),
-                    TextInput::make('scheduleData.subtitle')
-                        ->label('Subtitle')
-                        ->required(),
-                    FileUpload::make('scheduleData.img')
-                        ->label('Background Image')
-                        ->image()
-                        ->imageEditor()
-                        ->directory('home-page-schedule')
-                        ->required(),
+                        ->placeholder('Ibadah Raya'),
                     Repeater::make('scheduleData.services')
                         ->label('Services')
                         ->schema([
@@ -187,7 +183,7 @@ class HomePage extends Page implements HasForms
                         ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
                     TextInput::make('scheduleData.division_button_text')
                         ->label('Division Button Text')
-                        ->required(),
+                        ->placeholder('Semua divisi'),
                 ]),
 
             Section::make('Pastor Greeting Section')
@@ -195,10 +191,13 @@ class HomePage extends Page implements HasForms
                 ->schema([
                     TextInput::make('pastorGreetingData.subtitle')
                         ->label('Subtitle')
-                        ->required(),
+                        ->placeholder('Sambutan dari gembala kami'),
                     TextInput::make('pastorGreetingData.pastors_name')
                         ->label('Pastor\'s Name')
                         ->required(),
+                    TextInput::make('pastorGreetingData.pastors_position')
+                        ->label('Pastor\'s Position')
+                        ->placeholder('Gembala Sidang'),
                     FileUpload::make('pastorGreetingData.pastor_img')
                         ->label('Pastor Image')
                         ->image()
@@ -209,14 +208,13 @@ class HomePage extends Page implements HasForms
                         ->label('Pastor Signature Image')
                         ->image()
                         ->imageEditor()
-                        ->directory('home-page-pastor')
-                        ->required(),
+                        ->directory('home-page-pastor'),
                     RichEditor::make('pastorGreetingData.desc')
                         ->label('Description')
                         ->required(),
                     TextInput::make('pastorGreetingData.pastoral_button_text')
                         ->label('Pastoral Button Text')
-                        ->required(),
+                        ->placeholder('Lihat tim pastoral Hebron'),
                 ]),
             $this->seoSection(),
         ]);
@@ -240,11 +238,6 @@ class HomePage extends Page implements HasForms
         // Handle image paths for carouselData
         if (isset($data['carouselData']) && is_array($data['carouselData'])) {
             $data['carouselData'] = array_values($data['carouselData']); // Reindex array
-        }
-
-        // Handle image paths for scheduleData
-        if (isset($data['scheduleData']['img']) && is_array($data['scheduleData']['img'])) {
-            $data['scheduleData']['img'] = $data['scheduleData']['img'][0] ?? null;
         }
 
         // Handle image paths for pastorGreetingData

@@ -36,7 +36,6 @@ class PastorResource extends Resource
                     ->image()
                     ->imageEditor()
                     ->directory('pastors-image')
-                    ->required()
             ]);
     }
 
