@@ -3,6 +3,17 @@
 The site runs as one Docker container (nginx + php-fpm, SQLite). Staging and production use the same
 image and the same `docker-compose.yml`. Only the stack environment variables are different.
 
+Both environments run on one server behind one shared Caddy stack
+([`docker-compose.proxy.yml`](../docker-compose.proxy.yml)). Caddy gets the HTTPS certificates and
+sends each domain to its app over a shared Docker network named `proxy`:
+
+```
+internet ──80/443──▶ caddy ──proxy network──▶ hebron-production:8080  (production stack)
+                                         └──▶ hebron-staging:8080     (staging stack)
+```
+
+The app containers do not publish any ports. Only Caddy is reachable from outside.
+
 ## How a deploy works
 
 1. You push to `main` (deploys staging) or `production` (deploys production).
@@ -43,7 +54,41 @@ docker run --rm ghcr.io/itshiroto/hebron-v3:stable php artisan key:generate --sh
 
 Keep the output (`base64:...`). If you change the key later, all sessions and encrypted values become invalid.
 
-### 3. Create the stacks
+### 3. Point DNS at the server
+
+Create `A` (and `AAAA` if you use IPv6) records for the production and staging domains that point to
+the server's IP. Open ports 80 and 443 (TCP and UDP) in the firewall. Caddy needs both for Let's Encrypt.
+
+If the domains are behind Cloudflare, set the Cloudflare SSL mode to **Full (strict)**.
+
+### 4. Create the proxy stack
+
+Deploy this stack **before** the app stacks, because it creates the `proxy` network they join.
+
+**Stacks → Add stack → Repository**:
+
+| Field                | Value                                  |
+|----------------------|----------------------------------------|
+| Name                 | `proxy`                                |
+| Repository URL       | `https://github.com/itshiroto/hebron-v3` |
+| Repository reference | `refs/heads/main`                      |
+| Compose path         | `docker-compose.proxy.yml`             |
+
+Environment variables:
+
+| Variable            | Value                                                      |
+|---------------------|------------------------------------------------------------|
+| `STAGING_DOMAIN`    | the staging domain, e.g. `staging.hebronfamilychurch.com` (required) |
+| `PRODUCTION_DOMAIN` | `hebronfamilychurch.com` (or leave out)                    |
+
+GitOps updates are not needed for this stack. To change the proxy config later, click
+**Pull and redeploy**. Certificates are kept in the stack's `data` volume, so a redeploy does not
+request new ones.
+
+The Caddyfile is inline in the compose file (`configs.content`). This needs Docker Compose 2.23 or
+later, which recent Portainer versions include.
+
+### 5. Create the app stacks
 
 Create one stack per environment: **Stacks → Add stack → Repository**.
 
@@ -59,7 +104,7 @@ Under **GitOps updates**:
 
 - Turn on **GitOps updates** and select **Webhook** as the mechanism.
 - Turn on **Re-pull image** (without it, Portainer keeps the old `stable`/`latest` image).
-- Copy the webhook URL. You need it in step 4.
+- Copy the webhook URL. You need it in step 6.
 
 Under **Environment variables**, add:
 
@@ -69,13 +114,15 @@ Under **Environment variables**, add:
 | `APP_URL`    | `https://hebronfamilychurch.com`     | your staging URL, e.g. `https://staging.hebronfamilychurch.com` |
 | `IMAGE_TAG`  | `stable` (or leave out)              | `latest`                              |
 | `APP_ENV`    | `production` (or leave out)          | `staging`                             |
-| `HOST_PORT`  | `8080` (or leave out)                | `8081` if on the same server as production |
 
 `APP_KEY` is required. The stack does not start without it.
 
+`APP_ENV` also sets the name Caddy uses to find the app (`hebron-production` or `hebron-staging`).
+Use exactly `production` or `staging`, or Caddy returns `502 Bad Gateway`.
+
 Click **Deploy the stack**.
 
-### 4. Connect GitHub to the webhooks
+### 6. Connect GitHub to the webhooks
 
 In the GitHub repo, go to **Settings → Environments** and create two environments, `production` and
 `staging`. In each one, add a secret `PORTAINER_WEBHOOK_URL` with the webhook URL of the matching stack.
@@ -87,22 +134,12 @@ In the GitHub repo, go to **Settings → Environments** and create two environme
 Optional: on the `production` environment, add **Required reviewers** so that each production
 deploy waits for approval.
 
-### 5. Reverse proxy and HTTPS
-
-The container listens on HTTP at `HOST_PORT`. Put your reverse proxy (Nginx Proxy Manager, Traefik,
-Caddy, Cloudflare Tunnel) in front of it and terminate HTTPS there:
-
-- `hebronfamilychurch.com` → `http://<server>:8080`
-- `staging.hebronfamilychurch.com` → `http://<server>:8081`
-
-The app trusts proxy headers, so HTTPS URLs are generated correctly. Make sure `APP_URL` uses `https://`.
-
-### 6. First deploy
+### 7. First deploy
 
 Push to `main` (any commit) to trigger the first staging build and deploy. Push to `production` for
 the first production deploy.
 
-### 7. First-run data
+### 8. First-run data
 
 The container runs migrations automatically, but the database is empty. Open a console on the
 container (**Containers → hebron-…-app → Console → Connect**, user `www-data`, `/bin/sh`) and run:
@@ -183,10 +220,13 @@ exact volume names.
 
 | Symptom | Check |
 |---------|-------|
-| Workflow fails at "Redeploy Portainer stack" with `curl -fsS -X POST ""` and `curl: (3) URL rejected` | The secret `PORTAINER_WEBHOOK_URL` does not exist in that GitHub environment (step 4). The image is already in GHCR, so see [Redeploy without a new build](#redeploy-without-a-new-build). |
+| Workflow fails at "Redeploy Portainer stack" with `curl -fsS -X POST ""` and `curl: (3) URL rejected` | The secret `PORTAINER_WEBHOOK_URL` does not exist in that GitHub environment (step 6). The image is already in GHCR, so see [Redeploy without a new build](#redeploy-without-a-new-build). |
 | Workflow fails at "Redeploy Portainer stack" with an HTTP error | The webhook URL is wrong, or GitOps updates are off on the stack. |
 | Deploy succeeds but the site does not change | **Re-pull image** is off on the stack. |
 | Stack fails with `set APP_KEY in the Portainer stack env` | Add `APP_KEY` to the stack environment variables. |
 | Portainer cannot pull the image | GHCR registry credentials are missing or the token expired (step 1). |
-| Mixed-content warnings or `http://` links | `APP_URL` is not `https://`, or the proxy does not send `X-Forwarded-Proto`. |
+| App stack fails with `network proxy declared as external, but could not be found` | Deploy the proxy stack first (step 4). |
+| `502 Bad Gateway` from Caddy | The app stack is not running, or its `APP_ENV` is not exactly `production` or `staging`. Check the Caddy container logs. |
+| Browser shows a certificate error | DNS does not point to the server yet, or ports 80/443 are closed. Check the Caddy container logs for the Let's Encrypt error. |
+| Mixed-content warnings or `http://` links | `APP_URL` is not `https://`. |
 | 500 errors | Open the container **Logs** in Portainer. The app logs to stderr. |

@@ -1,0 +1,38 @@
+# One Caddy for the whole server: gets HTTPS certificates and routes each domain to its app stack.
+# Deploy this stack first. It creates the shared "proxy" network that the app stacks join.
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    configs:
+      - source: caddyfile
+        target: /etc/caddy/Caddyfile
+    volumes:
+      - data:/data
+      - config:/config
+    networks:
+      - proxy
+
+configs:
+  caddyfile:
+    # hebron-<APP_ENV> is the network alias each app stack registers (see docker-compose.yml)
+    content: |
+      ${PRODUCTION_DOMAIN:-hebronfamilychurch.com} {
+        reverse_proxy hebron-production:8080
+      }
+
+      ${STAGING_DOMAIN:?set STAGING_DOMAIN in the Portainer stack env} {
+        reverse_proxy hebron-staging:8080
+      }
+
+volumes:
+  data:
+  config:
+
+networks:
+  proxy:
+    name: proxy

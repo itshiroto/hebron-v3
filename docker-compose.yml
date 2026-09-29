@@ -2,8 +2,11 @@ services:
   app:
     image: ghcr.io/itshiroto/hebron-v3:${IMAGE_TAG:-stable}
     restart: unless-stopped
-    ports:
-      - "${HOST_PORT:-8080}:8080"
+    # No published ports: Caddy (docker-compose.proxy.yml) reaches the app over the shared proxy network
+    networks:
+      proxy:
+        aliases:
+          - hebron-${APP_ENV:-production}
     environment:
       APP_NAME: Hebron
       APP_ENV: ${APP_ENV:-production}
@@ -25,3 +28,7 @@ services:
 volumes:
   database:
   uploads:
+
+networks:
+  proxy:
+    external: true
