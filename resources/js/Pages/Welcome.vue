@@ -76,8 +76,8 @@ onMounted(updateProgress);
                     <template #actions>
                         <BaseButton href="/division" variant="link">Semua divisi →</BaseButton>
                         <div class="hidden gap-2 lg:flex">
-                            <button type="button" aria-label="Divisi sebelumnya" class="flex h-12 w-12 items-center justify-center rounded-full border border-line-strong text-heading" @click="scrollDivisions(-1)">←</button>
-                            <button type="button" aria-label="Divisi berikutnya" class="flex h-12 w-12 items-center justify-center rounded-full bg-heading text-white" @click="scrollDivisions(1)">→</button>
+                            <button type="button" aria-label="Divisi sebelumnya" class="flex h-12 w-12 items-center justify-center rounded-full border border-line-strong text-heading focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(-1)">←</button>
+                            <button type="button" aria-label="Divisi berikutnya" class="flex h-12 w-12 items-center justify-center rounded-full bg-heading text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-teal" @click="scrollDivisions(1)">→</button>
                         </div>
                     </template>
                 </SectionHeading>
@@ -162,7 +162,7 @@ onMounted(updateProgress);
             <div class="container-site section-y flex flex-col gap-10 lg:gap-[72px]">
                 <SectionHeading eyebrow="Bertumbuh bersama kami" title="Temukan tempatmu di keluarga Hebron" align="center" />
                 <div class="grid gap-10 lg:grid-cols-3">
-                    <Link v-for="step in steps" :key="step.n" :href="step.href" class="group flex flex-col gap-3 text-ink">
+                    <Link v-for="step in steps" :key="step.n" :href="step.href" class="group flex flex-col gap-3 text-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-teal">
                         <div class="h-[200px] bg-brand-mint/40 lg:h-[320px]">
                             <img v-if="step.image" :src="storageUrl(step.image)!" alt="" loading="lazy" class="h-full w-full object-cover" />
                         </div>

@@ -20,9 +20,6 @@ importers:
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
-      gsap:
-        specifier: ^3.13.0
-        version: 3.13.0
       lucide-vue-next:
         specifier: ^0.536.0
         version: 0.536.0(vue@3.5.18(typescript@5.8.3))
@@ -41,9 +38,6 @@ importers:
       vue3-carousel:
         specifier: ^0.16.0
         version: 0.16.0(vue@3.5.18(typescript@5.8.3))
-      vue3-marquee:
-        specifier: ^4.2.2
-        version: 4.2.2(vue@3.5.18(typescript@5.8.3))
     devDependencies:
       '@iconify/vue':
         specifier: ^5.0.0
@@ -953,9 +947,6 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
-  gsap@3.13.0:
-    resolution: {integrity: sha512-QL7MJ2WMjm1PHWsoFrAQH/J8wUeqZvMtHO58qdekHpCfhvhSL4gSiz6vJf5EeMP0LOn3ZCprL2ki/gjED8ghVw==}
-
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
@@ -1552,12 +1543,6 @@ packages:
     resolution: {integrity: sha512-IKRKtvHP8gNDRHSzINXwFbJ/Zy2HS+Gv2lXPnAEop6pxsvB17+fz2WQlNZ6ytilLkM5DOu/jXPoDQi/xy17bjg==}
     peerDependencies:
       vue: ^3.5.0
-
-  vue3-marquee@4.2.2:
-    resolution: {integrity: sha512-FeFvGUVInKfFilXFcnl8sDRBJBZCZSNLlQDquJErB9db6W2xICRVqbRV/jtdzsEP0rftarLQhx9MeEAU0+TPuQ==}
-    engines: {node: '>=12'}
-    peerDependencies:
-      vue: ^3.2
 
   vue@3.5.18:
     resolution: {integrity: sha512-7W4Y4ZbMiQ3SEo+m9lnoNpV9xG7QVMLa+/0RFwwiAVkeYoyGXqWE85jabU4pllJNUzqfLShJ5YLptewhCWUgNA==}
@@ -2405,8 +2390,6 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  gsap@3.13.0: {}
-
   has-flag@4.0.0: {}
 
   has-symbols@1.1.0: {}
@@ -2933,10 +2916,6 @@ snapshots:
       typescript: 5.8.3
 
   vue3-carousel@0.16.0(vue@3.5.18(typescript@5.8.3)):
-    dependencies:
-      vue: 3.5.18(typescript@5.8.3)
-
-  vue3-marquee@4.2.2(vue@3.5.18(typescript@5.8.3)):
     dependencies:
       vue: 3.5.18(typescript@5.8.3)
 
