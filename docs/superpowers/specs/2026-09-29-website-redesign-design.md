@@ -183,7 +183,11 @@ All the new fields are optional, so the site keeps rendering while editors fill 
    - The first item on page 1 renders as the featured post.
    - An invalid category falls back to "Semua".
 7. **DevotionController@single:** also pass `related`, the 3 most recent other posts, for "Baca juga".
-8. **Categories:** the existing values `devotion`, `news` and `announcement` map to the labels Renungan, Berita and Pengumuman.
+8. **About page, beliefs section:** add a Filament section `beliefs` to `AboutPage`:
+   - `beliefsData.title`, `beliefsData.intro` (rich text) and `beliefsData.link`.
+   - A repeater `beliefsData.items` of `{title, desc, verse}`, orderable.
+   - `AboutController` passes it as `beliefs`.
+9. **Categories:** the existing values `devotion`, `news` and `announcement` map to the labels Renungan, Berita and Pengumuman.
 
 ## 8. Pages
 
@@ -214,7 +218,11 @@ Section order follows the canvas. Unless noted, every item comes from the existi
 - Hero.
 - Visi & Misi beside an arch-topped image.
 - Values on deep teal: 4 columns, each showing a number, name, Bible reference and points rendered from the rich text.
-- History timeline, alternating left and right; it is a single column on mobile.
+- **Pengakuan Iman ("Apa yang kami percaya")**, which replaces the history timeline:
+  - The title, an intro paragraph and a "Baca Pengakuan Iman GPdI lengkap" link sit on the left.
+  - A 2-column list of numbered belief items (title, one-sentence summary, verse reference) sits on the right. It is a single column on mobile.
+  - The section is hidden when there are no items.
+  - The History section is no longer rendered. Its admin data is kept but unused.
 - Tim Pastoral grid (`#pastoral`).
 
 **Divisi:**
@@ -313,7 +321,7 @@ Section order follows the canvas. Unless noted, every item comes from the existi
   | Women of God | Kaum Wanita | TBA |
 
 - **Values:** fix the Evangelism value's points. They currently duplicate Ministry's.
-- **History:** replace the Lorem ipsum.
+- **Beliefs:** write the Pengakuan Iman items (title, one-sentence summary, verse) and the intro sentence. The pastor should confirm the wording. Add the link to the full GPdI confession.
 - **New fields:** add the hero video (optional), `maps_url` and `livestream_url`, and set the livestream flag on Ibadah Raya 2.
 - **Photos:** upload photography for the heroes, divisions and ministries.
 - **Font:** buy a Monotype web licence for Times New Roman MT Condensed if it is still wanted.
