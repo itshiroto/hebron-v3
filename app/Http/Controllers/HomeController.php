@@ -43,6 +43,7 @@ class HomeController extends Controller
         }
         
         return Inertia::render('Welcome', [
+            'meta' => $homePage?->sections->firstWhere('name', 'meta')?->content ?? [],
             'hero' => $heroData,
             'visionMission' => $visionMissionData,
             'carousel' => $carouselData,

@@ -21,6 +21,7 @@ class MinistryController extends Controller
         }
 
         return Inertia::render('Ministry', [
+            'meta' => $sectionsData['meta'] ?? [],
             'sections' => $sectionsData,
         ]);
     }

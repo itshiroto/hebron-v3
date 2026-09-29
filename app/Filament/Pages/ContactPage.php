@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Concerns\HasSeoMeta;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use App\Models\Pages;
@@ -16,7 +17,9 @@ use Filament\Pages\Page;
 
 class ContactPage extends Page implements HasForms
 {
-    use InteractsWithForms;
+    use InteractsWithForms, HasSeoMeta;
+
+    public ?array $metaData = [];
 
     // protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
@@ -48,6 +51,7 @@ class ContactPage extends Page implements HasForms
         $this->contactListData = $contactListSection->content;
 
         $this->form->fill([
+            'metaData' => $this->loadSeoMeta($this->contactPage),
             'heroData' => $this->heroData,
             'contactListData' => $this->contactListData,
         ]);
@@ -94,6 +98,7 @@ class ContactPage extends Page implements HasForms
                         ->collapsible()
                         ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
                 ]),
+            $this->seoSection(),
         ]);
     }
 
@@ -117,6 +122,8 @@ class ContactPage extends Page implements HasForms
             ['name' => 'contact_list', 'page_id' => $this->contactPage->id],
             ['content' => $data['contactListData']]
         );
+
+        $this->saveSeoMeta($this->contactPage, $data['metaData'] ?? []);
 
         Notification::make()
             ->title('Contact page content updated successfully!')

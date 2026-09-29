@@ -15,7 +15,7 @@ const beliefItems = computed(() => beliefs.value.items ?? []);
 </script>
 
 <template>
-    <Head title="Tentang Kami" />
+    <Head :title="(!Array.isArray($page.props.meta) && $page.props.meta?.title) || 'Tentang Kami'" />
     <DefaultLayout>
         <PageHero :image="hero?.image" eyebrow="Tentang Kami" :title="hero?.title || 'Tentang Hebron'" :subtitle="hero?.subtitle" />
 

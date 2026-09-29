@@ -9,7 +9,7 @@ defineProps<{ data: DivisionItem[]; hero: { title?: string; image?: string } | [
 </script>
 
 <template>
-    <Head title="Divisi" />
+    <Head :title="(!Array.isArray($page.props.meta) && $page.props.meta?.title) || 'Divisi'" />
     <DefaultLayout>
         <PageHero
             :image="Array.isArray(hero) ? null : hero?.image"

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Concerns\HasSeoMeta;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Exception;
@@ -19,7 +20,9 @@ use Illuminate\Support\Facades\DB;
 
 class MinistryPage extends Page implements HasForms
 {
-    use InteractsWithForms;
+    use InteractsWithForms, HasSeoMeta;
+
+    public ?array $metaData = [];
 
     // protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected string $view = 'filament.pages.ministry-page';
@@ -64,6 +67,7 @@ class MinistryPage extends Page implements HasForms
         $this->faqData = $faqSection->content;
 
         $this->form->fill([
+            'metaData' => $this->loadSeoMeta($this->ministryPage),
             'heroData' => $this->heroData,
             'introData' => $this->introData,
             'serveData' => $this->serveData,
@@ -149,6 +153,7 @@ class MinistryPage extends Page implements HasForms
                         ->collapsible()
                         ->itemLabel(fn (array $state): ?string => $state['question'] ?? null),
                 ]),
+            $this->seoSection(),
         ]);
     }
 
@@ -187,6 +192,8 @@ class MinistryPage extends Page implements HasForms
                     );
                 }
             });
+
+            $this->saveSeoMeta($this->ministryPage, $data['metaData'] ?? []);
 
             Notification::make()
                 ->title('Ministries Page updated successfully!')

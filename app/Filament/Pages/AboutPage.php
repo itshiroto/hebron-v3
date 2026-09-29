@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Concerns\HasSeoMeta;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
@@ -19,7 +20,9 @@ use Filament\Pages\Page;
 
 class AboutPage extends Page implements HasForms
 {
-    use InteractsWithForms;
+    use InteractsWithForms, HasSeoMeta;
+
+    public ?array $metaData = [];
 
     // protected static ?string $navigationIcon = 'heroicon-o-document-text';
     protected string $view = 'filament.pages.about-page';
@@ -72,6 +75,7 @@ class AboutPage extends Page implements HasForms
 
         // Ensure the form is filled with data from the properties
         $this->form->fill([
+            'metaData' => $this->loadSeoMeta($this->aboutPage),
             'heroData' => $this->heroData,
             'visionMissionData' => $this->visionMissionData,
             'valuesData' => $this->valuesData,
@@ -206,6 +210,7 @@ class AboutPage extends Page implements HasForms
                         ->collapsible()
                         ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
                 ]),
+            $this->seoSection(),
         ]);
     }
 
@@ -258,6 +263,8 @@ class AboutPage extends Page implements HasForms
             ['name' => 'beliefs', 'page_id' => $this->aboutPage->id],
             ['content' => $data['beliefsData'] ?? []]
         );
+
+        $this->saveSeoMeta($this->aboutPage, $data['metaData'] ?? []);
 
         Notification::make()
             ->title('About page content updated successfully!')

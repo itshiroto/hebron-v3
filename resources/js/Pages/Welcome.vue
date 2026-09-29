@@ -39,7 +39,7 @@ onMounted(updateProgress);
 </script>
 
 <template>
-    <Head title="Beranda" />
+    <Head :title="(!Array.isArray($page.props.meta) && $page.props.meta?.title) || 'Beranda'" />
     <DefaultLayout>
         <PageHero :image="hero?.image" :video="hero?.video" size="full" eyebrow="GPdI Hebron · Gading Serpong" :title="hero?.title || MOTTO">
             <BaseButton href="/contact" variant="light">Kunjungi Ibadah Kami</BaseButton>

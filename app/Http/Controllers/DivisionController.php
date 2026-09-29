@@ -27,6 +27,7 @@ class DivisionController extends Controller
         }
 
         return Inertia::render('Division', [
+            'meta' => $divisionPage?->sections->firstWhere('name', 'meta')?->content ?? [],
             'data' => $divisionsData,
             'hero' => $heroData,
         ]);

@@ -16,7 +16,7 @@ const MAP_EMBED =
 </script>
 
 <template>
-    <Head title="Kontak" />
+    <Head :title="(!Array.isArray($page.props.meta) && $page.props.meta?.title) || 'Kontak'" />
     <DefaultLayout>
         <PageHero :image="hero?.image" eyebrow="Kontak & Lokasi" :title="hero?.title || 'Kami senang bertemu denganmu'" :subtitle="hero?.subtitle" />
 

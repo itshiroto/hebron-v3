@@ -42,6 +42,7 @@ class AboutController extends Controller
         }
 
         return Inertia::render('AboutUs', [
+            'meta' => $aboutPage?->sections->firstWhere('name', 'meta')?->content ?? [],
             'hero' => $heroData,
             'visionMission' => $visionMissionData,
             'values' => $valuesData,
