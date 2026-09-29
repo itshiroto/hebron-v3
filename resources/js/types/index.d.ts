@@ -14,4 +14,6 @@ export type PageProps<
         user: User;
     };
     ziggy: Config & { location: string };
+    /** CMS-managed SEO fields; also rendered server-side in app.blade.php. */
+    meta?: { title?: string; description?: string; image?: string } | [];
 };

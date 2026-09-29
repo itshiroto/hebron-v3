@@ -48,3 +48,10 @@ it('shows the maps and livestream links on the general settings page', function 
         ->assertSee('generalSettingsData.maps_url', false)
         ->assertSee('generalSettingsData.livestream_url', false);
 });
+
+it('shows the SEO section on every page editor', function (string $url) {
+    $this->get($url)
+        ->assertOk()
+        ->assertSee('metaData.title', false)
+        ->assertSee('metaData.description', false);
+})->with(['/admin/home-page', '/admin/about-page', '/admin/contact-page', '/admin/ministry-page', '/admin/divisions/division-page']);

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Pages;
 
+use App\Filament\Concerns\HasSeoMeta;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Grid;
@@ -18,7 +19,9 @@ use App\Models\Pages;
 
 class HomePage extends Page implements HasForms
 {
-    use InteractsWithForms;
+    use InteractsWithForms, HasSeoMeta;
+
+    public ?array $metaData = [];
 
     // protected static ?string $navigationIcon = 'heroicon-o-document-text';
 
@@ -72,6 +75,7 @@ class HomePage extends Page implements HasForms
 
 
         $this->form->fill([
+            'metaData' => $this->loadSeoMeta($this->homePage),
             'heroData' => $this->heroData,
             'visionMissionData' => $this->visionMissionData,
             'carouselData' => $this->carouselData,
@@ -214,6 +218,7 @@ class HomePage extends Page implements HasForms
                         ->label('Pastoral Button Text')
                         ->required(),
                 ]),
+            $this->seoSection(),
         ]);
     }
 
@@ -275,6 +280,8 @@ class HomePage extends Page implements HasForms
             ['name' => 'pastor_greeting', 'page_id' => $this->homePage->id],
             ['content' => $data['pastorGreetingData']]
         );
+
+        $this->saveSeoMeta($this->homePage, $data['metaData'] ?? []);
 
         Notification::make()
             ->title('Home page content updated successfully!')

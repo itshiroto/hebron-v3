@@ -16,7 +16,7 @@ const faqs = computed(() => props.sections.faq?.questionsList ?? []);
 </script>
 
 <template>
-    <Head title="Pelayanan" />
+    <Head :title="(!Array.isArray($page.props.meta) && $page.props.meta?.title) || 'Pelayanan'" />
     <DefaultLayout>
         <PageHero :image="hero?.image" eyebrow="Pelayanan" :title="hero?.title || 'Pelayanan di Hebron Family Church'" />
 

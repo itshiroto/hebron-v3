@@ -2,6 +2,7 @@
 
 namespace App\Filament\Clusters\Divisions\Pages;
 
+use App\Filament\Concerns\HasSeoMeta;
 use Filament\Schemas\Schema;
 use Filament\Schemas\Components\Section;
 use App\Filament\Clusters\Divisions;
@@ -15,7 +16,9 @@ use Filament\Pages\Page;
 
 class DivisionPage extends Page implements HasForms
 {
-    use InteractsWithForms;
+    use InteractsWithForms, HasSeoMeta;
+
+    public ?array $metaData = [];
 
     protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-document-text';
     protected string $view = 'filament.clusters.divisions.pages.division-page';
@@ -37,6 +40,7 @@ class DivisionPage extends Page implements HasForms
         $this->heroData = $heroSection->content;
 
         $this->form->fill([
+            'metaData' => $this->loadSeoMeta($this->divisionPageModel),
             'heroData' => $this->heroData,
         ]);
     }
@@ -56,7 +60,8 @@ class DivisionPage extends Page implements HasForms
                         ->imageEditor()
                         ->directory('division-page-hero')
                         ->required(),
-                ])
+                ]),
+            $this->seoSection(),
         ]);
     }
 
@@ -74,6 +79,8 @@ class DivisionPage extends Page implements HasForms
             ['name' => 'hero', 'page_id' => $this->divisionPageModel->id],
             ['content' => $data['heroData']]
         );
+
+        $this->saveSeoMeta($this->divisionPageModel, $data['metaData'] ?? []);
 
         Notification::make()
             ->title('Division Page Hero Section updated successfully!')

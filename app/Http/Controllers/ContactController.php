@@ -22,6 +22,7 @@ class ContactController extends Controller
         }
 
         return Inertia::render('Contact', [
+            'meta' => $contactPage?->sections()->where('name', 'meta')->first()?->content ?? [],
             'hero' => $heroContent,
             'contactList' => $contactListSection?->content ?? [],
         ]);
