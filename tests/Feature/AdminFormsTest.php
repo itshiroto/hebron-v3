@@ -54,4 +54,4 @@ it('shows the SEO section on every page editor', function (string $url) {
         ->assertOk()
         ->assertSee('metaData.title', false)
         ->assertSee('metaData.description', false);
-})->with(['/admin/home-page', '/admin/about-page', '/admin/contact-page', '/admin/ministry-page', '/admin/divisions/division-page']);
+})->with(['/admin/home-page', '/admin/about-page', '/admin/contact-page', '/admin/ministry-page', '/admin/visit-page', '/admin/divisions/division-page']);

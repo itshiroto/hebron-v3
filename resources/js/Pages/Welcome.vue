@@ -18,7 +18,7 @@ const { address, mapsUrl, livestreamUrl, services, socials } = useSiteSettings()
 
 const primary = computed(() => ({
     text: props.hero?.primary_button?.text || 'Kunjungi Ibadah Kami',
-    link: props.hero?.primary_button?.link || '/contact',
+    link: props.hero?.primary_button?.link || '/visit',
 }));
 const secondary = computed(() => (props.hero?.secondary_button?.text ? props.hero.secondary_button : null));
 const isExternal = (href: string) => !href.startsWith('/');

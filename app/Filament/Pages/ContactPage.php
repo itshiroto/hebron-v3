@@ -9,6 +9,7 @@ use App\Models\Pages;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -31,6 +32,8 @@ class ContactPage extends Page implements HasForms
 
     public ?array $heroData = [];
     public ?array $contactListData = [];
+    public ?array $officeHoursData = [];
+    public ?array $requestsData = [];
 
     protected $contactPage;
 
@@ -50,10 +53,19 @@ class ContactPage extends Page implements HasForms
         );
         $this->contactListData = $contactListSection->content;
 
+        foreach (['office_hours' => 'officeHoursData', 'requests' => 'requestsData'] as $name => $property) {
+            $this->{$property} = $this->contactPage->sections()->firstOrCreate(
+                ['name' => $name, 'page_id' => $this->contactPage->id],
+                ['content' => []]
+            )->content;
+        }
+
         $this->form->fill([
             'metaData' => $this->loadSeoMeta($this->contactPage),
             'heroData' => $this->heroData,
             'contactListData' => $this->contactListData,
+            'officeHoursData' => $this->officeHoursData,
+            'requestsData' => $this->requestsData,
         ]);
     }
 
@@ -77,7 +89,7 @@ class ContactPage extends Page implements HasForms
                 ]),
 
             Section::make('Contact List')
-                ->description('Shown under "Hubungi Kami". Address, map link and service times come from General Settings and the Home schedule.')
+                ->description('Shown under "Hubungi Kami". Address and map link come from General Settings.')
                 ->schema([
                     Repeater::make('contactListData')
                         ->label('Contact Items')
@@ -94,6 +106,38 @@ class ContactPage extends Page implements HasForms
                         ])
                         ->defaultItems(1)
                         ->columns(1)
+                        ->collapsible()
+                        ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
+                ]),
+
+            Section::make('Office Hours')
+                ->schema([
+                    TextInput::make('officeHoursData.hours')
+                        ->label('Sekretariat Office Hours')
+                        ->placeholder('Senin – Jumat · 08.00 – 16.00 WIB'),
+                ]),
+
+            Section::make('Kami Bisa Bantu')
+                ->description('Types of request. Each opens WhatsApp to the number below with its message already typed.')
+                ->schema([
+                    TextInput::make('requestsData.title')
+                        ->label('Title')
+                        ->placeholder('Kami bisa bantu'),
+                    TextInput::make('requestsData.whatsapp')
+                        ->label('WhatsApp Number')
+                        ->tel()
+                        ->placeholder('6281387243736')
+                        ->helperText('Kode negara tanpa + atau 0 di depan. Kosongkan untuk menyembunyikan tombol WhatsApp.'),
+                    Repeater::make('requestsData.items')
+                        ->label('Requests')
+                        ->schema([
+                            TextInput::make('title')->label('Title')->required(),
+                            Textarea::make('desc')->label('Description')->rows(2),
+                            TextInput::make('message')
+                                ->label('WhatsApp Message')
+                                ->placeholder('Shalom, saya ingin bertanya tentang baptisan air.'),
+                        ])
+                        ->defaultItems(1)
                         ->collapsible()
                         ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
                 ]),
@@ -120,6 +164,16 @@ class ContactPage extends Page implements HasForms
         $this->contactPage->sections()->updateOrCreate(
             ['name' => 'contact_list', 'page_id' => $this->contactPage->id],
             ['content' => $data['contactListData']]
+        );
+
+        $this->contactPage->sections()->updateOrCreate(
+            ['name' => 'office_hours', 'page_id' => $this->contactPage->id],
+            ['content' => $data['officeHoursData'] ?? []]
+        );
+
+        $this->contactPage->sections()->updateOrCreate(
+            ['name' => 'requests', 'page_id' => $this->contactPage->id],
+            ['content' => $data['requestsData'] ?? []]
         );
 
         $this->saveSeoMeta($this->contactPage, $data['metaData'] ?? []);

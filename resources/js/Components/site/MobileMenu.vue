@@ -66,10 +66,10 @@ onBeforeUnmount(() => {
             class="fixed inset-0 z-60 flex flex-col bg-brand-deep text-white lg:hidden"
             @keydown="onKeydown"
         >
-            <div class="flex h-16 items-center justify-between pl-5 pr-3">
+            <div class="flex h-14 items-center justify-between pl-5 pr-2">
                 <Link href="/" class="flex items-center gap-2.5" @click="emit('close')">
-                    <img :src="logo" alt="" class="h-7 w-auto" />
-                    <span class="font-serif text-[19px]">{{ churchName }}</span>
+                    <img :src="logo" alt="" class="h-6 w-auto" />
+                    <span class="font-serif text-lg">{{ churchName }}</span>
                 </Link>
                 <button type="button" aria-label="Tutup menu" class="flex h-11 w-11 items-center justify-center" @click="emit('close')">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
@@ -91,7 +91,7 @@ onBeforeUnmount(() => {
                     <p>{{ services.map((s) => s.time).join(' · ') }} WIB</p>
                 </div>
                 <Link
-                    href="/contact"
+                    href="/visit"
                     class="flex h-[52px] items-center justify-center rounded-button bg-white text-[15px] font-semibold text-heading"
                     @click="emit('close')"
                     >Kunjungi Ibadah Kami</Link

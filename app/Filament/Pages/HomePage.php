@@ -112,7 +112,7 @@ class HomePage extends Page implements HasForms
                             ->placeholder('Kunjungi Ibadah Kami'),
                         TextInput::make('heroData.primary_button.link')
                             ->label('Primary Button URL')
-                            ->placeholder('/contact'),
+                            ->placeholder('/visit'),
                         TextInput::make('heroData.secondary_button.text')
                             ->label('Secondary Button Text')
                             ->helperText('Kosongkan untuk menampilkan tombol "Tonton Online" (link live streaming di General Settings).'),
@@ -159,7 +159,7 @@ class HomePage extends Page implements HasForms
                 ]),
 
             Section::make('Schedule Section')
-                ->description('Sunday services. Also shown in the footer and on the Contact page.')
+                ->description('Sunday services. Also shown in the footer and on the Kunjungi Kami page.')
                 ->schema([
                     TextInput::make('scheduleData.title')
                         ->label('Title')
@@ -176,6 +176,10 @@ class HomePage extends Page implements HasForms
                             Toggle::make('livestream')
                                 ->label('Live Streaming')
                                 ->default(false),
+                            TextInput::make('note')
+                                ->label('Note (Kunjungi Kami page)')
+                                ->placeholder('Seeds of Truth untuk anak di jam yang sama.')
+                                ->columnSpanFull(),
                         ])
                         ->defaultItems(1)
                         ->columns(3)

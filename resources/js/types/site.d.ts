@@ -11,6 +11,7 @@ export interface ServiceTime {
     title: string;
     time: string;
     livestream: boolean;
+    note: string;
 }
 
 export interface DivisionItem {

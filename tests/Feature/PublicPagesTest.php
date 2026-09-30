@@ -2,7 +2,7 @@
 
 it('renders every public page on an empty database', function (string $url) {
     $this->get($url)->assertOk();
-})->with(['/', '/about', '/division', '/ministry', '/devotion', '/contact']);
+})->with(['/', '/about', '/division', '/ministry', '/devotion', '/contact', '/visit']);
 
 it('renders CMS SEO meta tags server-side', function () {
     \App\Models\Pages::create(['name' => 'About'])->sections()->create(['name' => 'meta', 'content' => [

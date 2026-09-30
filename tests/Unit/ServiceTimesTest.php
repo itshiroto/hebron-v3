@@ -2,15 +2,15 @@
 
 use App\Support\ServiceTimes;
 
-it('strips a trailing WIB and defaults livestream to false', function () {
+it('strips a trailing WIB, trims notes and defaults livestream to false', function () {
     expect(ServiceTimes::normalize([
         ['title' => 'Ibadah Raya 1', 'time' => '07.30 WIB'],
-        ['title' => 'Ibadah Raya 2', 'time' => '10.00', 'livestream' => true],
+        ['title' => 'Ibadah Raya 2', 'time' => '10.00', 'livestream' => true, 'note' => ' Ada Sekolah Minggu '],
         ['title' => 'Ibadah Raya 3', 'time' => ' 17.30 wib '],
     ]))->toBe([
-        ['title' => 'Ibadah Raya 1', 'time' => '07.30', 'livestream' => false],
-        ['title' => 'Ibadah Raya 2', 'time' => '10.00', 'livestream' => true],
-        ['title' => 'Ibadah Raya 3', 'time' => '17.30', 'livestream' => false],
+        ['title' => 'Ibadah Raya 1', 'time' => '07.30', 'livestream' => false, 'note' => ''],
+        ['title' => 'Ibadah Raya 2', 'time' => '10.00', 'livestream' => true, 'note' => 'Ada Sekolah Minggu'],
+        ['title' => 'Ibadah Raya 3', 'time' => '17.30', 'livestream' => false, 'note' => ''],
     ]);
 });
 

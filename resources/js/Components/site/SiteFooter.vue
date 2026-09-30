@@ -40,6 +40,7 @@ const year = new Date().getFullYear();
                     <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-orange lg:text-xs">Kunjungi</p>
                     <div class="rich-text" v-html="address"></div>
                     <p v-if="services.length">Setiap Minggu · {{ services.map((s) => s.time).join(' · ') }} WIB</p>
+                    <Link href="/visit" class="font-semibold text-white hover:text-brand-mint">Panduan kunjungan →</Link>
                 </div>
             </div>
             <div class="flex flex-col gap-1.5 border-t border-white/15 pt-6 text-xs text-white/60 lg:flex-row lg:justify-between lg:pt-8 lg:text-[13px]">

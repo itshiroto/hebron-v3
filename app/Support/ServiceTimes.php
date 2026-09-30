@@ -5,7 +5,7 @@ namespace App\Support;
 class ServiceTimes
 {
     /**
-     * @return array<int, array{title: string, time: string, livestream: bool}>
+     * @return array<int, array{title: string, time: string, livestream: bool, note: string}>
      */
     public static function normalize(mixed $services): array
     {
@@ -23,6 +23,7 @@ class ServiceTimes
                 'title' => trim((string) ($service['title'] ?? '')),
                 'time' => trim(preg_replace('/\s*WIB\s*$/i', '', $time)),
                 'livestream' => (bool) ($service['livestream'] ?? false),
+                'note' => trim((string) ($service['note'] ?? '')),
             ];
         }
 

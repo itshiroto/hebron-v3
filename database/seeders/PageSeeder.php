@@ -59,6 +59,13 @@ class PageSeeder extends Seeder
         }
         Division::whereNotIn('title', array_column($divisions, 1))->delete();
 
+        // Needs the division ids, so it is seeded after the divisions.
+        Pages::firstWhere('name', 'Visit')->sections()->updateOrCreate(['name' => 'kids'], ['content' => [
+            'title' => 'Bawa anak & remaja',
+            'desc' => 'Seeds of Truth melayani anak dari balita hingga sebelum SMP, bersamaan dengan Ibadah Raya 2 pukul 10.00. Kamu bisa beribadah sementara anakmu belajar Firman di kelasnya.',
+            'division_ids' => Division::whereIn('title', ['Seeds of Truth', 'Descendants of Truth'])->pluck('id')->all(),
+        ]]);
+
         foreach ($this->devotions() as $devotion) {
             Devotion::updateOrCreate(['slug' => $devotion['slug']], $devotion);
         }
@@ -93,7 +100,7 @@ class PageSeeder extends Seeder
                     'image' => 'home-page-hero/01KN6ZAD5V4G7YR7XW5BX8K7BN.jpg',
                     'primary_button' => [
                         'text' => 'Kunjungi Ibadah Kami',
-                        'link' => 'https://maps.app.goo.gl/GoMhnkkmL2A7wp6c9',
+                        'link' => '/visit',
                     ],
                     'secondary_button' => [
                         'text' => 'Tentang Hebron',
@@ -124,16 +131,19 @@ class PageSeeder extends Seeder
                             'title' => 'Ibadah Raya 1',
                             'time' => '07.30',
                             'livestream' => false,
+                            'note' => 'Dilanjutkan Kantin Hebron setelah ibadah.',
                         ],
                         [
                             'title' => 'Ibadah Raya 2',
                             'time' => '10.00',
                             'livestream' => true,
+                            'note' => 'Seeds of Truth untuk anak di jam yang sama. Dilanjutkan Kantin Hebron.',
                         ],
                         [
                             'title' => 'Ibadah Raya 3',
                             'time' => '17.30',
                             'livestream' => false,
+                            'note' => 'Ibadah sore dengan susunan yang sama.',
                         ],
                     ],
                     'division_button_text' => 'Lihat Ibadah Divisi Hebron',
@@ -215,7 +225,7 @@ class PageSeeder extends Seeder
                 ],
                 'hero' => [
                     'title' => 'Contact Us',
-                    'subtitle' => 'Kami senang bertemu denganmu. Hubungi kami atau datang langsung ke ibadah hari Minggu.',
+                    'subtitle' => 'Pertanyaan, permohonan doa, atau kebutuhan pelayanan, kami siap membantu.',
                     'image' => 'contact-page-hero/01K4W9SA4F13GQ49VW1QWT9Z33.jpg',
                 ],
                 'contact_list' => [
@@ -228,6 +238,65 @@ class PageSeeder extends Seeder
                         'title' => 'Instagram',
                         'desc' => '@gpdigadingserpong',
                         'link' => 'https://www.instagram.com/gpdigadingserpong',
+                    ],
+                ],
+                'office_hours' => [
+                    'hours' => 'Mulai pukul 08.00 WIB',
+                ],
+                'requests' => [
+                    'title' => 'Kami bisa bantu',
+                    'whatsapp' => '6281387243736',
+                    'items' => [
+                        ['title' => 'Informasi umum', 'desc' => 'Pertanyaan seputar gereja, jadwal, dan kegiatan.', 'message' => 'Shalom, saya ingin bertanya tentang Hebron Family Church.'],
+                        ['title' => 'Permohonan doa', 'desc' => 'Bagikan pergumulanmu, kami akan mendoakanmu.', 'message' => 'Shalom, saya ingin mengajukan permohonan doa.'],
+                        ['title' => 'Konseling pastoral', 'desc' => 'Bicara langsung dengan gembala atau tim pastoral.', 'message' => 'Shalom, saya ingin membuat janji konseling pastoral.'],
+                        ['title' => 'Baptisan air', 'desc' => 'Pendaftaran baptisan air.', 'message' => 'Shalom, saya ingin mendaftar baptisan air.'],
+                        ['title' => 'Penyerahan anak', 'desc' => 'Pendaftaran penyerahan anak.', 'message' => 'Shalom, saya ingin mendaftarkan penyerahan anak.'],
+                        ['title' => 'Pemberkatan nikah', 'desc' => 'Pendaftaran pemberkatan nikah.', 'message' => 'Shalom, saya ingin bertanya tentang pemberkatan nikah.'],
+                    ],
+                ],
+            ],
+            'Visit' => [
+                'meta' => [
+                    'title' => 'Kunjungi Kami — Hebron Family Church',
+                    'description' => 'Panduan ibadah pertamamu di Hebron Family Church, Gading Serpong: jadwal Ibadah Raya, cara sampai, parkir, dan ibadah anak.',
+                ],
+                'hero' => [
+                    'title' => 'Minggu ini, ada tempat untukmu',
+                    'subtitle' => 'Pertama kali ke Hebron? Ini yang perlu kamu tahu sebelum datang.',
+                    'image' => 'home-page-carousel/01K41T4APAHCPJPSE1XDGPDSY9.jpg',
+                ],
+                'expect' => [
+                    'title' => 'Apa yang akan kamu alami',
+                    'items' => [
+                        ['title' => 'Sekitar 2 jam', 'desc' => 'Setiap Ibadah Raya berlangsung paling lama sekitar dua jam.'],
+                        ['title' => 'Pujian, Firman, doa', 'desc' => 'Ibadah dibuka dengan pujian penyembahan, lalu khotbah Firman Tuhan dan doa bersama.'],
+                        ['title' => 'Sama di setiap jam', 'desc' => 'Ketiga Ibadah Raya punya susunan dan gaya yang sama. Pilih jam yang paling pas untukmu.'],
+                        ['title' => 'Kantin Hebron', 'desc' => 'Setelah Ibadah Raya 1 dan 2, mampir ke Kantin Hebron untuk makanan ringan dan bersekutu bersama jemaat.'],
+                    ],
+                ],
+                'arrival' => [
+                    'title' => 'Cara sampai ke Hebron',
+                    'parking' => 'Area depan gereja adalah lahan parkir umum. Parkirlah sedekat mungkin dengan gereja.',
+                    'steps' => [
+                        ['title' => 'Masuk ke Pasar Modern Paramount', 'desc' => 'Dari Jl. Boulevard Raya Gading Serpong, masuk ke kompleks Pasar Modern Paramount.', 'image' => null],
+                        ['title' => 'Cari Blok L39', 'desc' => 'Gereja berada di deretan ruko Blok L, nomor 39.', 'image' => null],
+                        ['title' => 'Parkir dan masuk', 'desc' => 'Parkir di area depan gereja, lalu masuk. Tim penyambut akan menyapamu di pintu.', 'image' => null],
+                    ],
+                ],
+                'welcome' => [
+                    'title' => 'Kabari kami kamu akan datang',
+                    'desc' => 'Tim penyambut kami akan menyapamu saat tiba dan membantu mencarikan tempat duduk. Beri tahu kami lebih dulu supaya kami bisa bersiap menyambutmu.',
+                    'button_text' => 'Kabari kami via WhatsApp',
+                    'button_link' => 'https://wa.me/6281387243736?text=Shalom%2C%20saya%20berencana%20datang%20ke%20ibadah%20Hebron%20hari%20Minggu%20ini.',
+                ],
+                'faq' => [
+                    'title' => 'Pertanyaan yang sering diajukan',
+                    'questionsList' => [
+                        ['question' => 'Bolehkah saya datang sendiri?', 'answer' => '<p>Tentu. Banyak jemaat pertama kali datang sendirian. Tim penyambut akan membantumu menemukan tempat duduk.</p>'],
+                        ['question' => 'Di mana saya bisa parkir?', 'answer' => '<p>Area depan gereja adalah lahan parkir umum. Parkirlah sedekat mungkin dengan gereja.</p>'],
+                        ['question' => 'Usia berapa yang ikut Seeds of Truth?', 'answer' => '<p>Seeds of Truth melayani anak dari balita hingga sebelum SMP, bersamaan dengan Ibadah Raya 2 pukul 10.00 WIB.</p>'],
+                        ['question' => 'Bagaimana jika saya belum bisa datang?', 'answer' => '<p>Ibadah Raya 2 pukul 10.00 WIB disiarkan live streaming melalui Instagram <a href="https://www.instagram.com/gpdigadingserpong">@gpdigadingserpong</a>.</p>'],
                     ],
                 ],
             ],

@@ -65,7 +65,7 @@ function linkClass(href: string) {
                     >{{ item.name }}</Link
                 >
                 <Link
-                    href="/contact"
+                    href="/visit"
                     class="rounded-button border border-white/70 px-3.5 py-2 transition-colors hover:bg-white hover:text-heading"
                     >Kunjungi Kami</Link
                 >

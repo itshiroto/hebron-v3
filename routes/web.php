@@ -6,6 +6,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DevotionController;
 use App\Http\Controllers\MinistryController;
 use App\Http\Controllers\DivisionController;
+use App\Http\Controllers\VisitController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'show'])->name('home');
@@ -16,6 +17,7 @@ Route::prefix('devotion')->group(function () {
 });
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
+Route::get('/visit', [VisitController::class, 'show'])->name('visit');
 Route::get('/ministry', [MinistryController::class, 'show'])->name('ministry');
 Route::get('/division', [DivisionController::class, 'show'])->name('division');
 

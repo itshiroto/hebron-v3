@@ -14,6 +14,7 @@ class ContactController extends Controller
 
         $heroSection = $contactPage?->sections()->where('name', 'hero')->first();
         $contactListSection = $contactPage?->sections()->where('name', 'contact_list')->first();
+        $section = fn (string $name) => $contactPage?->sections()->where('name', $name)->first()?->content ?? [];
 
         $heroContent = $heroSection?->content ?: ['title' => 'Kami senang bertemu denganmu', 'subtitle' => null, 'image' => null];
 
@@ -25,6 +26,8 @@ class ContactController extends Controller
             'meta' => $contactPage?->sections()->where('name', 'meta')->first()?->content ?? [],
             'hero' => $heroContent,
             'contactList' => $contactListSection?->content ?? [],
+            'officeHours' => $section('office_hours'),
+            'requests' => $section('requests'),
         ]);
     }
 }
