@@ -113,16 +113,17 @@ class VisitPage extends Page implements HasForms
                         ->itemLabel(fn (array $state): ?string => $state['title'] ?? null),
                 ]),
 
-            Section::make('Anak & remaja')
+            Section::make('Ibadah Divisi')
+                ->description('Lists every division with its schedule. The divisions picked below are listed first.')
                 ->schema([
                     TextInput::make('kidsData.title')
                         ->label('Title')
-                        ->placeholder('Bawa anak & remaja'),
+                        ->placeholder('Ada ibadah untuk seluruh keluarga'),
                     Textarea::make('kidsData.desc')
                         ->label('Description')
                         ->rows(3),
                     Select::make('kidsData.division_ids')
-                        ->label('Divisions to show')
+                        ->label('Divisions to list first')
                         ->multiple()
                         ->options(fn () => Division::ordered()->pluck('title', 'id')),
                 ]),

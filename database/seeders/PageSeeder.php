@@ -61,8 +61,8 @@ class PageSeeder extends Seeder
 
         // Needs the division ids, so it is seeded after the divisions.
         Pages::firstWhere('name', 'Visit')->sections()->updateOrCreate(['name' => 'kids'], ['content' => [
-            'title' => 'Bawa anak & remaja',
-            'desc' => 'Seeds of Truth melayani anak dari balita hingga sebelum SMP, bersamaan dengan Ibadah Raya 2 pukul 10.00. Kamu bisa beribadah sementara anakmu belajar Firman di kelasnya.',
+            'title' => 'Ada ibadah untuk seluruh keluarga',
+            'desc' => 'Selain Ibadah Raya, setiap generasi punya ibadah dan komunitasnya sendiri. Bawa anak? Seeds of Truth melayani anak dari balita hingga sebelum SMP, bersamaan dengan Ibadah Raya 2 pukul 10.00.',
             'division_ids' => Division::whereIn('title', ['Seeds of Truth', 'Descendants of Truth'])->pluck('id')->all(),
         ]]);
 

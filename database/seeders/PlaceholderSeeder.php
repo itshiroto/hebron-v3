@@ -51,8 +51,8 @@ class PlaceholderSeeder extends Seeder
         }
 
         Pages::firstWhere('name', 'Visit')->sections()->updateOrCreate(['name' => 'kids'], ['content' => [
-            'title' => 'Bawa anak & remaja',
-            'desc' => 'Seeds of Truth melayani anak dari balita hingga sebelum SMP, bersamaan dengan Ibadah Raya 2 pukul 10.00. Kamu bisa beribadah dengan tenang sementara anakmu belajar Firman bersama guru-guru yang sudah terlatih.',
+            'title' => 'Ada ibadah untuk seluruh keluarga',
+            'desc' => 'Selain Ibadah Raya, setiap generasi punya ibadah dan komunitasnya sendiri. Bawa anak? Seeds of Truth melayani anak dari balita hingga sebelum SMP, bersamaan dengan Ibadah Raya 2 pukul 10.00.',
             'division_ids' => Division::whereIn('title', ['Seeds of Truth', 'Descendants of Truth'])->pluck('id')->all(),
         ]]);
 

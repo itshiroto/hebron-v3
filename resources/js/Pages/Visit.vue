@@ -63,7 +63,7 @@ const MAP_EMBED =
              The "Apa yang akan kamu alami" section (expect) is hidden for now; its CMS content is kept. -->
         <section v-if="divisions.length" class="container-site section-y flex flex-col gap-10 lg:gap-14">
             <div v-reveal class="grid gap-6 lg:grid-cols-[5fr_7fr] lg:items-end lg:gap-24">
-                <SectionHeading eyebrow="Ibadah Divisi" :title="kids.title || 'Bawa anak & remaja'" />
+                <SectionHeading eyebrow="Ibadah Divisi" :title="kids.title || 'Ada ibadah untuk seluruh keluarga'" />
                 <div class="flex flex-col gap-4">
                     <p v-if="kids.desc" class="text-base leading-relaxed text-ink-muted lg:text-lg">{{ kids.desc }}</p>
                     <BaseButton href="/division" variant="link" class="self-start">Semua divisi →</BaseButton>
