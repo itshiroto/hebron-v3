@@ -5,7 +5,6 @@ import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import PageHero from '@/Components/site/PageHero.vue';
 import SectionHeading from '@/Components/site/SectionHeading.vue';
 import BaseButton from '@/Components/site/BaseButton.vue';
-import DivisionCard from '@/Components/site/DivisionCard.vue';
 import { useSiteSettings } from '@/composables/useSiteSettings';
 import { storageUrl } from '@/lib/site';
 import { vReveal } from '@/lib/reveal';
@@ -26,6 +25,7 @@ const props = defineProps<{
 const { address, mapsUrl, livestreamUrl, services } = useSiteSettings();
 const steps = computed(() => props.arrival.steps ?? []);
 const faqs = computed(() => props.faq.questionsList ?? []);
+const divisions = computed(() => [...props.kidsDivisions, ...props.otherDivisions]);
 const welcomeText = computed(() => props.welcome.button_text || 'Kabari kami');
 const MAP_EMBED =
     'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9409.156729619113!2d106.62013527573178!3d-6.250669861203338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69fc76ad63a58b%3A0xb11a5c84cfc0f8db!2sGPdI%20Hebron%20Gading%20Serpong!5e1!3m2!1sen!2sid!4v1754075220198!5m2!1sen!2sid';
@@ -59,36 +59,30 @@ const MAP_EMBED =
             </div>
         </section>
 
-        <!-- Ibadah divisi: kids & youth cards, then every other division's schedule.
+        <!-- Ibadah divisi: the divisions picked in the CMS (kids & youth) first, then the rest.
              The "Apa yang akan kamu alami" section (expect) is hidden for now; its CMS content is kept. -->
-        <section v-if="kidsDivisions.length || otherDivisions.length" class="container-site section-y flex flex-col gap-12 lg:gap-16">
-            <div class="grid gap-10 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-24">
-                <div v-reveal class="flex flex-col gap-6">
-                    <SectionHeading eyebrow="Ibadah Divisi" :title="kids.title || 'Bawa anak & remaja'" />
+        <section v-if="divisions.length" class="container-site section-y flex flex-col gap-10 lg:gap-14">
+            <div v-reveal class="grid gap-6 lg:grid-cols-[5fr_7fr] lg:items-end lg:gap-24">
+                <SectionHeading eyebrow="Ibadah Divisi" :title="kids.title || 'Bawa anak & remaja'" />
+                <div class="flex flex-col gap-4">
                     <p v-if="kids.desc" class="text-base leading-relaxed text-ink-muted lg:text-lg">{{ kids.desc }}</p>
                     <BaseButton href="/division" variant="link" class="self-start">Semua divisi →</BaseButton>
                 </div>
-                <div v-if="kidsDivisions.length" v-reveal="150" class="-mx-5 flex snap-x snap-mandatory scroll-pl-5 gap-3.5 overflow-x-auto px-5 scrollbar-none lg:mx-0 lg:gap-6 lg:px-0">
-                    <DivisionCard v-for="division in kidsDivisions" :key="division.id" :division="division" />
-                </div>
             </div>
-            <div v-if="otherDivisions.length" class="flex flex-col gap-4 lg:gap-5">
-                <p v-reveal class="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-teal lg:text-xs">Divisi lainnya</p>
-                <div class="grid border-t border-line md:grid-cols-2 md:gap-x-12 lg:gap-x-20">
-                    <Link
-                        v-for="(division, index) in otherDivisions"
-                        :key="division.id"
-                        v-reveal="(index % 2) * 100"
-                        :href="`/division#${division.slug}`"
-                        class="group flex items-center justify-between gap-6 border-b border-line py-5 focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-teal lg:py-6"
-                    >
-                        <span class="flex flex-col gap-1">
-                            <span v-if="division.audience" class="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">{{ division.audience }}</span>
-                            <span class="font-serif text-2xl leading-[1.05] text-heading group-hover:underline lg:text-[28px]">{{ division.title }}</span>
-                        </span>
-                        <span class="max-w-[45%] text-right text-sm font-semibold" :class="division.time ? 'text-brand-teal' : 'text-ink-muted'">{{ division.time || 'Jadwal akan diumumkan' }}</span>
-                    </Link>
-                </div>
+            <div class="grid border-t border-line md:grid-cols-2 md:gap-x-12 lg:gap-x-20">
+                <Link
+                    v-for="(division, index) in divisions"
+                    :key="division.id"
+                    v-reveal="(index % 2) * 100"
+                    :href="`/division#${division.slug}`"
+                    class="group flex items-center justify-between gap-6 border-b border-line py-5 focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-teal lg:py-6"
+                >
+                    <span class="flex flex-col gap-1">
+                        <span v-if="division.audience" class="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">{{ division.audience }}</span>
+                        <span class="font-serif text-2xl leading-[1.05] text-heading group-hover:underline lg:text-[28px]">{{ division.title }}</span>
+                    </span>
+                    <span class="max-w-[45%] text-right text-sm font-semibold" :class="division.time ? 'text-brand-teal' : 'text-ink-muted'">{{ division.time || 'Jadwal akan diumumkan' }}</span>
+                </Link>
             </div>
         </section>
 
