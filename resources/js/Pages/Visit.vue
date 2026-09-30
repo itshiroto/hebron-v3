@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import PageHero from '@/Components/site/PageHero.vue';
 import SectionHeading from '@/Components/site/SectionHeading.vue';
@@ -18,12 +18,12 @@ const props = defineProps<{
     arrival: { title?: string; parking?: string | null; steps?: { title: string; desc?: string | null; image?: string | null }[] };
     kids: { title?: string; desc?: string | null };
     kidsDivisions: DivisionItem[];
+    otherDivisions: DivisionItem[];
     welcome: { title?: string; desc?: string | null; button_text?: string | null; button_link?: string | null };
     faq: { title?: string; questionsList?: { question: string; answer: string }[] };
 }>();
 
 const { address, mapsUrl, livestreamUrl, services } = useSiteSettings();
-const expectItems = computed(() => props.expect.items ?? []);
 const steps = computed(() => props.arrival.steps ?? []);
 const faqs = computed(() => props.faq.questionsList ?? []);
 const welcomeText = computed(() => props.welcome.button_text || 'Kabari kami');
@@ -59,15 +59,25 @@ const MAP_EMBED =
             </div>
         </section>
 
-        <!-- Apa yang akan kamu alami -->
-        <section v-if="expectItems.length" class="container-site section-y flex flex-col gap-10 lg:gap-14">
-            <SectionHeading v-reveal eyebrow="Hari Minggu di Hebron" :title="expect.title || 'Apa yang akan kamu alami'" />
-            <div class="grid gap-8 border-t border-line pt-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-10 lg:pt-10">
-                <div v-for="(item, index) in expectItems" :key="item.title" v-reveal="index * 100" class="flex flex-col gap-3">
-                    <span aria-hidden="true" class="h-[3px] w-8 bg-decor"></span>
-                    <h3 class="font-serif text-[28px] leading-tight text-heading lg:text-[32px]">{{ item.title }}</h3>
-                    <p class="text-[15px] leading-relaxed text-ink-muted lg:text-base">{{ item.desc }}</p>
-                </div>
+        <!-- Ibadah divisi. The "Apa yang akan kamu alami" section (expect) is hidden for now; its CMS content is kept. -->
+        <section v-if="otherDivisions.length" class="container-site section-y flex flex-col gap-10 lg:gap-14">
+            <SectionHeading v-reveal eyebrow="Ibadah Divisi" title="Ada juga ibadah untuk setiap generasi">
+                <template #actions><BaseButton href="/division" variant="link" class="self-start">Semua divisi →</BaseButton></template>
+            </SectionHeading>
+            <div class="grid border-t border-line md:grid-cols-2 md:gap-x-12 lg:gap-x-20">
+                <Link
+                    v-for="(division, index) in otherDivisions"
+                    :key="division.id"
+                    v-reveal="(index % 2) * 100"
+                    :href="`/division#${division.slug}`"
+                    class="group flex items-center justify-between gap-6 border-b border-line py-5 focus-visible:outline-solid focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-brand-teal lg:py-6"
+                >
+                    <span class="flex flex-col gap-1">
+                        <span v-if="division.audience" class="text-[11px] font-semibold uppercase tracking-[0.18em] text-ink-muted">{{ division.audience }}</span>
+                        <span class="font-serif text-2xl leading-[1.05] text-heading group-hover:underline lg:text-[28px]">{{ division.title }}</span>
+                    </span>
+                    <span class="max-w-[45%] text-right text-sm font-semibold" :class="division.time ? 'text-brand-teal' : 'text-ink-muted'">{{ division.time || 'Jadwal akan diumumkan' }}</span>
+                </Link>
             </div>
         </section>
 

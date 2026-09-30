@@ -72,7 +72,7 @@ class VisitPage extends Page implements HasForms
                 ]),
 
             Section::make('Apa yang akan kamu alami')
-                ->description('Short facts about a Sunday service: duration, flow, Kantin Hebron, etc.')
+                ->description('Short facts about a Sunday service: duration, flow, Kantin Hebron, etc. Hidden on the site for now.')
                 ->schema([
                     TextInput::make('expectData.title')
                         ->label('Title')

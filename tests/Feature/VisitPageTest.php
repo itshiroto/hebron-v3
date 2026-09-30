@@ -21,6 +21,8 @@ it('shows only the divisions picked in the CMS, in sort order', function () {
             ->has('kidsDivisions', 2)
             ->where('kidsDivisions.0.title', 'Seeds of Truth')
             ->where('kidsDivisions.1.title', 'Descendants of Truth')
+            ->has('otherDivisions', 1)
+            ->where('otherDivisions.0.title', 'Men of God')
             ->where('kids.title', 'Bawa anak'));
 });
 

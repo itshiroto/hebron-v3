@@ -29,6 +29,7 @@ class VisitController extends Controller
             'arrival' => $section('arrival'),
             'kids' => $kids,
             'kidsDivisions' => Division::ordered()->whereIn('id', $divisionIds)->get(),
+            'otherDivisions' => Division::ordered()->whereNotIn('id', $divisionIds)->get(),
             'welcome' => $section('welcome'),
             'faq' => $section('faq'),
         ]);
