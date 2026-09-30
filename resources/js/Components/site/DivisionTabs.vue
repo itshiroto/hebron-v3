@@ -74,8 +74,9 @@ onMounted(() => {
                 <span v-if="division.short_time" class="text-right text-[13px] font-semibold" :class="division.time ? 'text-brand-teal' : 'text-ink-muted'">{{ division.short_time }}</span>
             </button>
         </div>
-        <div v-if="current" :id="`panel-${current.slug}`" role="tabpanel" :aria-labelledby="`tab-${current.slug}`" tabindex="0" class="flex flex-col gap-5 focus-visible:outline-hidden">
-            <div class="h-[460px] overflow-hidden bg-brand-mint/40">
+        <Transition name="division" mode="out-in" :duration="{ enter: 900, leave: 160 }">
+        <div v-if="current" :id="`panel-${current.slug}`" :key="current.slug" role="tabpanel" :aria-labelledby="`tab-${current.slug}`" tabindex="0" class="flex flex-col gap-5 focus-visible:outline-hidden">
+            <div class="division-img h-[460px] overflow-hidden bg-brand-mint/40">
                 <img v-if="current.image" :src="storageUrl(current.image)!" :alt="current.title" class="h-full w-full object-cover" />
             </div>
             <p class="mt-3 text-xs font-semibold uppercase tracking-[0.2em] text-ink-muted">{{ num(selected) }} / {{ total }}<template v-if="current.audience"> · {{ current.audience }}</template></p>
@@ -84,6 +85,7 @@ onMounted(() => {
             <p class="max-w-[560px] text-[17px] leading-relaxed text-ink-muted">{{ current.description }}</p>
             <BaseButton v-if="current.link" :href="current.link" :external="!current.link.startsWith('/')" class="self-start">Selengkapnya →</BaseButton>
         </div>
+        </Transition>
     </div>
 
     <!-- Mobile: accordion -->
@@ -112,14 +114,51 @@ onMounted(() => {
                     </span>
                 </button>
             </h2>
+            <Transition name="division" :duration="{ enter: 900, leave: 0 }">
             <div v-show="openIndex === i" :id="`acc-${division.slug}`" class="flex flex-col gap-3 px-4 pb-5">
-                <div class="h-[220px] overflow-hidden bg-brand-mint/40">
+                <div class="division-img h-[220px] overflow-hidden bg-brand-mint/40">
                     <img v-if="division.image" :src="storageUrl(division.image)!" :alt="division.title" loading="lazy" class="h-full w-full object-cover" />
                 </div>
                 <p class="mt-1 text-sm font-semibold" :class="division.time ? 'text-brand-teal' : 'text-ink-muted'">{{ division.time || 'Jadwal akan diumumkan' }}</p>
                 <p class="text-[15px] leading-relaxed text-ink-muted">{{ division.description }}</p>
                 <BaseButton v-if="division.link" :href="division.link" :external="!division.link.startsWith('/')">Selengkapnya</BaseButton>
             </div>
+            </Transition>
         </div>
     </div>
 </template>
+
+<style scoped>
+/* Division switch: old panel fades out, new image wipes in while the text rises in a stagger. */
+@media (prefers-reduced-motion: no-preference) {
+    .division-leave-active {
+        transition: opacity 160ms ease-in;
+    }
+    .division-leave-to {
+        opacity: 0;
+    }
+    .division-enter-active > * {
+        animation: division-rise 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    .division-enter-active > :nth-child(2) { animation-delay: 120ms; }
+    .division-enter-active > :nth-child(3) { animation-delay: 180ms; }
+    .division-enter-active > :nth-child(4) { animation-delay: 240ms; }
+    .division-enter-active > :nth-child(5) { animation-delay: 300ms; }
+    .division-enter-active > :nth-child(6) { animation-delay: 360ms; }
+    .division-enter-active > .division-img {
+        animation: division-wipe 800ms cubic-bezier(0.65, 0, 0.35, 1) both;
+    }
+    .division-enter-active > .division-img img {
+        animation: division-zoom 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+}
+@keyframes division-rise {
+    from { opacity: 0; transform: translateY(20px); }
+}
+@keyframes division-wipe {
+    from { clip-path: inset(0 0 0 100%); }
+}
+@keyframes division-zoom {
+    from { transform: scale(1.12); }
+}
+</style>

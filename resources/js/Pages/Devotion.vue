@@ -44,7 +44,7 @@ async function copyLink() {
 <template>
     <Head :title="data.title" />
     <DefaultLayout>
-        <section class="bg-brand-deep pb-[120px] pt-16 text-white lg:pb-60 lg:pt-[88px]">
+        <section class="bg-brand-deep pb-[120px] pt-14 text-white lg:pb-60 lg:pt-16">
             <div class="container-site flex flex-col gap-4 pt-10 lg:items-center lg:gap-6 lg:pt-24 lg:text-center">
                 <Link href="/devotion" class="text-[13px] font-semibold text-white/70 hover:text-white">← Semua renungan</Link>
                 <p class="text-[10px] font-semibold uppercase tracking-[0.24em] text-brand-orange lg:text-xs">{{ CATEGORY_LABELS[data.category] }}</p>

@@ -29,7 +29,7 @@ function closeMenu() {
 
 function linkClass(href: string) {
     return [
-        'border-b py-1.5 transition-colors hover:text-brand-mint focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange',
+        'border-b py-1 transition-colors hover:text-brand-mint focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange',
         isActive(page.url, href) ? 'border-decor' : 'border-transparent',
     ];
 }
@@ -40,8 +40,8 @@ function linkClass(href: string) {
         class="fixed inset-x-0 top-0 z-50 text-white transition-colors duration-300 [view-transition-name:site-header]"
         :class="scrolled ? 'bg-brand-deep shadow-lg' : 'bg-transparent'"
     >
-        <div class="flex h-16 items-center justify-between pl-5 pr-3 lg:grid lg:h-[88px] lg:grid-cols-[1fr_auto_1fr] lg:px-14">
-            <nav aria-label="Utama" class="hidden gap-8 text-xs font-medium uppercase tracking-[0.16em] lg:flex">
+        <div class="flex h-14 items-center justify-between pl-5 pr-2 lg:grid lg:h-16 lg:grid-cols-[1fr_auto_1fr] lg:px-12">
+            <nav aria-label="Utama" class="hidden gap-6 text-[11px] font-medium uppercase tracking-[0.16em] lg:flex">
                 <Link
                     v-for="item in left"
                     :key="item.href"
@@ -52,10 +52,10 @@ function linkClass(href: string) {
                 >
             </nav>
             <Link href="/" class="flex items-center gap-2.5">
-                <img :src="logo" alt="" class="h-7 w-auto lg:h-[30px]" />
-                <span class="font-serif text-[19px] lg:text-xl">{{ churchName }}</span>
+                <img :src="logo" alt="" class="h-6 w-auto" />
+                <span class="font-serif text-lg">{{ churchName }}</span>
             </Link>
-            <nav aria-label="Sekunder" class="hidden items-center justify-end gap-8 text-xs font-medium uppercase tracking-[0.16em] lg:flex">
+            <nav aria-label="Sekunder" class="hidden items-center justify-end gap-6 text-[11px] font-medium uppercase tracking-[0.16em] lg:flex">
                 <Link
                     v-for="item in right"
                     :key="item.href"
@@ -66,7 +66,7 @@ function linkClass(href: string) {
                 >
                 <Link
                     href="/contact"
-                    class="rounded-button border border-white/70 px-4 py-2.5 transition-colors hover:bg-white hover:text-heading"
+                    class="rounded-button border border-white/70 px-3.5 py-2 transition-colors hover:bg-white hover:text-heading"
                     >Kunjungi Kami</Link
                 >
             </nav>

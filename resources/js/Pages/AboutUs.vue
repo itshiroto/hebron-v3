@@ -79,7 +79,7 @@ const beliefItems = computed(() => beliefs.value.items ?? []);
         </section>
 
         <!-- Tim Pastoral -->
-        <section v-if="pastors?.length" id="pastoral" class="scroll-mt-16 bg-mist lg:scroll-mt-[88px]">
+        <section v-if="pastors?.length" id="pastoral" class="scroll-mt-14 bg-mist lg:scroll-mt-16">
             <div class="container-site section-y flex flex-col gap-8 lg:gap-16">
                 <SectionHeading v-reveal eyebrow="Kepemimpinan" title="Tim Pastoral" />
                 <div class="grid grid-cols-2 gap-x-3.5 gap-y-7 lg:grid-cols-4 lg:gap-8">

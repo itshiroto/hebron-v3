@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
+import { useEventListener } from '@vueuse/core';
 import { Head, Link } from '@inertiajs/vue3';
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import PageHero from '@/Components/site/PageHero.vue';
@@ -31,12 +32,13 @@ const steps = computed(() => [
 ]);
 
 const track = ref<HTMLElement | null>(null);
-const progress = ref(0);
+// Cards seen so far (scrolled past or fully in view), so the bar fills one card-width step at a time.
+const seen = ref(1);
 function updateProgress() {
     const el = track.value;
     if (!el) return;
-    const max = el.scrollWidth - el.clientWidth;
-    progress.value = max > 0 ? el.scrollLeft / max : 1;
+    const right = el.getBoundingClientRect().right + 1;
+    seen.value = Math.max(1, [...el.children].filter((card) => card.getBoundingClientRect().right <= right).length);
 }
 function scrollDivisions(direction: 1 | -1) {
     const el = track.value;
@@ -44,6 +46,7 @@ function scrollDivisions(direction: 1 | -1) {
     el.scrollBy({ left: direction * el.clientWidth * 0.8, behavior: 'smooth' });
 }
 onMounted(updateProgress);
+useEventListener('resize', updateProgress, { passive: true });
 </script>
 
 <template>
@@ -60,21 +63,21 @@ onMounted(updateProgress);
 
         <!-- Ibadah Raya band -->
         <section v-if="services.length" class="bg-brand-deep text-white">
-            <div class="container-site grid gap-6 py-12 lg:grid-cols-4 lg:items-center lg:gap-12 lg:py-14">
+            <div class="container-site grid gap-6 py-12 lg:grid-cols-4 lg:items-start lg:gap-12 lg:py-14">
                 <h2 v-reveal class="font-serif text-[32px] leading-tight lg:text-4xl">{{ schedule?.title || 'Ibadah Raya' }}</h2>
                 <div
                     v-for="(service, index) in services"
                     :key="service.title"
                     v-reveal="(index + 1) * 120"
-                    class="flex items-center justify-between border-t border-white/20 pt-4 lg:flex-col lg:items-start lg:gap-1.5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
+                    class="flex items-start justify-between border-t border-white/20 pt-4 lg:flex-col lg:gap-1.5 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0"
                 >
-                    <div class="flex flex-col gap-1.5">
-                        <p class="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-orange lg:text-xs lg:font-normal lg:tracking-[0.18em]">{{ service.title }}</p>
-                        <p v-if="service.livestream" class="flex items-center gap-2 text-xs font-semibold lg:order-last">
+                    <p class="text-[13px] font-semibold uppercase tracking-[0.14em] text-brand-orange lg:text-xs lg:font-normal lg:tracking-[0.18em]">{{ service.title }}</p>
+                    <div class="flex flex-col items-end gap-1.5 lg:items-start">
+                        <p class="font-serif text-[32px] leading-none lg:text-[40px]">{{ service.time }} <span class="font-sans text-xs text-white/70 lg:text-sm">WIB</span></p>
+                        <p v-if="service.livestream" class="flex items-center gap-2 text-xs font-semibold">
                             <span aria-hidden="true" class="h-2 w-2 rounded-full bg-decor"></span>Live Streaming
                         </p>
                     </div>
-                    <p class="font-serif text-[32px] lg:text-[40px]">{{ service.time }} <span class="font-sans text-xs text-white/70 lg:text-sm">WIB</span></p>
                 </div>
             </div>
         </section>
@@ -102,7 +105,7 @@ onMounted(updateProgress);
             </div>
             <div class="container-site mt-8 flex items-center gap-4">
                 <div class="relative h-0.5 grow bg-line">
-                    <div class="absolute inset-y-0 left-0 bg-heading transition-[width]" :style="{ width: `${Math.max(progress, 1 / divisions.length) * 100}%` }"></div>
+                    <div class="absolute inset-y-0 left-0 bg-heading transition-[width] duration-300" :style="{ width: `${(seen / divisions.length) * 100}%` }"></div>
                 </div>
                 <BaseButton href="/division" variant="link" class="shrink-0 lg:hidden">{{ divisionButtonText }} →</BaseButton>
             </div>

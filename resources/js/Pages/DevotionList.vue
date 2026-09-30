@@ -22,7 +22,7 @@ const pageLinks = computed(() => props.posts.links.slice(1, -1));
 <template>
     <Head title="Renungan & Berita" />
     <DefaultLayout>
-        <section class="bg-brand-deep pt-16 text-white lg:pt-[88px]">
+        <section class="bg-brand-deep pt-14 text-white lg:pt-16">
             <div class="container-site flex flex-col gap-3.5 pt-12 lg:gap-5 lg:pt-24">
                 <p class="text-[10px] font-semibold uppercase tracking-[0.24em] text-brand-orange lg:text-[11px]">Renungan &amp; Berita</p>
                 <h1 class="font-serif text-5xl leading-none lg:text-[80px]">Terbaru dari Firman</h1>
