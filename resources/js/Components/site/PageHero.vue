@@ -64,7 +64,12 @@ function toggle() {
         <div aria-hidden="true" class="absolute inset-x-0 top-0 -z-10 h-32 bg-linear-to-b from-brand-deeper/75 to-transparent lg:h-40"></div>
         <div
             aria-hidden="true"
-            class="absolute inset-x-0 bottom-0 -z-10 h-full bg-linear-to-t from-brand-deeper/95 via-brand-deeper/60 to-transparent md:bg-linear-to-tr md:from-brand-deeper/95 md:via-brand-deeper/55"
+            class="absolute inset-x-0 bottom-0 -z-10 h-full bg-linear-to-t to-transparent md:bg-linear-to-tr"
+            :class="
+                size === 'full'
+                    ? 'from-brand-deeper/75 via-brand-deeper/40 md:from-brand-deeper/75 md:via-brand-deeper/35'
+                    : 'from-brand-deeper/95 via-brand-deeper/60 md:from-brand-deeper/95 md:via-brand-deeper/55'
+            "
         ></div>
 
         <div class="absolute inset-x-5 bottom-10 flex max-w-3xl flex-col gap-4 md:inset-x-14 md:bottom-16 md:gap-5">
