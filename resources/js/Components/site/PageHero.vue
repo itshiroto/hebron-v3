@@ -67,7 +67,7 @@ function toggle() {
             class="absolute inset-x-0 bottom-0 -z-10 h-full bg-linear-to-t to-transparent md:bg-linear-to-tr"
             :class="
                 size === 'full'
-                    ? 'from-brand-deeper/75 via-brand-deeper/40 md:from-brand-deeper/75 md:via-brand-deeper/35'
+                    ? 'mix-blend-multiply from-brand-deeper/75 via-brand-deeper/40 md:from-brand-deeper/75 md:via-brand-deeper/35'
                     : 'from-brand-deeper/95 via-brand-deeper/60 md:from-brand-deeper/95 md:via-brand-deeper/55'
             "
         ></div>
