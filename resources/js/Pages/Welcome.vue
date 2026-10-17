@@ -150,7 +150,7 @@ useEventListener('resize', updateProgress, { passive: true });
         </section>
 
         <!-- Galeri -->
-        <section v-if="gallery.length" class="pt-16 lg:pt-32">
+        <section v-if="gallery.length" class="pt-16 lg:pt-32 lg:pb-14">
             <div class="container-site">
                 <SectionHeading v-reveal eyebrow="Kehidupan di Hebron" title="Momen sebagai satu keluarga">
                     <template v-if="instagram" #actions>
@@ -166,8 +166,8 @@ useEventListener('resize', updateProgress, { passive: true });
                     :src="storageUrl(image)!"
                     alt=""
                     loading="lazy"
-                    class="h-[200px] w-full object-cover"
-                    :class="index % 2 ? 'lg:mt-14 lg:h-[calc(100%-56px)]' : 'lg:h-full'"
+                    class="h-[200px] w-full object-cover lg:h-full"
+                    :class="index % 2 ? 'lg:mt-14 lg:h-[calc(100%-56px)]' : ''"
                 />
             </div>
         </section>
