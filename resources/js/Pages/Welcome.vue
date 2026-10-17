@@ -113,18 +113,18 @@ useEventListener('resize', updateProgress, { passive: true });
 
         <!-- Visi & Misi -->
         <section v-if="visionMission?.visi" class="bg-mist lg:bg-white">
-            <div class="container-site section-y grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-28">
-                <div v-reveal class="flex flex-col gap-6">
+            <div class="container-site section-y flex flex-col gap-10 lg:gap-16">
+                <div v-reveal class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
                     <SectionHeading eyebrow="Tentang Hebron" :title="visionMission.title || 'Visi & Misi'" />
-                    <BaseButton href="/about" variant="link" class="self-start">{{ visionMission.about_button_text || 'Selengkapnya tentang Hebron' }} →</BaseButton>
+                    <BaseButton href="/about" variant="link" class="self-start lg:self-auto">{{ visionMission.about_button_text || 'Selengkapnya tentang Hebron' }} →</BaseButton>
                 </div>
-                <div class="flex flex-col">
-                    <div v-reveal="150" class="flex flex-col gap-3 border-b border-line pb-10 lg:grid lg:grid-cols-[160px_1fr] lg:gap-8 lg:pb-12">
-                        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-muted lg:pt-3 lg:text-xs">{{ visionMission.visi.title }}</p>
+                <div class="grid gap-10 lg:grid-cols-2 lg:gap-28">
+                    <div v-reveal="150" class="flex flex-col gap-3 border-b border-line pb-10 lg:gap-6 lg:border-b-0 lg:pb-0">
+                        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-muted lg:text-xs">{{ visionMission.visi.title }}</p>
                         <div class="rich-text font-serif text-[26px] leading-tight text-heading lg:text-[34px] lg:leading-snug" v-html="visionMission.visi.desc"></div>
                     </div>
-                    <div v-reveal="300" class="flex flex-col gap-3 pt-10 lg:grid lg:grid-cols-[160px_1fr] lg:gap-8 lg:pt-12">
-                        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-muted lg:pt-1.5 lg:text-xs">{{ visionMission.misi.title }}</p>
+                    <div v-reveal="300" class="flex flex-col gap-3 lg:gap-6">
+                        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-muted lg:text-xs">{{ visionMission.misi.title }}</p>
                         <div class="rich-text mission-list text-base leading-relaxed lg:text-lg" v-html="visionMission.misi.desc"></div>
                     </div>
                 </div>
@@ -136,7 +136,6 @@ useEventListener('resize', updateProgress, { passive: true });
             <div class="container-site section-y grid gap-8 lg:grid-cols-[5fr_7fr] lg:items-center lg:gap-28">
                 <div v-reveal class="relative h-[400px] bg-brand-mint/40 lg:h-[620px]">
                     <img v-if="pastorGreeting.pastor_img" :src="storageUrl(pastorGreeting.pastor_img)!" :alt="pastorGreeting.pastors_name" loading="lazy" class="h-full w-full object-cover" />
-                    <img v-if="pastorGreeting.pastor_signature" :src="storageUrl(pastorGreeting.pastor_signature)!" alt="" class="absolute bottom-4 right-4 h-24 lg:h-32" />
                 </div>
                 <div v-reveal="200" class="flex flex-col gap-6 lg:gap-8">
                     <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-teal lg:text-xs">{{ pastorGreeting.subtitle || 'Sambutan dari gembala kami' }}</p>
@@ -167,8 +166,8 @@ useEventListener('resize', updateProgress, { passive: true });
                     :src="storageUrl(image)!"
                     alt=""
                     loading="lazy"
-                    class="h-[200px] w-full object-cover lg:h-full"
-                    :class="index % 2 ? 'lg:mt-14 lg:h-[calc(100%-56px)]' : ''"
+                    class="h-[200px] w-full object-cover"
+                    :class="index % 2 ? 'lg:mt-14 lg:h-[calc(100%-56px)]' : 'lg:h-full'"
                 />
             </div>
         </section>
